@@ -1,0 +1,11 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "/Admin/Home/Default"
+  },
+  "logoInfo": {
+    "title": "<img src='/Content/images/logotext.png' >",
+    "image": "/Content/images/logo.png",
+    "href": ""
+  }
+}

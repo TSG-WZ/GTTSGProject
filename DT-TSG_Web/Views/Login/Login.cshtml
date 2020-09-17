@@ -1,0 +1,70 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model DTTSG_Model.ViewModel.LoginModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统 -- 用户登录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    @Styles.Render("~/Login_Css")
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div class="layui-container layui-anim layui-anim-up">
+        <div class="admin-login-background">
+            <div class="layui-form login-form">
+                @using (Ajax.BeginForm("LoginCheck", "Login", new AjaxOptions()
+                {
+                    HttpMethod = "Post",
+                    OnSuccess = "onSuccess(data, status, xhr)"
+                }, new { @class = "layui-form" }))
+                {
+                    <div class="layui-form-item logo-title">
+                        <h1>锐拓-地铁图书馆</h1>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-icon layui-icon-username" for="username"></label>
+                        @Html.TextBoxFor(m => m.UserId,new {@class= "layui-input", @autocomplete = "off",
+            @placeholder = "请输入用户名", @required = "required"} )
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-icon layui-icon-password" for="password"></label>
+                        @Html.PasswordFor(m=>m.PassWord,new { @class = "layui-input", @autocomplete = "off",
+            @placeholder = "请输入密码"})
+                        <span class="bind-password fa fa-eye" id="icon-pas">
+                            <img src="~/Content/images/show.png" id="icon-password"/>
+                        </span>
+                    </div>
+                    <div class="layui-form-item">
+                        <span style="padding-left:10px"><a href="#">用户注册</a></span>
+                        <span style="padding-left:140px"><a href="#">忘记密码 ?</a></span>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid" lay-submit="" lay-filter="login">登 入</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/Login_Js")
+    
+</body>
+</html>
