@@ -1,8 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DTTSG_Model
 {
 	public class LibrarianInfo
 	{
+        [Key]
 		public int LibId { get; set; }
 		public int ImageId { get; set; }
 		public string LibPwd { get; set; }

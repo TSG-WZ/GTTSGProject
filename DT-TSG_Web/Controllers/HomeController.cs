@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace DT_TSG_Web.Controllers
 {
@@ -21,7 +22,15 @@ namespace DT_TSG_Web.Controllers
 
         public ActionResult RankList()
         {
+            
+            Response.Write(GetHostName());
             return View();
+        }
+
+        public string GetHostName()
+        {
+
+            return Dns.GetHostName();
         }
     }
 }

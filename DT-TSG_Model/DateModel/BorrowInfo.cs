@@ -1,8 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DTTSG_Model
 {
 	public class BorrowInfo
 	{
+        [Key]
 		public int BorrowId { get; set; }
 		public int B_MechanId { get; set; }
 		public int R_MechanId { get; set; }

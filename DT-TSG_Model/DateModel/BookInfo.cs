@@ -1,8 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DTTSG_Model
 {
 	public class BookInfo
 	{
+        [Key]
 		public int BookId { get; set; }
         public BookStatu BookStatu { get; set; }
         public int B_StatuId { get; set; }

@@ -19,6 +19,7 @@ namespace DTTSG_BLL.User
         /// <returns></returns>
         public UserInfo GetUserInfo(UserInfo userInfo)
         {
+            
             return userLoginServer.GetUserInfo(userInfo);
         }
     }

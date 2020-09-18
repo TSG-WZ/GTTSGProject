@@ -21,6 +21,8 @@ namespace DTTSG_Web.Controllers
         /// <returns>带模型的视图</returns>
         public ActionResult Login()
         {
+           
+
             if (Request["userlogout"] != null)
             {
                 Session.Remove("User");  //移除Session

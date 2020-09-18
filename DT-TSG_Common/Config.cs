@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
+using System.Net;
 
 namespace DTTSG_Common
 {
@@ -13,6 +9,9 @@ namespace DTTSG_Common
         /// 读取数据库连接地址
         /// </summary>
         public static string connStr = ConfigurationManager.ConnectionStrings["connStr"].ConnectionString;
-
+        /// <summary>
+        /// 机器码
+        /// </summary>
+        public static string GetHostName = Dns.GetHostName(); 
     }
 }

@@ -1,8 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DTTSG_Model
 {
 	public class MessageInfo
 	{
+        [Key]
 		public int MessageId { get; set; }
 		public int M_TypeId { get; set; }
 		public int AdminId { get; set; }

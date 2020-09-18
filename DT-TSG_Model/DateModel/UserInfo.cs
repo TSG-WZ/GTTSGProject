@@ -1,8 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DTTSG_Model
 {
 	public class UserInfo
 	{
+        [Key]
 		public int UserId { get; set; }
         public UserType UserType { get; set; }
         public int TypeId { get; set; }

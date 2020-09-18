@@ -1,8 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DTTSG_Model
 {
-	public class ForwardInfo
-	{
+    public class ForwardInfo
+    {
+        [Key]
 		public int F_Id { get; set; }
 		public int BookId { get; set; }
 		public int UserId { get; set; }

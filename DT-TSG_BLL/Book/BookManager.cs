@@ -14,7 +14,30 @@ namespace DTTSG_BLL.Book
 
         public List<BookInfo> GetBookList()
         {
-            return bookServer.GetBookList();
+            MechanInfo m = new MechanInfo() { MechanName="bglb"};
+            BookInfo bookInfo = new BookInfo()
+            {
+                MechanInfo = m
+            };
+            return bookServer.GetBookList(bookInfo);
+        }
+
+        public int AddBookInfo(BookInfo bookInfo)
+        {
+            return bookServer.AddBookInfo(bookInfo);
+
+        }
+
+        public int DelBookInfo(BookInfo bookInfo)
+        {
+            return bookServer.DelBookInfo(bookInfo);
+
+        }
+
+        public int UpdateBookInfo(BookInfo bookInfo)
+        {
+            return bookServer.UpdateBookInfo(bookInfo);
+
         }
     }
 }

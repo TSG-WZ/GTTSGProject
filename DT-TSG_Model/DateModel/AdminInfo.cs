@@ -1,8 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DTTSG_Model
 {
 	public class AdminInfo
 	{
+        [Key]
 		public int AdminId { get; set; }
 		public int ImageId { get; set; }
 		public string AdminPwd { get; set; }
