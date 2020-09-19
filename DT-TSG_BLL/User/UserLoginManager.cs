@@ -18,8 +18,7 @@ namespace DTTSG_BLL.User
         /// <param name="userInfo"></param>
         /// <returns></returns>
         public UserInfo GetUserInfo(UserInfo userInfo)
-        {
-            
+        {        
             return userLoginServer.GetUserInfo(userInfo);
         }
     }

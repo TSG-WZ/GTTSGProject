@@ -23,14 +23,9 @@ namespace DT_TSG_Web.Controllers
         public ActionResult RankList()
         {
             
-            Response.Write(GetHostName());
+            Response.Write(Dns.GetHostName());
             return View();
         }
 
-        public string GetHostName()
-        {
-
-            return Dns.GetHostName();
-        }
     }
 }

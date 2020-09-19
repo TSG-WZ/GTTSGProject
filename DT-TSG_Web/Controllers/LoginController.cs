@@ -1,11 +1,6 @@
 ﻿using DTTSG_BLL.User;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
-using RT.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DTTSG_Web.Controllers

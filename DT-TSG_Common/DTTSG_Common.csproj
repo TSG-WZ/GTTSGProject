@@ -44,8 +44,8 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="DataEncrypt.cs" />
-    <Compile Include="KeyAttribute.cs" />
     <Compile Include="ModelExtension.cs" />
+    <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
