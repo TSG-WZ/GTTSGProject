@@ -25,7 +25,7 @@ namespace DTTSG_Common
         public int PageCount { get; set; }
 
         /// <summary>
-        /// 数据集合
+        /// 数据的集合
         /// </summary>
         public List<T> InfoList { get; set; }
 
