@@ -20,7 +20,7 @@ namespace DTTSG_Common
         public int DataCount { get; set; }
 
         /// <summary>
-        /// 总页数
+        /// 分页总页数
         /// </summary>
         public int PageCount { get; set; }
 
