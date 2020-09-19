@@ -23,13 +23,14 @@ namespace DTTSG_DAL.Book
             Pager<BookInfo> bookInfoPager = new Pager<BookInfo>()
             {
                 InfoList=bookInfoList,
+                r
 
 
             };
 
 
 
-            return null ;
+            return ;
         }
         public BookInfo GetBookModel(BookInfo book)
         {

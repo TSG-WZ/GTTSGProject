@@ -5,7 +5,7 @@ namespace DTTSG_Common
     public class Pager<T>
     {
         /// <summary>
-        /// 当前页
+        /// 当前页码
         /// </summary>
         public int PageIndex { get; set; } = 1;
 
