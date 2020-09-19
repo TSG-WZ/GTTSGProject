@@ -1,0 +1,29 @@
+﻿.left-container {
+    padding-top: 45px;
+    padding-left: 45px !important;
+}
+    .left-container ul {
+        border-radius: 8px;
+        padding: 10px 0px;
+        /*background-color: #f6f6f6;*/
+    }
+
+.content-container {
+    padding:5px;
+    float:right!important;
+}
+
+.model-container{
+    padding:5px;
+    /*border:0.1px solid;*/
+    margin-top:15px;
+}
+
+.img-container img {
+    width: 350px;
+    height: 350px;
+}
+
+.text-container{
+    margin-top:25px
+}
