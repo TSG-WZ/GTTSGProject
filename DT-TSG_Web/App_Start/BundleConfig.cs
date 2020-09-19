@@ -18,6 +18,11 @@ namespace DT_TSG_Web
             bundles.Add(new StyleBundle("~/Default_Css").Include(
                       "~/Content/Own/css/default.css"));
 
+            //图书首页css
+            bundles.Add(new StyleBundle("~/BookList_Css").Include(
+                        "~/lib/layui-v2.5.5/css/layui.css",
+                      "~/Content/Own/css/booklist.css"));
+
             //// 使用要用于开发和学习的 Modernizr 的开发版本。然后，当你做好
             //// 生产准备就绪，请使用 https://modernizr.com 上的生成工具仅选择所需的测试。
 

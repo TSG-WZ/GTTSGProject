@@ -133,6 +133,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\default.jpg" />
     <Content Include="Content\images\bg.jpg" />
     <Content Include="Content\images\captcha.jpg" />
     <Content Include="Content\images\donate_qrcode.png" />
@@ -143,6 +144,7 @@
     <Content Include="Content\images\logotext.png" />
     <Content Include="Content\images\shopicon.png" />
     <Content Include="Content\images\show.png" />
+    <Content Include="Content\Own\css\booklist.css" />
     <Content Include="Content\Own\css\default.css" />
     <Content Include="Content\Own\css\index.css" />
     <Content Include="Content\Own\css\login.css" />
