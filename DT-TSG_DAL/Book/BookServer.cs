@@ -11,35 +11,34 @@ namespace DTTSG_DAL.Book
 {
     public class BookServer : BaseServer<BookInfo>
     {
-        public List<BookInfo> GetBookList(BookInfo book)
+        public Pager<BookInfo> GetBookList(BookInfo book)
         {
-            List<BookInfo> list = null;
-            try
-            {
-                using (IDbConnection connection = new SqlConnection(Config.connStr))
-                {
+            DynamicParameters parameters = new DynamicParameters();
+            string sql = @"select * from UserInfo a inner join UserType b 
+            on a.TypeId = b.TypeId order by UserId asc offset(@pageIndex - 1) *
+            @pageSize rows fetch next @pageSize rows only";
 
-                    string sql = @"select * from BookInfo bi join BookType bt on
-                                    bi.B_TypeId=bt.B_TypeId join BookStatu bs on
-                                    bi.B_StatuId=bs.B_StatuId join MechanInfo me on
-                                    bi.MechanId=me.MechanId join ImageInfo im on 
-                                    bi.ImageId=im.ImageId where bi.B_StatuId<2 and me.MechanName=@MechanName";
-                    list = connection.Query<BookInfo, BookType, BookStatu, MechanInfo, ImageInfo, BookInfo>
-                        (sql, (bi, bt, bs, me, im) =>
-                         { bi.BookType = bt; bi.BookStatu = bs; bi.MechanInfo = me; bi.ImageInfo = im; return bi; }
-                        , book.MechanInfo,
-                        splitOn: "B_TypeId,B_StatuId,MechanId,ImageId").ToList();
-                }
-            }
-            catch (Exception ex)
+            List<BookInfo> bookInfoList = GetList(sql,parameters);
+
+            Pager<BookInfo> bookInfoPager = new Pager<BookInfo>()
             {
-                //写入日志
-            }
-            return list;
+                InfoList=bookInfoList,
+
+
+            };
+
+
+
+            return null ;
+        }
+        public BookInfo GetBookModel(BookInfo book)
+        {
+            string sql = "";
+            return GetModel("");
+
         }
 
-
-        public int AddBookInfo(BookInfo bookInfo)
+        public int InsertBookInfo(BookInfo bookInfo)
         {
             //string sql = @"INSERT INTO [dbo].[BookInfo] ([B_StatuId],[B_TypeId],[MechanId],[ImageId],[BookCode],[BookName]," +
             //     "[BookPrice],[BookPublic],[BookAuthor],[BookPubtime],[IsValid]) " +

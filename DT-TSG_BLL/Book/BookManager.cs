@@ -22,10 +22,11 @@ namespace DTTSG_BLL.Book
             return bookServer.GetBookList(bookInfo);
         }
 
-        public int AddBookInfo(BookInfo bookInfo)
-        {
-            return bookServer.AddBookInfo(bookInfo);
+       
 
+        public int InsertBookInfo(BookInfo bookInfo)
+        {
+            return bookServer.InsertBookInfo(bookInfo);
         }
 
         public int DelBookInfo(BookInfo bookInfo)
