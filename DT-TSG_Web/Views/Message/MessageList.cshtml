@@ -8,11 +8,79 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>MessageList</title>
+    <title>公告列表</title>
+    <link rel="stylesheet" href="~/lib/layui-v2.5.5/css/layui.css" media="all">
+    <style>
+        .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
+            height: 34px;
+            line-height: 34px;
+            padding: 0 8px;
+        }
+    </style>
 </head>
 <body>
-    <div> 
-        公告列表
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <blockquote class="layui-elem-quote">
+                在线公告列表<br>
+            </blockquote>
+            <div style="padding:0px 50px">
+                <div class="layui-btn-group">
+                    <button class="layui-btn" id="btn-expand">全部展开</button>
+                    <button class="layui-btn layui-btn-normal" id="btn-fold">全部折叠</button>
+                </div>
+                <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+            </div>
+        </div>
     </div>
+
+    <script src="~/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="~/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script>layui.use(['table', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var treetable = layui.treetable;
+
+        // 渲染表格
+        layer.load(2);
+        treetable.render({
+            treeColIndex: 1,
+            treeSpid: -1,
+            treeIdName: 'authorityId',
+            treePidName: 'parentId',
+            elem: '#munu-table',
+            url: '/Content/api/menus.json',
+            page: false,
+            cols: [[
+                {type: 'numbers'},
+                {field: 'authorityName', minWidth: 200, title: '内容 | Content'},
+                {field: 'orderNumber', width: 80, align: 'center', title: '排序号'},
+                {
+                    field: 'isMenu', width: 90, align: 'center', templet: function (d) {
+                        if (d.isMenu == 1) {
+                            return '<span class="layui-badge layui-bg-gray">系统公告</span>';
+                        }
+                        if (d.parentId == -1) {
+                            return '<span class="layui-badge layui-bg-blue">目录</span>';
+                        } else {
+                            return '<span class="layui-badge-rim">菜单</span>';
+                        }
+                    }, title: '类型'
+                }
+            ]],
+            done: function () {
+                layer.closeAll('loading');
+            }
+        });
+
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#munu-table');
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#munu-table');
+        });
+    
+    });</script>
 </body>
 </html>

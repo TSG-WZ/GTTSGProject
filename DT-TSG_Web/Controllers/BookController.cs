@@ -12,19 +12,31 @@ namespace DTTSG_Web.Controllers
     {
         BookManager bookManager = new BookManager();
 
-        // GET: Book
-        public ActionResult BookList()
+        //[HttpPost]
+        /// <summary>
+        /// 获取图书列表页
+        /// </summary>
+        /// <param name="bookInfo">图书信息(来自前端页面)</param>
+        /// <param name="pagesize">页大小</param>
+        /// <param name="pageindex">当前页</param>
+        /// <returns>返回视图</returns>
+        public ActionResult BookList(BookInfo bookInfo, int pagesize = 8, int pageindex = 1)
         {
-            BookInfo bookInfo = bookManager.GetBookList().FirstOrDefault();
-            #region 测试
-            //bookManager.AddBookInfo(bookInfo);
-            //bookManager.DelBookInfo(bookInfo);
-            //bookInfo.BookAuthor = "bglb";
-            //bookManager.UpdateBookInfo(bookInfo);
-            #endregion
-            ViewBag.BookList = bookManager.GetBookList();
+            ViewBag.BookList = bookManager.GetBookList(pagesize, pageindex, bookInfo);
             return View();
         }
+        
+        public ActionResult GetBookPagerData(BookInfo bookInfo, int pagesize = 8, int pageindex = 1)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = bookManager.GetBookList(pagesize, pageindex, bookInfo);
+            return jsonResult;
+        }
 
+        public ActionResult BookInfo(int BookId)
+        {
+
+            return View();
+        }
     }
 }

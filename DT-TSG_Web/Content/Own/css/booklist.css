@@ -1,29 +1,37 @@
-﻿.left-container {
-    padding-top: 45px;
-    padding-left: 45px !important;
+﻿/*左侧吸附导航栏*/
+.left-container {
+    padding:20px 0px 0px 45px !important;
 }
     .left-container ul {
         border-radius: 8px;
-        padding: 10px 0px;
-        /*background-color: #f6f6f6;*/
+        padding-bottom: 500px;
+        /*padding-bottom:500px;*/
     }
 
+
+/*右侧主题内容*/
 .content-container {
-    padding:5px;
-    float:right!important;
+    padding:0px 35px 0px 0px;
+    float: right !important;
 }
 
-.model-container{
-    padding:5px;
+
+.model-container {
+    padding: 5px;
+    padding-top:25px;
     /*border:0.1px solid;*/
-    margin-top:15px;
+    margin-top: 15px;
+    text-align:center;
 }
+    .model-container:hover {
+        box-shadow: 1px 1px 5px #888888;
+    }
 
 .img-container img {
-    width: 350px;
-    height: 350px;
+    width: 340px!important;
+    height: 350px!important;
 }
 
-.text-container{
-    margin-top:25px
+.text-container {
+    margin: 35px 0px;
 }
