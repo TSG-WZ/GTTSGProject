@@ -1,11 +1,8 @@
 ﻿using DTTSG_BLL.Book;
-using DTTSG_Common;
 using DTTSG_DAL.Book;
 using DTTSG_Model;
-using System;
-using System.Web;
-using System.Web.Mvc;
 using DTTSG_Model.ViewModel;
+using System.Web.Mvc;
 
 namespace DTTSG_Web.Controllers
 {
@@ -14,17 +11,11 @@ namespace DTTSG_Web.Controllers
         BookManager bookManager = new BookManager();
         BookTypeServer bookType = new BookTypeServer();
 
-
-
         //public ActionResult BookList(BookInfo bookInfo , int pageIndex = 1, int pageSize = 10)
         //{
         //    var result = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize).ToJson();
         //    return Json(result);
         //}
-
-
-
-
         // GET: Book
         public ActionResult BookList(BookInfo bookInfo, int pageIndex = 1)
         {
@@ -53,8 +44,6 @@ namespace DTTSG_Web.Controllers
         /// <param name="pagesize">页大小</param>
         /// <param name="pageindex">当前页</param>
         /// <returns>返回视图</returns>
-       
-        
         public ActionResult GetBookPagerData(BookInfo bookInfo, int pageindex = 1)
         {
             JsonResult jsonResult = new JsonResult();
@@ -63,16 +52,21 @@ namespace DTTSG_Web.Controllers
             return jsonResult;
         }
 
+        /// <summary>
+        /// 图书详情页
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
         public ActionResult BookInfo(int bookId)
         {
             BookInfo bookInfo = bookManager.GetBookModel(bookId);
-      
-        // 借书 ：
-        // 1. 点击图书 =>显示图书详情 --> 传BookId =>返回BookInfo // Get请求
-      
+
+            // 借书 ：
+            // 1. 点击图书 =>显示图书详情 --> 传BookId =>返回BookInfo // Get请求
+
             return View(bookInfo);
         }
-
+        [HttpPost]
         public ActionResult BorrowBook(int bookId)
         {
             // 2. 点击借书按钮  => 传BookId ，Session["UserId"] // POST请求，返回状态码，-1，0 1 2
@@ -80,25 +74,40 @@ namespace DTTSG_Web.Controllers
             // 参数 ：书的Id， 
             var userinfo = Session["User"] as UserInfo;
             var result = bookManager.BookBrrow(bookId, userinfo);
-            if (result==1)
+            if (result == 1)
             {
                 return Json(new AjaxBackInfo(1, "借阅成功"));
-                //return AjaxBackInfo(1, ", " + Session["User"]+ " !"));
             }
-            else if(result == 0)
+            else if (result == 0)
             {
-                return Content("借阅失败");
+                return Json(new AjaxBackInfo(0, "借阅失败"));
             }
             else
             {
-                return Content("未找到此书");
+                return Json(new AjaxBackInfo(-1, "此书已借出！"));
             }
-           
-        }
 
-        private ActionResult AjaxResult(int v1, string v2)
+        }
+        /// <summary>
+        /// 还书
+        /// 如果根据书的Id还，borrowId就传入0
+        /// </summary>
+        /// <param name="borrowId">根据借阅Id还</param>
+        /// <param name="bookId">根据书Id还</param>
+        /// <returns></returns>
+        public ActionResult ReturnBook(int borrowId, int bookId=0)
         {
-            throw new NotImplementedException();
+            int result;
+            if (bookId == 0)
+            {
+                result = bookManager.BookReturn(borrowId);
+            }
+            else
+            {
+                result = bookManager.BookReturn(0,bookId);
+            }
+
+            return View();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace DTTSG_BLL.Book
         /// <param name="pageIndex">当前页码</param>
         /// <param name="pageSize">页大小</param>
         /// <returns></returns>
-        public Pager<BookInfo> GetBookList(int b_TypeId,int pageIndex, int pageSize )
+        public Pager<BookInfo> GetBookList(int b_TypeId, int pageIndex, int pageSize)
         {
             int dataCount = bookServer.GetBookListLength();
             List<BookInfo> InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId);
@@ -34,16 +34,16 @@ namespace DTTSG_BLL.Book
         /// <returns></returns>
         public BookInfo GetBookModel(int bookId)
         {
-          
-            if (bookId ==0)
+
+            if (bookId == 0)
             {
                 return null;
             }
-     
+
             return bookServer.GetBookModel(bookId);
         }
 
-        public int BookBrrow(int bookId,UserInfo userInfo)
+        public int BookBrrow(int bookId, UserInfo userInfo)
         {
             var bookInfo = GetBookModel(bookId);
             var borrowInfo = new BorrowInfo()
@@ -55,22 +55,54 @@ namespace DTTSG_BLL.Book
                 B_StartTime = DateTime.Now,
                 B_EndTime = DateTime.Now.AddMonths(1),
                 B_ReturnTime = Convert.ToDateTime("1900/1/1 00:00:00"),
+                //BookInfo  = new BookInfo(),
+                //UserInfo = new UserInfo(),
+                //MechanInfo = new MechanInfo(),
+                //BorrowType = new BorrowType()
+
             };
             bookInfo.B_StatuId = 2;
-            if (bookInfo!=null)
+            if (bookInfo != null)
             {
                 int result = bookServer.Update(bookInfo);
                 int a = borrowServer.Insert(borrowInfo);
 
                 return a == result ? 1 : 0;
-               
+
 
             }
             else
             {
                 return -1;
             }
-          
+
+        }
+
+
+        public int BookReturn(int borrowId, int bookId=0)
+        {
+            BorrowInfo borrowInfo;
+            if (bookId == 0)
+            {
+                borrowInfo = borrowServer.GetBorrowInfoModel(borrowId);
+            }
+            else
+            {
+               borrowInfo = borrowServer.GetBorrowInfoModel(0,bookId);
+            }
+
+            if (borrowInfo != null)
+            {
+                borrowInfo.Bo_TypeId = 3;
+                borrowInfo.B_ReturnTime = DateTime.Now;
+                var a = borrowServer.Update(borrowInfo);
+                var bookInfo = borrowInfo.BookInfo;
+                bookInfo.B_StatuId = 1;
+                var b = bookServer.Update(bookInfo);
+                return a == b ? 1 : 0;
+            }
+
+            return 0;
         }
 
         /// <summary>

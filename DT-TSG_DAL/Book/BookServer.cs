@@ -36,7 +36,7 @@ namespace DTTSG_DAL.Book
             if (b_TypeId != 0)
             {
                 parameters.Add("@TypeId", b_TypeId);
-                sql += " where bt.B_TypeId=@TypeId ";
+                sql += " bt.B_TypeId=@TypeId";
             }
             //加排序
             sql += " order by BookId asc offset(@pageIndex - 1) * @pageSize " +
@@ -102,11 +102,7 @@ namespace DTTSG_DAL.Book
             {
                 //写入日志
             }
-
             return null;
-
         }
-
-      
     }
 }
