@@ -2,8 +2,10 @@
 using DTTSG_Common;
 using DTTSG_DAL.Book;
 using DTTSG_Model;
+using System;
 using System.Web;
 using System.Web.Mvc;
+using DTTSG_Model.ViewModel;
 
 namespace DTTSG_Web.Controllers
 {
@@ -71,7 +73,7 @@ namespace DTTSG_Web.Controllers
             return View(bookInfo);
         }
 
-        public ActionResult  BrrowBook(int bookId)
+        public ActionResult BorrowBook(int bookId)
         {
             // 2. 点击借书按钮  => 传BookId ，Session["UserId"] // POST请求，返回状态码，-1，0 1 2
             // 3. 根据状态码，提示借阅结果
@@ -80,7 +82,7 @@ namespace DTTSG_Web.Controllers
             var result = bookManager.BookBrrow(bookId, userinfo);
             if (result==1)
             {
-                return Content("借阅成功");
+                return Json(new AjaxBackInfo(1, "借阅成功"));
                 //return AjaxBackInfo(1, ", " + Session["User"]+ " !"));
             }
             else if(result == 0)
@@ -94,5 +96,9 @@ namespace DTTSG_Web.Controllers
            
         }
 
+        private ActionResult AjaxResult(int v1, string v2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

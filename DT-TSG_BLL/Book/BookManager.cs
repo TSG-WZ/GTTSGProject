@@ -54,7 +54,7 @@ namespace DTTSG_BLL.Book
                 B_MechanId = bookInfo.MechanId,
                 B_StartTime = DateTime.Now,
                 B_EndTime = DateTime.Now.AddMonths(1),
-                //B_ReturnTime =DBNull.Value,
+                B_ReturnTime = Convert.ToDateTime("1900/1/1 00:00:00"),
             };
             bookInfo.B_StatuId = 2;
             if (bookInfo!=null)
