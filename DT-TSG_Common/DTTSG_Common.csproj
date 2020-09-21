@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\PersonalStudy\专业项目\BGLB.MerberPoint.Project\BGLB.MemberPoint\BGLB.MerberPoint.Common\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -44,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="DataEncrypt.cs" />
+    <Compile Include="JsonExtension.cs" />
     <Compile Include="ModelExtension.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,6 +58,9 @@
       <Project>{9c60658b-020a-4d9b-98dd-afcdcfb15d9a}</Project>
       <Name>DTTSG_Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
