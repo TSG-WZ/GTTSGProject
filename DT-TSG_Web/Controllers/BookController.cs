@@ -37,7 +37,7 @@ namespace DTTSG_Web.Controllers
             //bookInfo.BookAuthor = "bglb";
             //bookManager.UpdateBookInfo(bookInfo);
             #endregion
-            return View()
+            return View();
         }
 
         //[HttpPost]
@@ -53,7 +53,7 @@ namespace DTTSG_Web.Controllers
         public ActionResult GetBookPagerData(BookInfo bookInfo, int pagesize = 8, int pageindex = 1)
         {
             JsonResult jsonResult = new JsonResult();
-            jsonResult.Data = bookManager.GetBookList(pagesize, pageindex, bookInfo);
+            jsonResult.Data = bookManager.GetBookList(pagesize, pageindex, bookInfo.BookId);
             return jsonResult;
         }
 
