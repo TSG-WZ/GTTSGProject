@@ -12,11 +12,13 @@ namespace DTTSG_Web.Controllers
         BookTypeServer bookType = new BookTypeServer();
 
 
+
         //public ActionResult BookList(BookInfo bookInfo , int pageIndex = 1, int pageSize = 10)
         //{
         //    var result = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize).ToJson();
         //    return Json(result);
         //}
+
 
 
 
