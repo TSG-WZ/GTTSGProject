@@ -30,6 +30,14 @@ namespace DTTSG_Common
         public List<T> InfoList { get; set; }
 
         /// <summary>
+        /// 无参数构造方法
+        /// </summary>
+        public Pager()
+        {
+
+        }
+
+        /// <summary>
         /// 构造方法赋值
         /// </summary>
         /// <param name="pageIndex">当前页</param>
@@ -48,8 +56,9 @@ namespace DTTSG_Common
             }
             this.InfoList = infoList;
         }
-        public Pager()
-        { }
+       
+
+
 
 
     }

@@ -12,5 +12,7 @@ namespace DTTSG_Model
 		public string MechanName { get; set; }
 		public string MechanAddress { get; set; }
 		public double MechanPrice { get; set; }
+
+
 	}
 }

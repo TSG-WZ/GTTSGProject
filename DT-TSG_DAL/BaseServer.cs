@@ -12,7 +12,12 @@ namespace DTTSG_DAL
 {
     public class BaseServer<T> where T : class, new()
     {
-
+        /// <summary>
+        /// 执行增删改的操作
+        /// </summary>
+        /// <param name="sql">sql</param>
+        /// <param name="param">参数对象</param>
+        /// <returns></returns>
         protected int Execute(string sql, object param = null)
         {
             try
@@ -30,7 +35,7 @@ namespace DTTSG_DAL
         }
 
         /// <summary>
-        /// 获取多条强类型数据
+        /// 获取多条强类型数据，可被重写
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="param">sql参数</param>
@@ -42,7 +47,6 @@ namespace DTTSG_DAL
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
                     return connection.Query<T>(sql, param).ToList();
-
                 }
             }
             catch (Exception ex)

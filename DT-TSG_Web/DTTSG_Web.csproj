@@ -381,10 +381,17 @@
       <Project>{f7264823-cf31-4fd1-a344-aad3a79ebe90}</Project>
       <Name>DTTSG_Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DT-TSG_DAL\DTTSG_DAL.csproj">
+      <Project>{9F1B0431-EFD5-4CDC-B50C-91CE14331782}</Project>
+      <Name>DTTSG_DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DT-TSG_Model\DTTSG_Model.csproj">
       <Project>{9c60658b-020a-4d9b-98dd-afcdcfb15d9a}</Project>
       <Name>DTTSG_Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
