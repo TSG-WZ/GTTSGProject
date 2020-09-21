@@ -63,7 +63,12 @@ namespace DTTSG_DAL.Book
 
         public int GetBookListLength()
         {
-            return GetList("select * from BookInfo").Count;
+            DynamicParameters parma = new DynamicParameters();
+            parma.Add("@MechanName", Config.GetHostName);
+            return GetList(@"select * from BookInfo bi join BookStatu bs on
+                                    bi.B_StatuId = bs.B_StatuId join MechanInfo me on
+                                    bi.MechanId = me.MechanId where bi.B_StatuId < 2 and me.MechanName = @MechanName"
+                                    , parma).Count;
 
         }
 
