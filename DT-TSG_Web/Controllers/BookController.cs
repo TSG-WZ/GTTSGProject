@@ -37,8 +37,8 @@ namespace DTTSG_Web.Controllers
             //bookInfo.BookAuthor = "bglb";
             //bookManager.UpdateBookInfo(bookInfo);
             #endregion
-
-
+            return View()
+        }
 
         //[HttpPost]
         /// <summary>
