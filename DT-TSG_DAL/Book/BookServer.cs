@@ -63,9 +63,9 @@ namespace DTTSG_DAL.Book
 
         }
 
-        public int GetBookListLength()
+        public int GetBookListCount()
         {
-            return Execute("select count(*) from BookInfo");
+            return GetList("select * from BookInfo").Count;
         }
 
         /// <summary>
