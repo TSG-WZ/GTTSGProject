@@ -20,13 +20,13 @@ namespace DTTSG_Web.Controllers
 
 
 
-     // GET: Book
+        // GET: Book
         public ActionResult Index(BookInfo bookInfo, int pageIndex = 1, int pageSize = 10)
         {
             #region 测试查询分页
 
             ViewBag.BookTypeList = bookType.GetBooKTypeList();
-            ViewBag.BookListPages = bookManager.GetBookList(bookInfo.B_TypeId,pageIndex, pageSize);
+            ViewBag.BookListPages = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize);
 
             #endregion
 
@@ -37,7 +37,8 @@ namespace DTTSG_Web.Controllers
             //bookInfo.BookAuthor = "bglb";
             //bookManager.UpdateBookInfo(bookInfo);
             #endregion
-
+            return View();
+        }
 
 
         //[HttpPost]
@@ -53,7 +54,7 @@ namespace DTTSG_Web.Controllers
         public ActionResult GetBookPagerData(BookInfo bookInfo, int pagesize = 8, int pageindex = 1)
         {
             JsonResult jsonResult = new JsonResult();
-            jsonResult.Data = bookManager.GetBookList(pagesize, pageindex, bookInfo);
+            jsonResult.Data = bookManager.GetBookList(pagesize, pageindex, bookInfo.BookId);
             return jsonResult;
         }
 

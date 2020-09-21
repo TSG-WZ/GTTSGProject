@@ -23,7 +23,7 @@ namespace DTTSG_BLL.Book
                 PageSize = pageSize
 
             };
-            pager.DataCount = bookServer.GetBookListCount();
+            pager.DataCount = bookServer.GetBookListLength();
             pager.InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId);
             return pager;
         }
