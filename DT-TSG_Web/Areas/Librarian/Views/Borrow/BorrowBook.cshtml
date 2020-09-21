@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = null;
+}
+@using Library_Model
+@model BorrowInfo
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图书操作</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @Styles.Render("~/List_Css")
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="layui-form layuimini-form" style="width:580px;margin-top:80px">
+        <form class="layui-form" id="TempForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">图书编号</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.BookId, new { @placeholder = "图书编号", @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">学生学号</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.Sid, new { @placeholder = "学生学号", @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+          
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认信息</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    @Scripts.Render("~/List_Js")
+    <script>
+        layui.use(['form','laydate'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate,
+                $ = layui.$;
+
+            //日期
+            laydate.render({
+                elem: '#Pubtime'
+            });
+
+            $("#BookId").attr("lay-verify","num");
+            $("#Sid").attr("lay-verify", "num");
+
+            form.verify({
+                num: [
+                    /^[\[1-9]\d*]{0,20}$/
+                    , '输入值必须在1到20个数字之间!'
+                ]
+            });
+
+            //监听提交
+            form.on('submit(saveBtn)', function (data) {
+                $.ajax({
+                    url: '@Url.Action("AddBorrowInfo", "Borrow")',
+                    data: $("#TempForm").serialize(),
+                    dataType: "json",
+                    type: "post",
+                    //执行成功返回(循环值,重新渲染分页,转换静态表格)
+                    success: function (data) {
+                        //关闭子弹出页面
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);  //获取父窗体值
+                        layer.msg(data.Msg, {
+                            time: 1000 },
+                            function (index) {
+                            //添加成功弹出
+                            parent.layer.close(iframeIndex);//关闭父窗体
+                            layer.close(index); //关闭弹窗
+                            parent.location.reload();
+                        });
+                    },
+                    error: function (data) {
+                        layer.alert(data.Msg, { icon: 2 });
+                    }
+                }); //ajax结束
+
+                return false;
+            });
+
+        });
+    </script>
+</body>
+</html>
