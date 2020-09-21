@@ -1,0 +1,337 @@
+﻿
+@{
+    Layout = null;
+}
+@using Library_Model
+@using Library_Common
+@model BorrowModel
+@{Pager<BorrowModel> page = ViewBag.BorrowList;}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>借阅列表</title>     <!--教师端-->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @Styles.Render("~/List_Css")
+</head>
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <fieldset class="table-search-fieldset">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px">
+                    <form class="layui-form layui-form-pane" action="" lay-filter="TestForm">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">借阅编号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="bid" autocomplete="off" class="layui-input" lay-verify="numvarifty|varifyed">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">借阅学号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="sid" autocomplete="off" class="layui-input" lay-verify="numvarifty|varifyed">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">图书编号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="bookid" autocomplete="off" class="layui-input" lay-verify="numvarifty|varifyed">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            </div>
+                            <div class="layui-inline">
+                                <a href="@Url.Action("BorrowList", "Borrow", new { area = "Librarian" })" class="layui-btn layui-btn-primary"><i class="layui-icon"></i> 还 原</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+
+            <div>
+                <table lay-filter="TableDemo">
+                    <thead>
+                        <tr>
+                            <th lay-data="{field:'Bid',width: 110, sort:true}">借阅编号</th>
+                            <th lay-data="{field:'Sid',width: 120,align: 'center'}">借阅学生</th>
+                            <th lay-data="{field:'Name'}">图书名称</th>
+                            <th lay-data="{field:'Gname',width: 120,align: 'center'}">审核人</th>
+                            <th lay-data="{field:'Bname',width: 120,align: 'center'}">借阅状态</th>
+                            <th lay-data="{field:'Btime',align: 'center', sort:true}">借阅时间</th>
+                            <th lay-data="{field:'Rtime',align: 'center', sort:true}">规定归还时间</th>
+                            <th lay-data="{field:'Ttime', align: 'center', sort:true}">实际归还时间</th>
+                            <th lay-data="{title: '操作',minWidth: 140,toolbar: '#barDemo',align: 'center'}">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (BorrowModel item in page.InfoList)
+                        {
+                            <tr>
+                                <td>@item.Bid</td>
+                                <td>@item.Sname</td>
+                                <td>@item.Name</td>
+                                <td>@item.Gname</td>
+                                <td>@item.BorrowType.Bname</td>
+                                <td>@item.Btime.ToString("yyyy-MM-dd")</td>
+                                <td>@item.Rtime.ToString("yyyy-MM-dd")</td>
+                                @if (item.BorrowType.BoId != (int)Config.BorrowType.Return)
+                                {
+                                    <td>未归还</td>
+                                }
+                                else
+                                {
+                                    <td>@item.Ttime.ToString("yyyy-MM-dd")</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="layui-table-page">
+                    <div id="layui-table-page1">
+                        <div id="div_pager">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--上方工具栏-->
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 学生借书 </button>
+                </div>
+            </script>
+
+            <!--右侧编辑-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="return">归还图书</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delay">延期归还</a>
+            </script>
+        </div>
+    </div>
+
+    @Scripts.Render("~/List_Js")
+    <script type="text/javascript">
+        layui.use(['form', 'table'], function () {
+            var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laypage = layui.laypage;
+
+            var UpLoadURL = '@Url.Action("GetBorrowPagerData", "Borrow" )';
+
+            //重新渲染表格
+            function RenovateTable(limit) {
+                //转换静态表格
+                table.init('TableDemo', {
+                    skin: 'row ',
+                    toolbar: '#toolbarDemo',
+                    limit: limit,
+                    loading: true
+                });
+            }
+
+            //刷新表格数据
+            function RenovateTableData(data) {
+                $('tbody').html("");
+                //迭代循环  data是page对象,要取里面的infolist
+                $.each(data.InfoList, function (i, item) {   //返回了i第几行,item数据
+                    //console.log(i, item);
+                    if (item.BorrowType.BoId!=@((int)Config.BorrowType.Return)) {
+                        var Ttime = "未归还";
+                    } else {
+                        var Ttime = formatDate(item.Ttime, "yyyy-MM-dd");
+                    }
+                    $("tbody").append(
+                        "<tr><td>" + item.Bid + "</td><td>"
+                        + item.Sname + "</td><td>" + item.Name + "</td><td>"
+                        + item.Gname + "</td><td>" + item.BorrowType.Bname +
+                        "</td><td>" + formatDate(item.Btime, "yyyy-MM-dd") + "</td><td>"
+                        + formatDate(item.Rtime, "yyyy-MM-dd") + "</td><td>" + Ttime + "</td></tr>"
+                    );
+                });
+            }
+
+            //拼接json字符串
+            function MakeUpJson(limit,curr,bid,sid,bookid) {
+                return {
+                    "pagesize": limit,
+                    "pageindex": curr,
+                    "Bid": bid,
+                    "Sid": sid,
+                    "BookId": bookid
+                }
+            }
+
+            //刷新跳转链接
+            function RenovateJumpLink(curr, count, limit, bid, sid, bookid) {
+                //分页功能
+                laypage.render({
+                    elem: 'div_pager',
+                    limits: [5, 10, 15, 20, 25, 50],
+                    curr:  curr,   //当前页
+                    count: count,  //数据总数，从服务端得到
+                    limit: limit,    //每页条数
+                    limits: [5, 10, 15, 20, 25],
+                    layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+                    prev: '<<',
+                    next: '>>',
+                    groups: 5,   //连续出现个数
+                    jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数,curr,limit等
+                        //首次不执行,不加会死循环
+                        if (!first) {
+                            //带刷新的方法
+                            //location.href = "/Student/GetBookPagerData/" + obj.limit + "/" + obj.curr;
+                            //ajax无刷新方法
+                            $.ajax({
+                                url: UpLoadURL,
+                                data: MakeUpJson(obj.limit, obj.curr, bid, sid, bookid),
+                                dataType: "json",
+                                type: "post",
+                                success: function (data) {
+                                    //刷新表格数据
+                                    RenovateTableData(data);
+                                    //重新渲染表格
+                                    RenovateTable(obj.limit);
+                                },
+                                error: function () {
+                                    layer.alert('未知错误', { icon: 2 });
+                                }
+                            }); //ajax结束
+                        } //first执行结束
+                    } //跳转结束
+                });
+            }
+
+            //加载页面时重新渲染表格
+            RenovateTable(10);
+
+            //加载页面时刷新跳转标签页
+            RenovateJumpLink(@(page.PageIndex), @(page.DataCount), @(page.PageSize), null, null, null);
+
+            //表单验证
+            form.verify({
+                varifyed: function (value, item) { //value：表单的值、item：表单的DOM对象
+                    if ((form.val("TestForm").bid) == "" && (form.val("TestForm").sid) == "" && (form.val("TestForm").bookid) == "") {
+                        return '请输入至少一个搜索条件';
+                    }
+                },
+                numvarifty: [
+                    /(^$)|[1-9]\d*/
+                    , '搜索条件必须为 数字 !'
+                ]
+            });
+
+            // 监听搜索操作
+            form.on('submit(data-search-btn)', function (temp) {
+                console.log(temp);
+                layui.layer.load(); //开启加载动画
+                $.ajax({
+                    url: UpLoadURL,
+                    data: MakeUpJson(null, null, temp.field.bid, temp.field.sid, temp.field.bookid),
+                    dataType: "json",
+                    type: "post",
+                    //执行成功返回(循环值,重新渲染分页,转换静态表格)
+                    success: function (data) {
+                        //刷新表格数据
+                        RenovateTableData(data);
+                        //刷新跳转标签页
+                        RenovateJumpLink(data.PageIndex, data.DataCount, data.PageSize, temp.field.bid, temp.field.sid, temp.field.bookid);
+                        //重新渲染表格
+                        RenovateTable(10);
+                    },
+                    error: function () {
+                        layer.alert('未知错误', { icon: 2 });
+                    }
+                }); //ajax结束
+                layui.layer.closeAll();     //关闭动画
+                return false;
+            });
+
+            //表格头监听事件
+            table.on('toolbar(TableDemo)', function (obj) {
+                if (obj.event === 'add') {  // 监听添加操作
+                    var index = layer.open({
+                        title: '借阅图书',
+                        type: 2,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: ['100%', '100%'],
+                        content: '@Url.Action("BorrowBook", "Borrow")',
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                }
+
+            });
+            
+            //监听表格内右侧工具栏
+            table.on('tool(TableDemo)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+                console.log(data, layEvent, tr);
+                if (layEvent === 'return') { //查看
+                    layer.confirm('确定归还图书吗？', function (index) {
+                        console.log(data);
+                        layer.close(index);     //关闭弹出层
+                        //向服务端发送指令
+                        $.ajax({
+                            url: '@Url.Action("ReturnBook", "Borrow")',
+                            data: { "Bid": data.Bid, "Bname": data.Bname },
+                            dataType: "json",
+                            type: "post",
+                            //执行成功返回(循环值,重新渲染分页,转换静态表格)
+                            success: function (data) {
+                                layer.msg(data.Msg, {
+                                    time: 1000
+                                },
+                                    function (index) {
+                                        layer.close(index); //关闭弹窗
+                                        window.location.reload();   //刷新
+                                    });
+                            },
+                            error: function () {
+                                layer.alert('未知错误', { icon: 2 });
+                            }
+                        }); //ajax结束
+                    });
+                } else if (layEvent === 'delay') { //删除
+                    layer.confirm('真的要延期归还吗？', function (index) {
+                        console.log(data);
+                        layer.close(index);     //关闭弹出层
+                        //向服务端发送指令
+                        $.ajax({
+                            url: '@Url.Action("DelayReturn", "Borrow")',
+                            data: { "Bid": data.Bid, "Bname": data.Bname },
+                            dataType: "json",
+                            type: "post",
+                            //执行成功返回(循环值,重新渲染分页,转换静态表格)
+                            success: function (data) {
+                                layer.msg(data.Msg, {
+                                    time: 1000
+                                },
+                                    function (index) {
+                                        layer.close(index); //关闭弹窗
+                                        window.location.reload();   //刷新
+                                    });
+                            },
+                            error: function () {
+                                layer.alert('未知错误', { icon: 2 });
+                            }
+                        }); //ajax结束
+                    });
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
