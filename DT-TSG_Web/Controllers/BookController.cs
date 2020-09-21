@@ -20,7 +20,7 @@ namespace DTTSG_Web.Controllers
 
 
 
-        // GET: Book
+     // GET: Book
         public ActionResult Index(BookInfo bookInfo, int pageIndex = 1, int pageSize = 10)
         {
             #region 测试查询分页
@@ -39,8 +39,27 @@ namespace DTTSG_Web.Controllers
             #endregion
 
 
-            return View();
+
+        //[HttpPost]
+        /// <summary>
+        /// 获取图书列表页
+        /// </summary>
+        /// <param name="bookInfo">图书信息(来自前端页面)</param>
+        /// <param name="pagesize">页大小</param>
+        /// <param name="pageindex">当前页</param>
+        /// <returns>返回视图</returns>
+       
+        
+        public ActionResult GetBookPagerData(BookInfo bookInfo, int pagesize = 8, int pageindex = 1)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = bookManager.GetBookList(pagesize, pageindex, bookInfo);
+            return jsonResult;
         }
+
+        public ActionResult BookInfo(int BookId)
+        {
+
 
 
         // 借书 ：
@@ -50,5 +69,9 @@ namespace DTTSG_Web.Controllers
         // 参数 ：书的Id，用户Id，
 
     
+
+            return View();
+        }
+
     }
 }

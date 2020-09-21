@@ -2,17 +2,172 @@
 @{
     Layout = null;
 }
-
+@using DTTSG_Model
+@using DTTSG_Common
+@model BorrowInfo
+@{Pager<BorrowInfo> page = ViewBag.BorrowList;}
 <!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>BorrowList</title>
+    <meta charset="utf-8">
+    <title>借阅列表</title>     <!--教师端-->
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @Styles.Render("~/List_Css")
 </head>
 <body>
-    <div> 
-        借阅信息
-    </div>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+
+                <table lay-filter="TableDemo">
+                    <thead>
+                        <tr>
+                            <th lay-data="{field:'UserId',width: 120,align: 'center'}">借阅姓名</th>
+                            <th lay-data="{field:'BookId'}">图书名称</th>
+                            <th lay-data="{field:'B_MechanId',width: 120,align: 'center'}">借阅机器</th>
+                            <th lay-data="{field:'Bo_TypeId',width: 120,align: 'center'}">借阅状态</th>
+                            <th lay-data="{field:'B_StartTime',align: 'center', sort:true}">借阅时间</th>
+                            <th lay-data="{field:'B_EndTime',align: 'center', sort:true}">规定归还时间</th>
+                            <th lay-data="{field:'B_ReturnTime', align: 'center', sort:true}">实际归还时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                        </tr>
+                        @*@foreach (BorrowInfo item in page.InfoList)
+                        {
+                            <tr>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                                <td>a</td>
+                            </tr>
+                        }*@
+                    </tbody>
+                </table>
+                <div class="layui-table-page">
+                    <div id="layui-table-page1">
+                        <div id="div_pager">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    @Scripts.Render("~/List_Js")
+    <script type="text/javascript">
+        layui.use(['form', 'table'], function () {
+            var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laypage = layui.laypage;
+
+            var UpLoadURL = '@Url.Action("GetBorrowPagerData", "Borrow" )';
+
+            //重新渲染表格
+            function RenovateTable(limit) {
+                //转换静态表格
+                table.init('TableDemo', {
+                    skin: 'row ',
+                    toolbar: '#toolbarDemo',
+                    limit: limit,
+                    loading: true
+                });
+            }
+
+            //刷新表格数据
+            function RenovateTableData(data) {
+                $('tbody').html("");
+                //迭代循环  data是page对象,要取里面的infolist
+                $.each(data.InfoList, function (i, item) {   //返回了i第几行,item数据
+                    //console.log(i, item);
+                    var Ttime = "未归还";
+                    //if (item.BorrowType.BoId!=0) {
+                    //    var Ttime = "未归还";
+                    //} else {
+                    //    var Ttime = formatDate(item.Ttime, "yyyy-MM-dd");
+                    //}
+                    $("tbody").append(
+                        "<tr><td>" + item.Bid + "</td><td>"
+                        + item.Sname + "</td><td>" + item.Name + "</td><td>"
+                        + item.Gname + "</td><td>" + item.BorrowType.Bname +
+                        "</td><td>" + formatDate(item.Btime, "yyyy-MM-dd") + "</td><td>"
+                        + formatDate(item.Rtime, "yyyy-MM-dd") + "</td><td>" + Ttime + "</td></tr>"
+                    );
+                });
+            }
+
+            //拼接json字符串
+            function MakeUpJson(limit,curr,bid,sid,bookid) {
+                return {
+                    "pagesize": limit,
+                    "pageindex": curr,
+                    "Bid": bid,
+                    "Sid": sid,
+                    "BookId": bookid
+                }
+            }
+
+            //刷新跳转链接
+            function RenovateJumpLink(curr, count, limit, bid, sid, bookid) {
+                //分页功能
+                laypage.render({
+                    elem: 'div_pager',
+                    limits: [5, 10, 15, 20, 25, 50],
+                    curr:  curr,   //当前页
+                    count: count,  //数据总数，从服务端得到
+                    limit: limit,    //每页条数
+                    limits: [5, 10, 15, 20, 25],
+                    layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+                    prev: '<<',
+                    next: '>>',
+                    groups: 5,   //连续出现个数
+                    jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数,curr,limit等
+                        //首次不执行,不加会死循环
+                        if (!first) {
+                            //带刷新的方法
+                            //location.href = "/Student/GetBookPagerData/" + obj.limit + "/" + obj.curr;
+                            //ajax无刷新方法
+                            $.ajax({
+                                url: UpLoadURL,
+                                data: MakeUpJson(obj.limit, obj.curr, bid, sid, bookid),
+                                dataType: "json",
+                                type: "post",
+                                success: function (data) {
+                                    //刷新表格数据
+                                    RenovateTableData(data);
+                                    //重新渲染表格
+                                    RenovateTable(obj.limit);
+                                },
+                                error: function () {
+                                    layer.alert('未知错误', { icon: 2 });
+                                }
+                            }); //ajax结束
+                        } //first执行结束
+                    } //跳转结束
+                });
+            }
+
+            //加载页面时重新渲染表格
+            RenovateTable(10);
+
+            //加载页面时刷新跳转标签页
+            @*RenovateJumpLink(@(page.PageIndex), @(page.DataCount), @(page.PageSize), null, null, null);*@
+            
+        });
+    </script>
 </body>
 </html>
