@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model DTTSG_Model.BookInfo
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>图书详情</title>
+    <link rel="stylesheet" href="~/lib/layui-v2.5.5/css/layui.css" media="all">
+</head>
+<body>
+    <div style="margin:30px">
+            <a href="/Book/BookList" style="font-size:16px;"><< 返回首页</a>
+    </div>
+
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md6">
+                <img src="~/Content/default.jpg" />
+            </div>
+            <div class="layui-col-md6">
+                <br />
+                <h1>图书名</h1><br />
+                <h2>状态:正常</h2>
+                <h2>图书类型:计算机</h2><br />
+                <h2>出版社:电子出版社</h2><br />
+                <h2>作者:王</h2><br />
+                <h2>出版时间:2020年9月20日</h2><br />
+                <h1><strong>$124</strong></h1><br />
+                <a href="/Book/BookList" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
+                <a href="#" class="layui-btn layui-btn-normal layui-btn-lg">购买</a>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

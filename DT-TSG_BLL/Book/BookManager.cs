@@ -1,4 +1,5 @@
-﻿using DTTSG_DAL.Book;
+﻿using DTTSG_Common;
+using DTTSG_DAL.Book;
 using DTTSG_Model;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,19 @@ namespace DTTSG_BLL.Book
     {
         BookServer bookServer = new BookServer();
 
-        public List<BookInfo> GetBookList()
+        public Pager<BookInfo> GetBookList(int pagesize, int pageindex, BookInfo bookInfo)
         {
-            MechanInfo m = new MechanInfo() { MechanName="bglb"};
-            BookInfo bookInfo = new BookInfo()
-            {
-                MechanInfo = m
-            };
-            return bookServer.GetBookList(bookInfo);
+            bookInfo.MechanInfo = new MechanInfo() { MechanName = Config.GetHostName };   //机器信息
+
+            //int dataCount = bookServer.GetBookCount(); //获取数据总数
+            int dataCount = 30;
+            List<BookInfo> list = bookServer.GetBookList(pagesize, pageindex, bookInfo);
+            Pager<BookInfo> pager = new Pager<BookInfo>(pageindex, pagesize, dataCount, list);
+
+            return pager;
         }
 
-       
+
 
         public int InsertBookInfo(BookInfo bookInfo)
         {

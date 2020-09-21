@@ -148,6 +148,7 @@
     <Content Include="Content\Own\css\default.css" />
     <Content Include="Content\Own\css\index.css" />
     <Content Include="Content\Own\css\login.css" />
+    <Content Include="Content\Own\js\booklist.js" />
     <Content Include="Content\Own\js\date_format.js" />
     <Content Include="Content\Own\js\default.js" />
     <Content Include="Content\Own\js\login.js" />
@@ -314,6 +315,7 @@
     <Content Include="Views\Home\RankList.cshtml" />
     <Content Include="Views\Message\MessageList.cshtml" />
     <Content Include="Views\Forward\ForwardList.cshtml" />
+    <Content Include="Views\Book\BookInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -25,7 +25,7 @@ namespace DTTSG_Common
                 Dictionary<string, string> propertyValue = new Dictionary<string, string>();
                 Type type = obj.GetType();
                 PropertyInfo[] propertyInfos = type.GetProperties();
-                var KEY = propertyInfos.Where(p => p.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0).FirstOrDefault();
+                var KEY = propertyInfos.Where(p => p.GetCustomAttributes(typeof(T), false).Length > 0).FirstOrDefault();
                 
                 foreach (PropertyInfo item in propertyInfos)
                 {

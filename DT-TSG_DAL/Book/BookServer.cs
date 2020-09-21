@@ -11,26 +11,35 @@ namespace DTTSG_DAL.Book
 {
     public class BookServer : BaseServer<BookInfo>
     {
-        public Pager<BookInfo> GetBookList(BookInfo book)
+        public List<BookInfo> GetBookList(int pageSize,int pageIndex,BookInfo book)
         {
-            DynamicParameters parameters = new DynamicParameters();
-            string sql = @"select * from UserInfo a inner join UserType b 
-            on a.TypeId = b.TypeId order by UserId asc offset(@pageIndex - 1) *
-            @pageSize rows fetch next @pageSize rows only";
-
-            List<BookInfo> bookInfoList = GetList(sql,parameters);
-
-            Pager<BookInfo> bookInfoPager = new Pager<BookInfo>()
+            List<BookInfo> list = new List<BookInfo>();
+            try
             {
-                InfoList=bookInfoList,
-                r
-
-
-            };
-
-
-
-            return ;
+                using (IDbConnection connection = new SqlConnection(Config.connStr))
+                { 
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@pageSize", pageSize);
+                parameters.Add("@pageIndex", pageIndex);
+                string sql = @"select * from BookInfo bi join BookType bt on
+                                    bi.B_TypeId=bt.B_TypeId join BookStatu bs on
+                                    bi.B_StatuId=bs.B_StatuId join MechanInfo me on
+                                    bi.MechanId=me.MechanId join ImageInfo im on 
+                                    bi.ImageId=im.ImageId where bi.B_StatuId<2 and
+                                    me.MechanName='bglb' order by BookId asc offset(@pageIndex - 1) *
+                                @pageSize rows fetch next @pageSize rows only";
+                list = connection.Query<BookInfo, BookType, BookStatu, MechanInfo, ImageInfo, BookInfo>
+                        (sql, (bi, bt, bs, me, im) =>
+                        { bi.BookType = bt; bi.BookStatu = bs; bi.MechanInfo = me; bi.ImageInfo = im; return bi; }
+                        , parameters,
+                        splitOn: "B_TypeId,B_StatuId,MechanId,ImageId").ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                //报错堆栈
+            }
+            return list;
         }
         public BookInfo GetBookModel(BookInfo book)
         {
