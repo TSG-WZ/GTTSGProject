@@ -1,6 +1,7 @@
 using DTTSG_Common;
 using DTTSG_DAL.Book;
 using DTTSG_Model;
+using System.Collections.Generic;
 
 namespace DTTSG_BLL.Book
 {
@@ -17,14 +18,10 @@ namespace DTTSG_BLL.Book
         /// <returns></returns>
         public Pager<BookInfo> GetBookList(int b_TypeId,int pageIndex, int pageSize )
         {
-            Pager<BookInfo> pager = new Pager<BookInfo>
-            {
-                PageIndex = pageIndex,
-                PageSize = pageSize
+            int dataCount = bookServer.GetBookListLength();
+            List<BookInfo> InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId);
 
-            };
-            pager.DataCount = bookServer.GetBookListLength();
-            pager.InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId);
+            Pager<BookInfo> pager = new Pager<BookInfo>(pageIndex, pageSize, dataCount, InfoList);
             return pager;
         }
 

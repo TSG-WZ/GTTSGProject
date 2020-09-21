@@ -4,7 +4,9 @@
 }
 @using DTTSG_Model
 @using DTTSG_Common
-@{Pager<BookInfo> page = ViewBag.BookList as Pager<BookInfo>;}
+@*@{Pager<BookInfo> page = ViewBag.BookListPages as Pager<BookInfo>;}*@
+@{List<BookType> types = ViewBag.BookTypeList as List<BookType>;}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,15 +30,14 @@
                 <li class="layui-nav-item menu-li layui-nav-itemed" style="padding-top:15px">
                     <a href="javascript:;"> <i class="fa fa-snowflake-o"></i> <span class="layui-left-nav">图书类型</span><span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child ">
-                        <dd class="menu-dd  ">
-                            <a href="/Book/BookList/?B_TypeId=1" name="B_TypeId" layuimini-href="" target="_self" > <i class="fa fa-bar-chart-o"></i> <span class="layui-left-nav"> 排行榜</span></a>
-                        </dd>
-                        <dd class="menu-dd  ">
-                            <a href="javascript:;" layuimini-href="@Url.Action("MessageList","Message")" target="_self"> <i class="fa fa-bell-o"></i> <span class="layui-left-nav"> 公告栏</span></a>
-                        </dd>
-                        <dd class="menu-dd  ">
-                            <a href="javascript:;" layuimini-href="@Url.Action("ForwardList","Forward")" target="_self"> <i class="fa fa-rss"></i> <span class="layui-left-nav"> 我的预约</span></a>
-                        </dd>
+                        @{
+                            foreach (BookType item in types)
+                            {
+                                <dd class="menu-dd  ">
+                                    <a href="/Book/BookList/?B_TypeId=@item.B_TypeId" name="B_TypeId" layuimini-href="" target="_self"> <i class="fa fa-bar-chart-o"></i> <span class="layui-left-nav"> @item.B_TypeName</span></a>
+                                </dd>
+                            }
+                        }
                     </dl>
                 </li>
                 <span class="layui-nav-bar"></span>
@@ -46,7 +47,7 @@
         <div class="layui-col-md10 content-container" id="headdiv">
             <div class="layui-row">
                 <ul id="LAY_demo1">
-                    @{
+                    @*@{
                         foreach (BookInfo item in page.InfoList)
                         {
                             <a href="/Book/BookInfo?BookId=@item.BookId" name="BookId">
@@ -60,7 +61,7 @@
                                 </div>
                             </a>
                         }
-                    }
+                    }*@
                 </ul>
             </div>
         </div>
@@ -80,40 +81,45 @@
                 , isLazyimg: true //图片懒加载
                 , done: function (page, next) { //执行下一页的回调
                     var lis = [];
-                    //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
-                    //$.post('/Book/GetBookPagerData?pageIndex=' + page, function (res) {
-                    //    //假设你的列表返回在data集合中
-                    //    $.each(res.InfoList, function (index, item) {
-                    //        lis.push('<li>' + item.BookName + '</li>');
-                    //    });
+                    var pagecount = 0;
 
-                    //    //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-                    //    //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                    //  //  next(lis.join(''), page < res.pages);
-                    //});
+                    $.get('/Book/GetBookPagerData?pageindex=' + page, function (data) {
+                        layui.each(data.InfoList, function (index, item) {
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            lis.push('<a href="/Book/BookInfo?BookId=' + item.BookId + '" name="BookId">' +
+                                '<div class= "layui-col-md3 layui-col-ls5 model-container"><div class="img-container">' +
+                                '<img lay-src="' + item.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
+                                '<center><h2><b>' + item.BookName + '</b></h2></center></div></div></a>');
+                        });
+                        pagecount = data.PageCount;
+
+                        //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                        //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+
+                        next(lis.join(''), page < pagecount);
+                    });
                     
                     ////ajax无刷新方法
-                    $.ajax({
-                        url: "/Book/GetBookPagerData",
-                        data: { "pageIndex": page },
-                        dataType: "json",
-                        type: "post",
-                        success: function (data) {
-                            layui.each(data.InfoList, function (index, item) {
-                                //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-                                $("#LAY_demo1:last").append('<a href="/Book/BookInfo?BookId=' + item.BookId + '" name="BookId">' +
-                                    '<div class= "layui-col-md3 model-container"><div class="img-container">' +
-                                    '<img lay-src="' + item.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
-                                    '<center><h2><b>' + item.BookName + '</b></h2></center></div></div></a>');
-                            });
-                        },
-                        error: function () {
-                            layer.alert('未知错误', { icon: 2 });
-                        }
-                    }); //ajax结束
-                    
-                    //page为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                    next('', page < @page.PageCount);
+                    //$.ajax({
+                    //    url: "/Book/GetBookPagerData",
+                    //    data: { "pageIndex": page },
+                    //    dataType: "json",
+                    //    type: "post",
+                    //    success: function (data) {
+                    //        layui.each(data.InfoList, function (index, item) {
+                    //            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                    //            lis.push('<a href="/Book/BookInfo?BookId=' + item.BookId + '" name="BookId">' +
+                    //            '<div class= "layui-col-md3 model-container"><div class="img-container">' +
+                    //            '<img lay-src="' + item.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
+                    //            '<center><h2><b>' + item.BookName + '</b></h2></center></div></div></a>');
+                    //        });
+                    //        pagecount = data.PageCount;
+                    //        console.log(lis);
+                    //    }
+                    //}); //ajax结束
+                    ////page为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                    //next('lis[0]', page < pagecount);
+
                 }
             });
 

@@ -12,21 +12,21 @@ namespace DTTSG_Web.Controllers
         BookTypeServer bookType = new BookTypeServer();
 
 
-        public ActionResult BookList(BookInfo bookInfo , int pageIndex = 1, int pageSize = 10)
-        {
-            var result = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize).ToJson();
-            return Json(result);
-        }
+        //public ActionResult BookList(BookInfo bookInfo , int pageIndex = 1, int pageSize = 10)
+        //{
+        //    var result = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize).ToJson();
+        //    return Json(result);
+        //}
 
 
 
         // GET: Book
-        public ActionResult Index(BookInfo bookInfo, int pageIndex = 1, int pageSize = 10)
+        public ActionResult BookList(BookInfo bookInfo, int pageIndex = 1)
         {
             #region 测试查询分页
 
             ViewBag.BookTypeList = bookType.GetBooKTypeList();
-            ViewBag.BookListPages = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize);
+            //ViewBag.BookListPages = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, 8);
 
             #endregion
 
@@ -50,10 +50,11 @@ namespace DTTSG_Web.Controllers
         /// <returns>返回视图</returns>
        
         
-        public ActionResult GetBookPagerData(BookInfo bookInfo, int pagesize = 8, int pageindex = 1)
+        public ActionResult GetBookPagerData(BookInfo bookInfo, int pageindex = 1)
         {
             JsonResult jsonResult = new JsonResult();
-            jsonResult.Data = bookManager.GetBookList(pagesize, pageindex, bookInfo.BookId);
+            jsonResult.Data = bookManager.GetBookList(bookInfo.B_TypeId, pageindex, 8); //固定八条数据
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return jsonResult;
         }
 
