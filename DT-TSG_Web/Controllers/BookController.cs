@@ -2,6 +2,7 @@
 using DTTSG_Common;
 using DTTSG_DAL.Book;
 using DTTSG_Model;
+using System.Web;
 using System.Web.Mvc;
 
 namespace DTTSG_Web.Controllers
@@ -34,7 +35,7 @@ namespace DTTSG_Web.Controllers
 
 
             #region 测试增删改查
-            //bookManager.AddBookInfo(bookInfo);
+            //bookManager.UpdateBookInfo(bookInfo);
             //bookManager.DelBookInfo(bookInfo);
             //bookInfo.BookAuthor = "bglb";
             //bookManager.UpdateBookInfo(bookInfo);
@@ -60,20 +61,37 @@ namespace DTTSG_Web.Controllers
             return jsonResult;
         }
 
-        public ActionResult BookInfo(int BookId)
+        public ActionResult BookInfo(int bookId)
         {
-
-
-
+            BookInfo bookInfo = bookManager.GetBookModel(bookId);
+      
         // 借书 ：
         // 1. 点击图书 =>显示图书详情 --> 传BookId =>返回BookInfo // Get请求
-        // 2. 点击借书按钮  => 传BookId ，Session["UserId"] // POST请求，返回状态码，-1，0 1 2
-        // 3. 根据状态码，提示借阅结果
-        // 参数 ：书的Id，用户Id，
+      
+            return View(bookInfo);
+        }
 
-    
-
-            return View();
+        public ActionResult  BrrowBook(int bookId)
+        {
+            // 2. 点击借书按钮  => 传BookId ，Session["UserId"] // POST请求，返回状态码，-1，0 1 2
+            // 3. 根据状态码，提示借阅结果
+            // 参数 ：书的Id， 
+            var userinfo = Session["User"] as UserInfo;
+            var result = bookManager.BookBrrow(bookId, userinfo);
+            if (result==1)
+            {
+                return Content("借阅成功");
+                //return AjaxBackInfo(1, ", " + Session["User"]+ " !"));
+            }
+            else if(result == 0)
+            {
+                return Content("借阅失败");
+            }
+            else
+            {
+                return Content("未找到此书");
+            }
+           
         }
 
     }
