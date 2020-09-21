@@ -94,8 +94,8 @@ namespace DTTSG_DAL
                 foreach (PropertyInfo item in propertyInfos)
                 {
                     string PropertyName = item.Name.ToString();
-                    var PropertyValue = item.GetValue(model, null) ?? "";
-                    if (!PropertyValue.ToString().StartsWith("DTTSG") && PropertyName != KEY.Name.ToString())// 排除外联表以及主键
+                    var PropertyValue = item.GetValue(model, null);
+                    if (PropertyValue!=null && !PropertyValue.ToString().StartsWith("DTTSG") && PropertyName != KEY.Name.ToString())// 排除外联表以及主键
                     {
                         sqlName += PropertyName;
                         sqlValues += "@" + PropertyName;
@@ -142,8 +142,8 @@ namespace DTTSG_DAL
                 foreach (PropertyInfo item in propertyInfos)
                 {
                     string PropertyName = item.Name.ToString();
-                    var PropertyValue = item.GetValue(model, null) ?? "";
-                    if (!PropertyValue.ToString().StartsWith("DTTSG") && PropertyName != KEY.Name.ToString())// 排除外联表以及主键
+                    var PropertyValue = item.GetValue(model, null);
+                    if (PropertyValue != null && !PropertyValue.ToString().StartsWith("DTTSG") && PropertyName != KEY.Name.ToString())// 排除外联表以及主键
                     {
                         sqlSet += PropertyName + "=@" + PropertyName;
                         parameters.Add("@" + PropertyName, PropertyValue);
@@ -189,8 +189,6 @@ namespace DTTSG_DAL
             return 0;
 
         }
-
-
     }
 }
 

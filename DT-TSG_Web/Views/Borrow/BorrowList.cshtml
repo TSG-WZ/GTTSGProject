@@ -5,7 +5,7 @@
 @using DTTSG_Model
 @using DTTSG_Common
 @model BorrowInfo
-@{Pager<BorrowInfo> page = ViewBag.BorrowList;}
+@{Pager<BorrowInfo> page = ViewBag.BorrowInfoPagers;}
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        @*<tr>
                             <td>a</td>
                             <td>a</td>
                             <td>a</td>
@@ -41,19 +41,21 @@
                             <td>a</td>
                             <td>a</td>
                             <td>a</td>
-                        </tr>
-                        @*@foreach (BorrowInfo item in page.InfoList)
+                        </tr>*@
+                        @foreach (BorrowInfo item in page.InfoList)
                         {
-                            <tr>
-                                <td>a</td>
-                                <td>a</td>
-                                <td>a</td>
-                                <td>a</td>
-                                <td>a</td>
-                                <td>a</td>
-                                <td>a</td>
+                            <tr >
+                                <td>@item.UserInfo.UserName</td>
+                                <td>@item.BookInfo.BookName</td>
+                                <td>@item.MechanInfo.MechanName</td>
+                                <td>@item.BorrowType.Bo_TypeName</td>
+                                <td>@item.B_StartTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                <td>@item.B_EndTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                <td>
+                                    @item.B_ReturnTime.ToString("yyyy/MM/dd hh:mm:ss")
+                                </td>
                             </tr>
-                        }*@
+                          }
                     </tbody>
                 </table>
                 <div class="layui-table-page">
