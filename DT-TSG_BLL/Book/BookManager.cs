@@ -1,6 +1,7 @@
 using DTTSG_Common;
 using DTTSG_DAL.Book;
 using DTTSG_Model;
+using System;
 using System.Collections.Generic;
 
 namespace DTTSG_BLL.Book
@@ -8,6 +9,7 @@ namespace DTTSG_BLL.Book
     public class BookManager
     {
         BookServer bookServer = new BookServer();
+        BorrowServer borrowServer = new BorrowServer();
 
         /// <summary>
         ///  分页
@@ -41,8 +43,35 @@ namespace DTTSG_BLL.Book
             return bookServer.GetBookModel(bookId);
         }
 
+        public int BookBrrow(int bookId,UserInfo userInfo)
+        {
+            var bookInfo = GetBookModel(bookId);
+            var borrowInfo = new BorrowInfo()
+            {
+                UserId = userInfo.UserId,
+                BookId = bookId,
+                Bo_TypeId = 1,
+                B_MechanId = bookInfo.MechanId,
+                B_StartTime = DateTime.Now,
+                B_EndTime = DateTime.Now.AddMonths(1),
+                //B_ReturnTime =DBNull.Value,
+            };
+            bookInfo.B_StatuId = 2;
+            if (bookInfo!=null)
+            {
+                int result = bookServer.Update(bookInfo);
+                int a = borrowServer.Insert(borrowInfo);
 
+                return a == result ? 1 : 0;
+               
 
+            }
+            else
+            {
+                return -1;
+            }
+          
+        }
 
         /// <summary>
         /// 插入新数据
@@ -51,7 +80,7 @@ namespace DTTSG_BLL.Book
         /// <returns></returns>
         public int InsertBookInfo(BookInfo bookInfo)
         {
-            return bookServer.InsertBookInfo(bookInfo);
+            return bookServer.Insert(bookInfo);
         }
 
         /// <summary>
@@ -61,7 +90,7 @@ namespace DTTSG_BLL.Book
         /// <returns></returns>
         public int DelBookInfo(BookInfo bookInfo)
         {
-            return bookServer.DelBookInfo(bookInfo);
+            return bookServer.Delete(bookInfo);
         }
 
         /// <summary>
@@ -71,7 +100,7 @@ namespace DTTSG_BLL.Book
         /// <returns></returns>
         public int UpdateBookInfo(BookInfo bookInfo)
         {
-            return bookServer.UpdateBookInfo(bookInfo);
+            return bookServer.Update(bookInfo);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace DTTSG_Model
 		public double BookPrice { get; set; }
 		public string BookPublic { get; set; }
 		public string BookAuthor { get; set; }
-		public string BookPubtime { get; set; }
+		public DateTime BookPubtime { get; set; }
 		public bool IsValid { get; set; }
 	}
 }

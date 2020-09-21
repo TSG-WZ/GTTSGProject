@@ -24,7 +24,7 @@ namespace DTTSG_DAL
             {
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
-                    int result = connection.Execute(sql, param);
+                    return connection.Execute(sql, param);
                 }
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace DTTSG_DAL
         /// <param name="sql">sql</param>
         /// <param name="param">sql参数</param>
         /// <returns>强类型模型</returns>
-        protected T GetModel(string sql,object param=null)
+        protected T GetModel(string sql, object param = null)
         {
             try
             {
@@ -78,10 +78,8 @@ namespace DTTSG_DAL
             return null;
         }
 
-        public virtual Dictionary<string, object> InsertAssembleSql(T model)
+        public virtual int Insert(T model)
         {
-
-            Dictionary<string, object> sqlobj = new Dictionary<string, object>();
             if (model != null)
             {
                 string sql = @"insert into ";
@@ -117,22 +115,16 @@ namespace DTTSG_DAL
 
                 }
                 sql += (sqlName + sqlValues);
-                sqlobj.Add("sql", sql);
-                sqlobj.Add("parameters", parameters);
+               
+              return Execute(sql, parameters);
 
             }
-            else
-            {
-                sqlobj.Add("sql", string.Empty);
-                sqlobj.Add("parameters", null);
-            }
-            return sqlobj;
+            return 0;
 
         }
 
-        public virtual Dictionary<string, object> UpdateAssembleSql(T model)
+        public virtual int Update(T model)
         {
-            Dictionary<string, object> sqlobj = new Dictionary<string, object>();
             if (model != null)
             {
                 string sql = @"update ";
@@ -169,22 +161,13 @@ namespace DTTSG_DAL
 
                 }
                 sql += (sqlSet + sqlWhere);
-                sqlobj.Add("sql", sql);
-                sqlobj.Add("parameters", parameters);
-
+                return Execute(sql, parameters);
             }
-            else
-            {
-                sqlobj.Add("sql", string.Empty);
-                sqlobj.Add("parameters", null);
-            }
-            return sqlobj;
-
+            return 0;
         }
 
-        public virtual Dictionary<string, object> DelAssembleSql(T model)
+        public virtual int Delete(T model)
         {
-            Dictionary<string, object> sqlobj = new Dictionary<string, object>();
             if (model != null)
             {
                 string sql = @"delete from ";
@@ -193,7 +176,6 @@ namespace DTTSG_DAL
                 DynamicParameters parameters = new DynamicParameters();
                 sql += TableName;
 
-
                 PropertyInfo[] propertyInfos = type.GetProperties();
                 var KEY = propertyInfos.Where(p => p.GetCustomAttributes(typeof(KeyAttribute), false).Length > 0).FirstOrDefault();
 
@@ -201,20 +183,14 @@ namespace DTTSG_DAL
                 parameters.Add("@" + KEY.Name, KEY.GetValue(model));// 添加主键作为where选择条件
 
                 sql += sqlWhere;
-                sqlobj.Add("sql", sql);
-                sqlobj.Add("parameters", parameters);
 
+               return Execute(sql, parameters);
             }
-            else
-            {
-                sqlobj.Add("sql", string.Empty);
-                sqlobj.Add("parameters", null);
-            }
-            return sqlobj;
+            return 0;
 
         }
 
-       
+
     }
 }
 
