@@ -32,12 +32,49 @@
                 <h2>作者:@Model.BookAuthor</h2><br />
                 <h2>出版时间:@Model.BookPubtime.ToLongDateString().ToString()</h2><br />
                 <h1><strong>$@Model.BookPrice</strong></h1><br />
-                <a href="/Book/BrrowBook?bookId=@Model.BookId" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
+                <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
                 <a href="#" class="layui-btn layui-btn-normal layui-btn-lg">购买</a>
 
             </div>
         </div>
     </div>
+    <script src="~/lib/layui-v2.5.5/layui.js"></script>
 
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer,
+                $ = layui.jquery;
+
+            $("#queding").click(function () {
+                confirms(@Model.BookId);
+            })
+            
+            function confirms(bookId) {
+                $.ajax({
+                    url: "/Book/BorrowBook",
+                    data: { "bookId": bookId },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            //alert(data);
+                            layer.msg(data.Msg, {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location = '/Borrow/BorrowList';
+                            });
+                        }
+                        else {
+                            layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
+                        }
+                    }
+                }); //ajax结束
+            }
+
+        });
+        
+
+    </script>
 </body>
 </html>
