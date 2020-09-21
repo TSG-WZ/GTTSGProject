@@ -20,13 +20,13 @@ namespace DTTSG_Web.Controllers
 
 
 
-     // GET: Book
+        // GET: Book
         public ActionResult Index(BookInfo bookInfo, int pageIndex = 1, int pageSize = 10)
         {
             #region 测试查询分页
 
             ViewBag.BookTypeList = bookType.GetBooKTypeList();
-            ViewBag.BookListPages = bookManager.GetBookList(bookInfo.B_TypeId,pageIndex, pageSize);
+            ViewBag.BookListPages = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize);
 
             #endregion
 
