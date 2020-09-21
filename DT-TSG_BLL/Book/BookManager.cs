@@ -1,4 +1,4 @@
-﻿using DTTSG_Common;
+using DTTSG_Common;
 using DTTSG_DAL.Book;
 using DTTSG_Model;
 
@@ -25,9 +25,9 @@ namespace DTTSG_BLL.Book
             };
             pager.DataCount = bookServer.GetBookListCount();
             pager.InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId);
-
             return pager;
         }
+
 
         /// <summary>
         /// 通过Id 查询实体
@@ -43,6 +43,9 @@ namespace DTTSG_BLL.Book
      
             return bookServer.GetBookModel(bookId);
         }
+
+
+
 
         /// <summary>
         /// 插入新数据

@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using DTTSG_Common;
 using DTTSG_Model;
 using System;
@@ -46,26 +46,26 @@ namespace DTTSG_DAL.Book
 
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
-                    return connection.Query<BookInfo, BookType, BookStatu, MechanInfo, ImageInfo, BookInfo>
-                        (sql, (bi, bt, bs, me, im) =>
+                    return connection.Query<BookInfo, BookType, BookStatu, MechanInfo, ImageInfo, BookInfo>(sql, (bi, bt, bs, me, im) =>
                         { bi.BookType = bt; bi.BookStatu = bs; bi.MechanInfo = me; bi.ImageInfo = im; return bi; }
                         , parameters,
                         splitOn: "B_TypeId,B_StatuId,MechanId,ImageId").ToList();
+        
                 }
             }
             catch (Exception ex)
             {
 
-               //
             }
-        
             return null;
 
         }
 
-        public int GetBookListCount()
+        public int GetBookListLength()
         {
-            return GetList("select * from BookInfo").Count;
+            return Execute("select count(*) from BookInfo");
+
+
         }
 
         /// <summary>
