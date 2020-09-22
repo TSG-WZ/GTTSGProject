@@ -1,7 +1,7 @@
 ﻿using Library_BLL.Factory;
 using Library_BLL.Interfaces;
-using Library_Common;
-using Library_Model;
+using DTTSG_Common;
+using DTTSG_Model;
 using DTTSG_Web.Areas.Librarian.Filts;
 using System;
 using System.Collections.Generic;
