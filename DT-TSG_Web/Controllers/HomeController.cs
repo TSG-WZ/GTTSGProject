@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net;
 
-namespace DT_TSG_Web.Controllers
+namespace DTTSG_Web.Controllers
 {
     public class HomeController : Controller
     {
