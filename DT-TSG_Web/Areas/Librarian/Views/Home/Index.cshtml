@@ -93,13 +93,12 @@
             <div class="user-photo userinfo">
                 <a class="img" title="我的头像" layuimini-href="/Student/" target="_self" href="javascript:;"><img src="~/Content/images/logo.png" class="userAvatar"></a>
                 <p>
-                    你好！
                     <span class="userName">
                         @{
                             if (Session["libUser"] != null)
                             {@((Session["libUser"] as DTTSG_Model.LibrarianInfo).LibName)}
                         }
-                    </span> 老师
+                    </span>
                 </p>
             </div>
 

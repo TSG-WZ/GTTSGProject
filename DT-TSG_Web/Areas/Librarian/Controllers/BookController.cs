@@ -1,4 +1,5 @@
-﻿using DTTSG_Model;
+﻿using DTTSG_BLL.Book;
+using DTTSG_Model;
 using DTTSG_Model.ViewModel;
 using DTTSG_Web.Areas.Librarian.Filts;
 using System;
@@ -15,8 +16,7 @@ namespace DTTSG_Web.Areas.Librarian.Controllers
     /// </summary>
     public class BookController : Controller
     {
-        //IStudentManager iStudentManager = IoCUnity.Resolve<IStudentManager>();
-        //ILibrarianManager iLibrarianManager = IoCUnity.Resolve<ILibrarianManager>();
+        BookManager bookManager = new BookManager();
 
         /// <summary>
         /// 图书列表
@@ -27,8 +27,16 @@ namespace DTTSG_Web.Areas.Librarian.Controllers
         public ActionResult BookList(int pagesize = 10, int pageindex = 1)
         {
             //查询图书列表
-            //ViewBag.BookList = iStudentManager.GetAllBookInfo(pagesize, pageindex);
+            ViewBag.BookList = bookManager.GetBookList(0, pageindex, pagesize);
             return View();
+        }
+
+        public ActionResult GetBookPagerData(int pagesize = 10, int pageindex = 1)
+        {
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = bookManager.GetBookList(0, pageindex, pagesize); //固定八条数据
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return jsonResult;
         }
 
         /// <summary>
