@@ -29,8 +29,8 @@ namespace DTTSG_DAL.Book
                 sql += " and ui.UserId = @UserId";
             }
             //加排序
-            sql += " order by BorrowId asc offset(@pageIndex - 1) * @pageSize " +
-                "rows fetch next @pageSize rows only";
+            //sql += " order by BorrowId asc offset(@pageIndex - 1) * @pageSize " +
+            //    "rows fetch next @pageSize rows only";
             try
             {
 
