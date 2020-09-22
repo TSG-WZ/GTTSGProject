@@ -95,19 +95,23 @@ namespace DTTSG_Web.Controllers
         /// <param name="borrowId">根据借阅Id还</param>
         /// <param name="bookId">根据书Id还</param>
         /// <returns></returns>
-        public ActionResult ReturnBook(int borrowId, int bookId=0)
+        public ActionResult ReturnBook(int borrowId)
         {
-            int result;
-            if (bookId == 0)
+
+
+
+            int result = bookManager.BookReturn(borrowId);
+
+            if (result==1)
             {
-                result = bookManager.BookReturn(borrowId);
+                return Content("<script>alert('还书成功！');location.href = '/Borrow/BorrowList';</script>");
             }
             else
             {
-                result = bookManager.BookReturn(0,bookId);
+                return Content("<script>alert('还书失败！联系管理员');</script>");
             }
 
-            return View();
+            
         }
     }
 }
