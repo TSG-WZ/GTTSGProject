@@ -28,7 +28,7 @@ namespace DTTSG_DAL.User
                     string sql = @"select * from UserInfo us inner join UserType ut 
                                 on us.TypeId=ut.TypeId inner join UserStatu ust 
                                 on us.StatuId=ust.U_StatuId 
-                                where us.UserId=@UserId and us.UserPwd=@UserPwd";
+                                where us.UserId=@UserId and us.UserPwd=@UserPwd and us.StatuId!=4";
                     user = connection.Query<UserInfo, UserType, UserStatu, UserInfo>
                         (sql, (us, ut, ust) => { us.UserType = ut; us.UserStatu = ust; return us; }
                         , userInfo, splitOn: "TypeId,U_StatuId").SingleOrDefault();

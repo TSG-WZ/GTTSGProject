@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace DT_TSG_Web
+namespace DTTSG_Web
 {
     public class FilterConfig
     {

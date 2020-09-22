@@ -63,7 +63,7 @@
                         <a href="javascript:;">
                             <img src="~/Content/images/logo.png" class="layui-nav-img">@{
                                 if (Session["libUser"] != null)
-                                {@((Session["libUser"] as DTTSG_Model.LibrarianInfo).Gname)}
+                                {@((Session["libUser"] as DTTSG_Model.LibrarianInfo).LibName)}
                             }
                         </a>
                         <dl class="layui-nav-child">
@@ -97,7 +97,7 @@
                     <span class="userName">
                         @{
                             if (Session["libUser"] != null)
-                            {@((Session["libUser"] as DTTSG_Model.LibrarianInfo).Gname)}
+                            {@((Session["libUser"] as DTTSG_Model.LibrarianInfo).LibName)}
                         }
                     </span> 老师
                 </p>
@@ -112,40 +112,40 @@
                         <dd class="menu-dd  ">
                             <a href="javascript:;" layuimini-href="@Url.Action("BookList","Book")" target="_self"> <i class="fa fa-book"></i> <span class="layui-left-nav"> 图书列表</span></a>
                         </dd>
-                        @{
+                        @*@{
                             foreach (DTTSG_Model.PowerInfo item in ViewBag.BookManage)
                             {
                                 <dd class="menu-dd  ">
                                     <a href="javascript:;" layuimini-href="@item.PowerType.PowerLink" target="_self"> <i class="fa @item.PowerType.PowerIcon"></i> <span class="layui-left-nav"> @item.PowerType.PowerName</span></a>
                                 </dd>
                             }
-                        }
+                        }*@
                     </dl>
                 </li>
                 <li class="layui-nav-item menu-li  ">
                     <a href="javascript:;"> <i class="fa fa-pencil-square"></i> <span class="layui-left-nav">借阅管理</span><span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child ">
-                        @{
+                        @*@{
                             foreach (DTTSG_Model.PowerInfo item in ViewBag.BorrowManage)
                             {
                                 <dd class="menu-dd  ">
                                     <a href="javascript:;" layuimini-href="@item.PowerType.PowerLink" target="_self"> <i class="fa @item.PowerType.PowerIcon"></i> <span class="layui-left-nav"> @item.PowerType.PowerName</span></a>
                                 </dd>
                             }
-                        }
+                        }*@
                     </dl>
                 </li>
                 <li class="layui-nav-item menu-li  ">
                     <a href="javascript:;"> <i class="fa fa-bell"></i> <span class="layui-left-nav">公告管理</span><span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child ">
-                        @{
+                        @*@{
                             foreach (DTTSG_Model.PowerInfo item in ViewBag.NoticeMagage)
                             {
                                 <dd class="menu-dd  ">
                                     <a href="javascript:;" layuimini-href="@item.PowerType.PowerLink" target="_self"> <i class="fa @item.PowerType.PowerIcon"></i> <span class="layui-left-nav"> @item.PowerType.PowerName</span></a>
                                 </dd>
                             }
-                        }
+                        }*@
                     </dl>
                 </li>
 

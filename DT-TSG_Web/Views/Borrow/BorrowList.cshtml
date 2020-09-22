@@ -25,7 +25,7 @@
                         <tr>
                             <th lay-data="{field:'UserId',width: 120,align: 'center'}">借阅姓名</th>
                             <th lay-data="{field:'BookId'}">图书名称</th>
-                            <th lay-data="{field:'B_MechanId',width: 120,align: 'center'}">借阅机器</th>
+                            <th lay-data="{field:'B_MechanId',width: 170,align: 'center'}">借阅机器</th>
                             <th lay-data="{field:'Bo_TypeId',width: 120,align: 'center'}">借阅状态</th>
                             <th lay-data="{field:'B_StartTime',align: 'center', sort:true}">借阅时间</th>
                             <th lay-data="{field:'B_EndTime',align: 'center', sort:true}">规定归还时间</th>
@@ -33,29 +33,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*<tr>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                        </tr>*@
                         @foreach (BorrowInfo item in page.InfoList)
                         {
-                            <tr >
-                                <td>@item.UserInfo.UserName</td>
-                                <td>@item.BookInfo.BookName</td>
-                                <td>@item.MechanInfo.MechanName</td>
-                                <td>@item.BorrowType.Bo_TypeName</td>
-                                <td>@item.B_StartTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
-                                <td>@item.B_EndTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
-                                <td>
-                                    @item.B_ReturnTime.ToString("yyyy/MM/dd hh:mm:ss")
-                                </td>
-                            </tr>
-                          }
+                        <tr>
+                            <td>@item.UserInfo.UserName</td>
+                            <td>@item.BookInfo.BookName</td>
+                            <td>@item.MechanInfo.MechanName</td>
+                            <td>@item.BorrowType.Bo_TypeName</td>
+                            <td>@item.B_StartTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                            <td>@item.B_EndTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                @if (@item.B_ReturnTime.ToString("yyyy/MM/dd") != "1900/01/01")
+                                {
+                                    <td>@item.B_ReturnTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                }
+                                else {
+                                    <td>未归还</td> 
+                                }
+                        </tr>
+                        }
                     </tbody>
                 </table>
                 <div class="layui-table-page">

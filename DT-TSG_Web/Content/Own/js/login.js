@@ -22,8 +22,8 @@ layui.use('form', function () {
     //自定义验证规则
     form.verify({
         uid: [
-            /^[\S]{8,18}$/
-            , '账号必须在 8-18 位之间 !'
+            /^[\S]{4,18}$/
+            , '账号必须在 4-18 位之间 !'
         ],
         pass: [
             /^[\S]{6,20}$/
@@ -39,11 +39,25 @@ layui.use('form', function () {
 //Ajax登录验证
 function onSuccess(data, status, xhr) {
     if (data.Status == 1) {
-        layer.msg(data.Msg, {
+        layer.msg(data.Msg, {       //用户登录
             icon: 1,
             time: 2000 //2秒关闭（如果不配置，默认是3秒）
         }, function () {
             window.location = '/Home/Index';
+            });
+    } else if (data.Status == 2) {  //图书管理登录
+        layer.msg(data.Msg, {
+            icon: 1,
+            time: 2000
+        }, function () {
+            window.location = '/Librarian/Home/Index';
+        });
+    } else if (data.Status == 3) {   //管理员登录
+        layer.msg(data.Msg, {
+            icon: 1,
+            time: 2000
+        }, function () {
+            window.location = '/Admin/Home/Index';
         });
     }
     else if (data.Status == 4) {

@@ -1,4 +1,5 @@
-﻿using DTTSG_BLL.User;
+﻿using DTTSG_BLL.Librarian;
+using DTTSG_BLL.User;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ namespace DTTSG_Web.Controllers
     public class LoginController : Controller
     {
         UserLoginManager userLoginManager = new UserLoginManager();
+        LibrarianLoginManager libLoginManager = new LibrarianLoginManager();
 
         [HttpGet]
         /// <summary>
@@ -16,20 +18,26 @@ namespace DTTSG_Web.Controllers
         /// <returns>带模型的视图</returns>
         public ActionResult Login()
         {
-           
-
+            //检测用户退出
             if (Request["userlogout"] != null)
             {
                 Session.Remove("User");  //移除Session
             }
-            
+            if (Request["liblogout"] != null)
+            {
+                Session.Remove("libUser");  //移除Session
+            }
+
             //检测是否有用户在登录状态
             if (Session["User"] != null)
             {
                 return Redirect("/Home/Index");
             }
-            
-            //返回强类型视图模型(不返回前端密码报错!)
+            if (Session["libUser"] != null)
+            {
+                return Redirect("/Librarian/Home/Index");
+            }
+
             return View();
         }
 
@@ -65,9 +73,9 @@ namespace DTTSG_Web.Controllers
             //检查可用状态且用户存在
             if (loginmodel != null)
             {
-                if (!loginmodel.IsValid)    //检查用户状态
+                if (loginmodel.StatuId != 1)    //检查用户状态
                 {
-                    return Json(new AjaxBackInfo(5, "您的账号已停用,请联系管理员！"));
+                    return Json(new AjaxBackInfo(5, "您的账号异常,请联系管理员！"));
                 }
                 //成功登录进入主页
                 Session["User"] = loginmodel;    //设置Session状态
@@ -75,6 +83,24 @@ namespace DTTSG_Web.Controllers
             }
             else
             {
+                //图书管理员登录
+                LibrarianInfo libinfo = libLoginManager.GetUserInfo(new LibrarianInfo()
+                {
+                    LibId = (int)loginUser.UserId,
+                    LibPwd = loginUser.PassWord
+                });
+                if (libinfo != null)
+                {
+                    if (!libinfo.IsValid)    //检查用户状态
+                    {
+                        return Json(new AjaxBackInfo(5, "您的账号异常,请联系超级管理员！"));
+                    }
+                    //成功登录进入主页
+                    Session["libUser"] = libinfo;    //设置Session状态
+                    return Json(new AjaxBackInfo(2, "欢迎您, " + libinfo.LibName + " !"));
+                }
+                //管理员登录
+                //暂时留位
                 return Json(new AjaxBackInfo(4, "用户名或密码错误！"));
             }
         }
