@@ -14,5 +14,13 @@ namespace DTTSG_Common
         /// </summary>
         public static string GetHostName = Dns.GetHostName();
 
+        public enum BookStatusList
+        {
+            正常=1,
+            借阅中=2,
+            损坏=3,
+            丢失=4,
+            售出=5
+        };
     }
 }

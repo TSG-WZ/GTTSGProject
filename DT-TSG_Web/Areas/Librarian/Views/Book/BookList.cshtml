@@ -58,40 +58,51 @@
                     <thead>
                         <tr>
                             <th lay-data="{field:'BookId',width:110, sort:true}">图书编号</th>
-                            <th lay-data="{field:'Name'}">图书名称</th>
-                            <th lay-data="{field:'Code'}">图书条码</th>
-                            <th lay-data="{field:'Ttype',width:100}">图书类型</th>
-                            <th lay-data="{field:'Publics'}">出版社</th>
-                            <th lay-data="{field:'Author',width:110,align: 'center'}">作者</th>
-                            <th lay-data="{field:'Pubtime', sort:true,align: 'center'}">出版时间</th>
-                            <th lay-data="{field:'Price',width: 120, align: 'center'}">价格</th>
-                            <th lay-data="{field:'Times',width: 120, sort:true,align: 'center'}">借阅次数</th>
-                            <th lay-data="{field:'IsBorrow',width: 100 ,align: 'center'}">是否借出</th>
+                            <th lay-data="{field:'BookName'}">图书名称</th>
+                            <th lay-data="{field:'BookCode'}">图书条码</th>
+                            <th lay-data="{field:'B_TypeName',width:100}">图书类型</th>
+                            <th lay-data="{field:'BookPublic'}">出版社</th>
+                            <th lay-data="{field:'BookAuthor',width:110,align: 'center'}">作者</th>
+                            <th lay-data="{field:'BookPubtime', sort:true,align: 'center'}">出版时间</th>
+                            <th lay-data="{field:'BookPrice',width: 120, align: 'center'}">价格</th>
+                            <th lay-data="{field:'B_StatuId',width: 100 ,align: 'center'}">是否借出</th>
                             <th lay-data="{title: '操作',minWidth: 150,toolbar: '#barDemo',align: 'center'}">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (BookInfo item in page.InfoList)
                         {
-                            <tr>
-                                <td>@item.BookId</td>
-                                <td>@item.Name</td>
-                                <td>@item.Code</td>
-                                <td>@item.BookType.Tname</td>
-                                <td>@item.Publics</td>
-                                <td>@item.Author</td>
-                                <td>@item.Pubtime.ToString("yyyy-MM-dd")</td>
-                                <td>@item.Price</td>
-                                <td>@item.Times</td>
-                                @if (item.IsBorrow)
-                                {
+                        <tr>
+                            <td>@item.BookId</td>
+                            <td>@item.BookName</td>
+                            <td>@item.BookCode</td>
+                            <td>@item.BookType.B_TypeName</td>
+                            <td>@item.BookPublic</td>
+                            <td>@item.BookAuthor</td>
+                            <td>@item.BookPubtime.ToString("yyyy-MM-dd")</td>
+                            <td>@item.BookPrice</td>
+                            @switch (item.B_StatuId)
+                            {
+                                case (int)Config.BookStatusList.正常:
+                                    <td>正常可借</td>
+                                    break;
+                                case (int)Config.BookStatusList.借阅中:
                                     <td>已借出</td>
-                                }
-                                else
-                                {
+                                    break;
+                                case (int)Config.BookStatusList.丢失:
+                                    <td>丢失</td>
+                                    break;
+                                case (int)Config.BookStatusList.售出:
+                                    <td>已售出</td>
+                                    break;
+                                case (int)Config.BookStatusList.损坏:
+                                    <td>损坏</td>
+                                    break;
+                                default:
                                     <td>未借出</td>
-                                }
-                            </tr>
+                                    break;
+                            }
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -145,18 +156,34 @@
                 //迭代循环  data是page对象,要取里面的infolist
                 $.each(data.InfoList, function (i, item) {   //返回了i第几行,item数据
                     //console.log(i, item);
-                    if (item.IsBorrow) {
-                        var isborrow = "已借出";
-                    } else {
-                        var isborrow = "未借出";
+                    switch (item.B_StatuId)
+                    {
+                        case @((int)Config.BookStatusList.正常):
+                            var isborrow = '正常可借';
+                            break;
+                        case @((int)Config.BookStatusList.借阅中):
+                            var isborrow = '已借出';
+                            break;
+                        case @((int)Config.BookStatusList.丢失):
+                            var isborrow = '丢失';
+                            break;
+                        case @((int)Config.BookStatusList.售出):
+                            var isborrow = '已售出';
+                            break;
+                        case @((int)Config.BookStatusList.损坏):
+                            var isborrow = '损坏';
+                            break;
+                        default:
+                            var isborrow = '未借出';
+                            break;
                     }
                     $("tbody").append(
                         "<tr><td>" + item.BookId + "</td><td>"
-                        + item.Name + "</td><td>" + item.Code + "</td><td>"
-                        + item.BookType.Tname + "</td><td>" + item.Publics +
-                        "</td><td>" + item.Author + "</td><td>"
-                        + formatDate(item.Pubtime, "yyyy-MM-dd") + "</td><td>" + item.Price + "</td><td>"
-                        + item.Times + "</td><td>" + isborrow + "</td></tr>"
+                        + item.BookName + "</td><td>" + item.BookCode + "</td><td>"
+                        + item.BookType.B_TypeName + "</td><td>" + item.BookPublic +
+                        "</td><td>" + item.BookAuthor + "</td><td>"
+                        + formatDate(item.BookPubtime, "yyyy-MM-dd") + "</td><td>" + item.BookPrice + "</td>"+
+                        "<td>" + isborrow + "</td></tr>"
                     );
                 });
             }

@@ -156,6 +156,7 @@
     <Content Include="Content\Own\css\booklist.css" />
     <Content Include="Content\Own\css\default.css" />
     <Content Include="Content\Own\css\index.css" />
+    <Content Include="Content\Own\css\libdefault.css" />
     <Content Include="Content\Own\css\login.css" />
     <Content Include="Content\Own\js\booklist.js" />
     <Content Include="Content\Own\js\date_format.js" />
