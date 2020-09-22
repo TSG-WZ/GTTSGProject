@@ -120,6 +120,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Filts\AdminAutorizeAttribute.cs" />
+    <Compile Include="Areas\Librarian\Controllers\BookController.cs" />
+    <Compile Include="Areas\Librarian\Controllers\BorrowController.cs" />
+    <Compile Include="Areas\Librarian\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Librarian\Controllers\NoticeController.cs" />
+    <Compile Include="Areas\Librarian\Filts\LibrarianAutorizeAttribute.cs" />
+    <Compile Include="Areas\Librarian\LibrarianAreaRegistration.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\BorrowController.cs" />
     <Compile Include="Controllers\CollectController.cs" />
@@ -147,6 +156,7 @@
     <Content Include="Content\Own\css\booklist.css" />
     <Content Include="Content\Own\css\default.css" />
     <Content Include="Content\Own\css\index.css" />
+    <Content Include="Content\Own\css\libdefault.css" />
     <Content Include="Content\Own\css\login.css" />
     <Content Include="Content\Own\js\booklist.js" />
     <Content Include="Content\Own\js\date_format.js" />
@@ -290,6 +300,20 @@
     <Content Include="lib\layui-v2.5.5\lay\modules\tree.js" />
     <Content Include="lib\layui-v2.5.5\lay\modules\upload.js" />
     <Content Include="lib\layui-v2.5.5\lay\modules\util.js" />
+    <Content Include="Areas\Admin\Views\Home\Default.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Librarian\Views\Book\BookEdit.cshtml" />
+    <Content Include="Areas\Librarian\Views\Book\BookList.cshtml" />
+    <Content Include="Areas\Librarian\Views\Borrow\BorrowBook.cshtml" />
+    <Content Include="Areas\Librarian\Views\Borrow\BorrowList.cshtml" />
+    <Content Include="Areas\Librarian\Views\Home\Default.cshtml" />
+    <Content Include="Areas\Librarian\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Librarian\Views\Notice\NoticeEdit.cshtml" />
+    <Content Include="Areas\Librarian\Views\Notice\PrivateNote.cshtml" />
+    <Content Include="Areas\Librarian\Views\Notice\PrivateNoteEdit.cshtml" />
+    <Content Include="Areas\Librarian\Views\Notice\PublicNote.cshtml" />
+    <Content Include="Areas\Librarian\Views\web.config" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
@@ -319,6 +343,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Librarian\Models\" />
+    <Folder Include="Areas\Librarian\Views\Shared\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

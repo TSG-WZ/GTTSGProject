@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace DT_TSG_Web
+namespace DTTSG_Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {

@@ -29,6 +29,6 @@ namespace DTTSG_Model.ViewModel
         /// <summary>
         /// 是否记住密码
         /// </summary>
-        public bool IsRemember { get; set; }
+        //public bool IsRemember { get; set; }
     }
 }

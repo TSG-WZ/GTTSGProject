@@ -1,0 +1,159 @@
+﻿
+@{
+    Layout = null;
+}
+@using DTTSG_Model
+@model BookInfo
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图书操作</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @Styles.Render("~/List_Css")
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="layui-form layuimini-form">
+        <form class="layui-form" id="TempForm">
+            @Html.HiddenFor(m => m.BookId)
+            <div class="layui-form-item">
+                <label class="layui-form-label required">图书名称</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.Name, new { @placeholder = "图书名称", @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">图书条码</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.Code, new { @placeholder = "图书条码", @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">图书类型</label>
+                <div class="layui-input-block">
+                    @Html.DropDownListFor(m => m.Ttype, ViewBag.bookTypeList as List<SelectListItem>, new { @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">出版社</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.Publics, new { @placeholder = "出版社", @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">作者</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.Author, new { @placeholder = "作者", @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">出版时间</label>
+                <div class="layui-input-block">
+                    @{
+                        if (Model.Pubtime.ToLongDateString() == "0001年1月1日")
+                        {
+                            @Html.TextBoxFor(m => m.Pubtime, "2012-01-01", new { @placeholder = "yyyy-MM-dd", @class = "layui-input", @autocomplete = "off" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.Pubtime, new { @placeholder = "yyyy-MM-dd", @class = "layui-input", @autocomplete = "off", Value = String.Format("{0:yyyy-MM-dd}", Model.Pubtime) })
+                        }
+                    }
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">图书价格</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.Price, new { @placeholder = "图书价格", @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">借阅次数</label>
+                <div class="layui-input-block">
+                    @Html.TextBoxFor(m => m.Times, new { @placeholder = "借阅次数", @class = "layui-input", @autocomplete = "off" })
+                    <tip class="layui-word-aux">此项修改将会影响排行榜信息。</tip>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">借阅状态</label>
+                <div class="layui-input-block">
+                    @Html.CheckBoxFor(m => m.IsBorrow, new { @class = "layui-input", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    @Scripts.Render("~/List_Js", "~/Book_Js")
+    <script>
+        layui.use(['form','laydate'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate,
+                $ = layui.$;
+
+            //日期
+            laydate.render({
+                elem: '#Pubtime'
+            });
+
+            form.verify({
+                abooknames: [
+                    /.{1,15}$/
+                    , '图书名称,必须在1到15个字符之间!'
+                ], abookcoodes: [
+                    /^[\[1-9]\d*]{0,20}$/
+                    , '图书编码必须在1到20个数字之间!'
+                ], abookapubs: [
+                    /(^$)|^[\S]{0,10}$/
+                    , '出版社名必须0到10字之间!'
+                ], abookaauths: [
+                    /(^$)|^[\S]{0,10}$/
+                    , '作者名必须0到10字之间!'
+                ]
+            });
+            
+            //监听提交
+            form.on('submit(saveBtn)', function (data) {
+                $.ajax({
+                    url: '@Url.Action("ProductSave","Book")',
+                    data: $("#TempForm").serialize(),
+                    dataType: "json",
+                    type: "post",
+                    //执行成功返回(循环值,重新渲染分页,转换静态表格)
+                    success: function (data) {
+                        //关闭子弹出页面
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);  //获取父窗体值
+                        layer.msg(data.Msg, {
+                            time: 1000 },
+                            function (index) {
+                            //添加成功弹出
+                            parent.layer.close(iframeIndex);//关闭父窗体
+                            layer.close(index); //关闭弹窗
+                            parent.location.reload();
+                        }); 
+                    },
+                    error: function (data) {
+                        layer.alert(data.Msg, { icon: 2 });
+                    }
+                }); //ajax结束
+                
+                return false;
+            });
+
+        });
+    </script>
+</body>
+</html>
