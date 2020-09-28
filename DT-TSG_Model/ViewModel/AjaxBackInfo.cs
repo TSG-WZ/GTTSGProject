@@ -8,7 +8,7 @@ namespace DTTSG_Model.ViewModel
     /// <summary>
     /// Ajax信息回调类
     /// </summary>
-    public class AjaxBackInfo
+    public class AjaxBackInfo  
     {
         /// <summary>
         /// 含参构造方法
