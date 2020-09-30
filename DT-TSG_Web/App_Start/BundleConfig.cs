@@ -8,6 +8,7 @@ namespace DTTSG_Web
         // 有关捆绑的详细信息，请访问 https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            BundleTable.EnableOptimizations = false;
             //登录首页css
             bundles.Add(new StyleBundle("~/Login_Css").Include(
                       "~/lib/layui-v2.5.5/css/layui.css",
