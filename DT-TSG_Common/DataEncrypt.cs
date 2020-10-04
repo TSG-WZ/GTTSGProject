@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.IO;
  
 
-namespace RT.Common
+namespace DTTSG_Common
 {
     public class DataEncrypt
     {
@@ -281,6 +281,24 @@ namespace RT.Common
             return m_strDecrypt;
         }
         #endregion
+
+        /// <summary>
+        /// sha1 加密算法 与php加密算法一致
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string Sha1Sign(string data)
+        {
+            byte[] temp1 = Encoding.UTF8.GetBytes(data);
+            SHA1CryptoServiceProvider sha = new SHA1CryptoServiceProvider();
+            byte[] temp2 = sha.ComputeHash(temp1);
+            sha.Clear();            // 注意， 不能用这个           
+            // string output = Convert.ToBase64String(temp2);// 不能直接转换成 base64string            
+            var output = BitConverter.ToString(temp2);
+            output = output.Replace("-", "");
+            output = output.ToLower();
+            return output;
+        }
 
         const string keyStr = "xixihaha";  //加密的KEY字符，用MD5码生成128位KEY密钥   
         const string ivStr = "jijizaza";  //加密的IV字符，用MD5码生成128位IV密钥   

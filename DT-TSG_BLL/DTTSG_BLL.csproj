@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\PersonalStudy\专业项目\BGLB.MerberPoint.Project\BGLB.MemberPoint\BGLB.MerberPoint.Common\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,7 +48,9 @@
     <Compile Include="Book\BookManager.cs" />
     <Compile Include="Book\BorrowManager.cs" />
     <Compile Include="Librarian\LibrarianLoginManager.cs" />
+    <Compile Include="Oauth\OauthManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\UserInfoManager.cs" />
     <Compile Include="User\UserLoginManager.cs" />
   </ItemGroup>
   <ItemGroup>

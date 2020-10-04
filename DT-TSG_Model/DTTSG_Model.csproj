@@ -63,6 +63,7 @@
     <Compile Include="DateModel\MessageType.cs" />
     <Compile Include="DateModel\Notice.cs" />
     <Compile Include="DateModel\NoticeType.cs" />
+    <Compile Include="DateModel\OauthUser.cs" />
     <Compile Include="DateModel\OperateInfo.cs" />
     <Compile Include="DateModel\OperateType.cs" />
     <Compile Include="DateModel\OrderInfo.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="DateModel\UserInfo.cs" />
     <Compile Include="DateModel\UserStatu.cs" />
     <Compile Include="DateModel\UserType.cs" />
+    <Compile Include="POCOModel\OauthUserData.cs" />
+    <Compile Include="POCOModel\WeiChatRequestModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AjaxBackInfo.cs" />
     <Compile Include="ViewModel\LoginModel.cs" />
