@@ -17,5 +17,6 @@ namespace DTTSG_Model
 		public bool UserSex { get; set; }
 		public string UserAddress { get; set; }
 		public string UserPhone { get; set; }
+        public string OpenId { get; set; }
 	}
 }

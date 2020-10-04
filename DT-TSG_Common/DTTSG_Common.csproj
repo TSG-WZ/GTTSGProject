@@ -48,10 +48,10 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="DataEncrypt.cs" />
-    <Compile Include="JsonExtension.cs" />
     <Compile Include="ModelExtension.cs" />
     <Compile Include="Pager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DT-TSG_Model\DTTSG_Model.csproj">

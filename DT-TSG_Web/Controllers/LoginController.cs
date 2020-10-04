@@ -104,8 +104,13 @@ namespace DTTSG_Web.Controllers
                 return Json(new AjaxBackInfo(4, "用户名或密码错误！"));
             }
         }
-        
 
 
+        public ActionResult OauthLogin(string openId)
+        {
+
+            UserInfo loginUser = userLoginManager.GetUserInfo(new UserInfo { OpenId = openId });
+            return Content(string.Format("loginUser:{0}{1}{2}{3}",loginUser.UserId,loginUser.UserName,loginUser.UserAddress,loginUser.TypeId));
+        }
     }
 }

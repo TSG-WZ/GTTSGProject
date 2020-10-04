@@ -68,7 +68,7 @@ namespace DTTSG_DAL
             {
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
-                    return connection.Query<T>(sql, param) as T;
+                    return connection.Query<T>(sql, param).SingleOrDefault() as T;
                 }
             }
             catch (Exception ex)

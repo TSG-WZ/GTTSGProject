@@ -21,14 +21,23 @@ namespace DTTSG_DAL.User
         public UserInfo GetUserInfo(UserInfo userInfo)
         {
             UserInfo user = new UserInfo();
+            string sql = @"select * from UserInfo us inner join UserType ut 
+                                on us.TypeId=ut.TypeId inner join UserStatu ust 
+                                on us.StatuId=ust.U_StatuId ";
+            if (!string.IsNullOrWhiteSpace(userInfo.OpenId))
+            {
+                // 用OpenId  查询
+                sql += "where us.OpenId=@OpenId and us.StatuId!=4";
+            }
+            else
+            {
+               sql += "where us.UserId=@UserId and us.UserPwd=@UserPwd and us.StatuId!=4";
+            }
             try
             {
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
-                    string sql = @"select * from UserInfo us inner join UserType ut 
-                                on us.TypeId=ut.TypeId inner join UserStatu ust 
-                                on us.StatuId=ust.U_StatuId 
-                                where us.UserId=@UserId and us.UserPwd=@UserPwd and us.StatuId!=4";
+                    
                     user = connection.Query<UserInfo, UserType, UserStatu, UserInfo>
                         (sql, (us, ut, ust) => { us.UserType = ut; us.UserStatu = ust; return us; }
                         , userInfo, splitOn: "TypeId,U_StatuId").SingleOrDefault();
@@ -40,5 +49,7 @@ namespace DTTSG_DAL.User
             }
             return user;
         }
+
+
     }
 }

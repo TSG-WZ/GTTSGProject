@@ -50,7 +50,9 @@
     <Compile Include="Book\BookTypeServer.cs" />
     <Compile Include="Book\BorrowServer.cs" />
     <Compile Include="Librarian\LibrarianLoginServer.cs" />
+    <Compile Include="Oauth\OauthServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\UserInfoServer.cs" />
     <Compile Include="User\UserLoginServer.cs" />
   </ItemGroup>
   <ItemGroup>

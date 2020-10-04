@@ -136,6 +136,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\WeiChatRequestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -340,6 +341,7 @@
     <Content Include="Views\Message\MessageList.cshtml" />
     <Content Include="Views\Forward\ForwardList.cshtml" />
     <Content Include="Views\Book\BookInfo.cshtml" />
+    <Content Include="Views\WeiChatRequest\GetWinXinInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
