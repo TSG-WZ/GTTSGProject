@@ -20,7 +20,7 @@ namespace DTTSG_BLL.Book
         /// <returns></returns>
         public Pager<BookInfo> GetBookList(int b_TypeId, int pageIndex, int pageSize,bool isWeiChat=false)
         {
-            int dataCount = bookServer.GetBookListLength();
+            int dataCount = bookServer.GetBookListLength(b_TypeId);
             List<BookInfo> InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId,isWeiChat);
 
             Pager<BookInfo> pager = new Pager<BookInfo>(pageIndex, pageSize, dataCount, InfoList);

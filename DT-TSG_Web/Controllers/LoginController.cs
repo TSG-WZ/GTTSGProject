@@ -118,7 +118,7 @@ namespace DTTSG_Web.Controllers
                 }
                 //成功登录进入主页
                 Session["User"] = loginmodel;    //设置Session状态
-                return Json(new AjaxBackInfo(1, "欢迎您, " + loginmodel.UserName + " !"));
+                return Redirect("/Home/Index");
             }
             else
             {
