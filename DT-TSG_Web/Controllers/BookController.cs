@@ -11,13 +11,8 @@ namespace DTTSG_Web.Controllers
         BookManager bookManager = new BookManager();
         BookTypeServer bookType = new BookTypeServer();
 
-        //public ActionResult BookList(BookInfo bookInfo , int pageIndex = 1, int pageSize = 10)
-        //{
-        //    var result = bookManager.GetBookList(bookInfo.B_TypeId, pageIndex, pageSize).ToJson();
-        //    return Json(result);
-        //}
-        // GET: Book
-        public ActionResult BookList(BookInfo bookInfo, int pageIndex = 1)
+       
+        public ActionResult BookList(BookInfo bookInfo)
         {
             #region 测试查询分页
 
@@ -26,13 +21,6 @@ namespace DTTSG_Web.Controllers
 
             #endregion
 
-
-            #region 测试增删改查
-            //bookManager.UpdateBookInfo(bookInfo);
-            //bookManager.DelBookInfo(bookInfo);
-            //bookInfo.BookAuthor = "bglb";
-            //bookManager.UpdateBookInfo(bookInfo);
-            #endregion
             return View();
         }
 

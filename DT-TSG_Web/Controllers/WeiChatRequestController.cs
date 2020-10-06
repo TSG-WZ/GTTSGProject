@@ -38,8 +38,6 @@ namespace DTTSG_Web.Controllers
             {
                 return "model为空";
             }
-
-
         }
 
         private bool CheckSignature(WeiChatRequestModel model)
@@ -61,10 +59,6 @@ namespace DTTSG_Web.Controllers
 
         }
    
-
-
- 
-
     
         /// <summary>
         /// 获取AccessToken
@@ -72,8 +66,7 @@ namespace DTTSG_Web.Controllers
         /// <param name="code"></param>
         /// <param name="state"></param>
         public ActionResult GetWinXinInfo(string code, string state)
-        {
-            //OauthUser oauthUser = new OauthUser           
+        {         
             // 拿到第三方授权的用户信息；
             OauthUser oauthUserGet =  oauthManager.GetOUserInfo(code, state);
             if (string.IsNullOrWhiteSpace(oauthUserGet.OpenId))
@@ -93,15 +86,19 @@ namespace DTTSG_Web.Controllers
                 if (regResult==0 || oauthInsert==0)
                 {
                     // 注册用户出错
-                    return Content("注冊用戶出錯openid:"+oauthUserGet.OpenId);
+                    return Content("注册用户出错openid:"+oauthUserGet.OpenId);
+                }
+                else
+                {
+                    return View();
                 }
                 
             }
 
             // 登录 用openId 找到该用户信息登录
+            return RedirectToAction("OauthLogin", "Login", new { openId = oauthUserGet.OpenId });
             //return Content(string.Format("userinfo.openid:{0}userinfo.name:{1}",userInfo.OpenId,userInfo.UserName));
-            return RedirectToAction("OauthLogin", "Login",new { openId = oauthUserGet.OpenId});
-            
+
         }      
 
     }
