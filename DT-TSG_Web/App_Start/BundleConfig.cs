@@ -50,6 +50,7 @@ namespace DTTSG_Web
                        "~/Content/Own/js/default.js"));
             //图书列表页js
             bundles.Add(new ScriptBundle("~/BookList_Js").Include(
+                        "~/lib/jquery-3.4.1/jquery-3.4.1.min.js",
                         "~/lib/layui-v2.5.5/layui.js",
                        "~/Content/Own/js/booklist.js"));
 
