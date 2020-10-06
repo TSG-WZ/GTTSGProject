@@ -64,13 +64,13 @@ namespace DTTSG_Web.Controllers
         /// <returns></returns>
         public JsonResult LoginInfoCheck(LoginModel loginUser)
         {
-            //转换模型成数据模型并与数据库比较
+            // 转换模型成数据模型并与数据库比较
             UserInfo loginmodel = userLoginManager.GetUserInfo(new UserInfo()
             {
                 UserId = (int)loginUser.UserId,
                 UserPwd = loginUser.PassWord
             });
-            //检查可用状态且用户存在
+            // 检查可用状态且用户存在
             if (loginmodel != null)
             {
                 if (loginmodel.StatuId != 1)    //检查用户状态
@@ -109,8 +109,23 @@ namespace DTTSG_Web.Controllers
         public ActionResult OauthLogin(string openId)
         {
 
-            UserInfo loginUser = userLoginManager.GetUserInfo(new UserInfo { OpenId = openId });
-            return Content(string.Format("loginUser:{0}{1}{2}{3}",loginUser.UserId,loginUser.UserName,loginUser.UserAddress,loginUser.TypeId));
+            UserInfo loginmodel = userLoginManager.GetUserInfo(new UserInfo { OpenId = openId });
+            if (loginmodel != null)
+            {
+                if (loginmodel.StatuId != 1)    //检查用户状态
+                {
+                    return Json(new AjaxBackInfo(5, "您的账号异常,请联系管理员！"));
+                }
+                //成功登录进入主页
+                Session[loginmodel.OpenId] = loginmodel;    //设置Session状态
+                return Json(new AjaxBackInfo(1, "欢迎您, " + loginmodel.UserName + " !"));
+            }
+            else
+            {
+                return Json(new AjaxBackInfo(-1, "网络错误！！"));
+            }
+
+            
         }
     }
 }

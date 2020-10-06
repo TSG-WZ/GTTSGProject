@@ -18,10 +18,10 @@ namespace DTTSG_BLL.Book
         /// <param name="pageIndex">当前页码</param>
         /// <param name="pageSize">页大小</param>
         /// <returns></returns>
-        public Pager<BookInfo> GetBookList(int b_TypeId, int pageIndex, int pageSize)
+        public Pager<BookInfo> GetBookList(int b_TypeId, int pageIndex, int pageSize,bool isWeiChat=false)
         {
             int dataCount = bookServer.GetBookListLength();
-            List<BookInfo> InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId);
+            List<BookInfo> InfoList = bookServer.GetBookList(pageIndex, pageSize, b_TypeId,isWeiChat);
 
             Pager<BookInfo> pager = new Pager<BookInfo>(pageIndex, pageSize, dataCount, InfoList);
             return pager;
@@ -77,7 +77,6 @@ namespace DTTSG_BLL.Book
             }
 
         }
-
 
         public int BookReturn(int borrowId, int bookId=0)
         {

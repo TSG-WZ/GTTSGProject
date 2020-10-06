@@ -32,9 +32,8 @@ namespace DTTSG_BLL.User
             {
                 UserName = oUserData.nickname,
                 UserSex = oUserData.sex == 1 ? true : false,
-
                 UserAddress = oUserData.country + oUserData.city,
-                UserPwd = oUserData.nickname+"RTDT",
+                UserPwd ="123456RTDT",
                 StatuId = 1,
                 TypeId = 1,
                 ImageId = 1,

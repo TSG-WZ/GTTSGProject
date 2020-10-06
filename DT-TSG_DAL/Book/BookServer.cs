@@ -18,25 +18,29 @@ namespace DTTSG_DAL.Book
         /// <param name="pageSize">页大小</param>
         /// <param name="bookType">分类类型</param>
         /// <returns>BookInfo列表</returns>
-        public List<BookInfo> GetBookList(int pageIndex,int pageSize,int b_TypeId = 0)
+        public List<BookInfo> GetBookList(int pageIndex,int pageSize,int b_TypeId = 0,bool isWeiChat=false)
         {
             //sql参数
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@pageIndex",pageIndex);
             parameters.Add("@pageSize", pageSize);
-            parameters.Add("@MechanName", Config.GetHostName);
+           
 
             string sql = @"select * from BookInfo bi join BookType bt on
                             bi.B_TypeId=bt.B_TypeId join BookStatu bs on
                             bi.B_StatuId=bs.B_StatuId join MechanInfo me on
                             bi.MechanId=me.MechanId join ImageInfo im on 
-                            bi.ImageId=im.ImageId where bi.B_StatuId<2 and 
-                            me.MechanName=@MechanName ";
+                            bi.ImageId=im.ImageId where bi.B_StatuId<2 ";
+            if (!isWeiChat)
+            {
+                parameters.Add("@MechanName", Config.GetHostName);
+                sql += " and  me.MechanName = @MechanName ";
+            }
             // 加分类和分类参数
             if (b_TypeId != 0)
             {
                 parameters.Add("@TypeId", b_TypeId);
-                sql += " bt.B_TypeId=@TypeId";
+                sql += " and bt.B_TypeId=@TypeId";
             }
             //加排序
             sql += " order by BookId asc offset(@pageIndex - 1) * @pageSize " +
