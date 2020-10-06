@@ -23,7 +23,7 @@
             <div class="layui-col-md6">
                 <img src="@Model.ImageInfo.ImageLink" />
             </div>
-            <div class="layui-col-md6">
+            <div class="layui-col-md6" style="margin-bottom:100px">
                 <br />
                 <h1>图书名称：@Model.BookName</h1><br />
                 <h2>状态:@Model.BookStatu.B_StatuName</h2>
@@ -31,10 +31,10 @@
                 <h2>出版社:@Model.BookPublic</h2><br />
                 <h2>作者:@Model.BookAuthor</h2><br />
                 <h2>出版时间:@Model.BookPubtime.ToLongDateString()</h2><br />
+                <h2>存书地点:@Model.MechanInfo.MechanAddress</h2><br />
                 <h1><strong>$@Model.BookPrice</strong></h1><br />
                 <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
-                <a href="#" class="layui-btn layui-btn-normal layui-btn-lg">购买</a>
-
+                <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg layui-btn-disabled">购买</a>
             </div>
         </div>
     </div>
