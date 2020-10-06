@@ -19,6 +19,7 @@ namespace DTTSG_Web.Controllers
 
         OauthManager oauthManager = new OauthManager();
         UserInfoManager  userInfoManager = new UserInfoManager();
+        UserLoginManager loginManager = new UserLoginManager();
         // GET: WeiChatRequest
         public string Index(WeiChatRequestModel model)
         {
@@ -87,7 +88,10 @@ namespace DTTSG_Web.Controllers
                     // 注册用户出错
                     return Content("注册用户出错openid:"+oauthUserGet.OpenId);
                 }
-                
+                else
+                {
+                    return View();
+                }
                 
             }
 
