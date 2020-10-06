@@ -35,7 +35,8 @@ namespace DTTSG_Web.Controllers
         public ActionResult GetBookPagerData(BookInfo bookInfo, int pageindex = 1)
         {
             JsonResult jsonResult = new JsonResult();
-            jsonResult.Data = bookManager.GetBookList(bookInfo.B_TypeId, pageindex, 8); //固定八条数据
+            var loginUserInfo = Session["User"] as UserInfo;
+            jsonResult.Data = bookManager.GetBookList(bookInfo.B_TypeId, pageindex, 8, string.IsNullOrWhiteSpace(loginUserInfo.OpenId)); //固定八条数据
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return jsonResult;
         }
