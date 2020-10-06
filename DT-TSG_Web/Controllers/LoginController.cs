@@ -117,7 +117,7 @@ namespace DTTSG_Web.Controllers
                     return Json(new AjaxBackInfo(5, "您的账号异常,请联系管理员！"));
                 }
                 //成功登录进入主页
-                Session[loginmodel.OpenId] = loginmodel;    //设置Session状态
+                Session["User"] = loginmodel;    //设置Session状态
                 return Json(new AjaxBackInfo(1, "欢迎您, " + loginmodel.UserName + " !"));
             }
             else
