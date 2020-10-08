@@ -23,79 +23,68 @@
             area: '300px;',
             shade: 0.8,
             id: 'layuimini-notice',
-            btn: ['查看', '取消'],
+            btn: ['关闭'],
             btnAlign: 'c',
             moveType: 1,
-            content: html,
-            success: function (layero) {
-                var btn = layero.find('.layui-layer-btn');
-                btn.find('.layui-layer-btn0').attr({
-                    href: 'https://gitee.com/zhongshaofa/layuimini',
-                    target: '_blank'
-                });
-            }
+            content: html
+            //,success: function (layero) {
+            //    var btn = layero.find('.layui-layer-btn');
+            //    btn.find('.layui-layer-btn0').attr({
+            //        href: '/Message/MessageList',
+            //        target: '_self'
+            //    });
+            //}
         });
     });
 
     /**
-     * 报表功能
-     */
-    var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
-    var optionRecords = {
+    * 中国地图
+    */
+    var echartsMap = echarts.init(document.getElementById('map'), 'walden');
+
+
+    var optionMap = {
+        legend: {},
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            showContent: false
         },
-        legend: {
-            data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+        dataset: {
+            source: [
+                ['总数', '2015', '2016', '2017', '2018', '2019', '2020'],
+                ['借阅图书总数', 41, 30, 65, 53, 83, 18],
+                ['已归还总数', 41, 30, 65, 53, 82, 7],
+                ['未归还总数', 0, 0, 0, 0, 1, 7],
+                ['延期总数', 6, 7, 3, 11, 12, 2]
+            ]
         },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        },
-        yAxis: {
-            type: 'value'
-        },
+        xAxis: { type: 'category' },
+        yAxis: { gridIndex: 0 },
+        grid: { top: '55%' },
         series: [
+            { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+            { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+            { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+            { type: 'line', smooth: true, seriesLayoutBy: 'row' },
             {
-                name: '邮件营销',
-                type: 'line',
-                data: [120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-                name: '联盟广告',
-                type: 'line',
-                data: [220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-                name: '视频广告',
-                type: 'line',
-                data: [150, 232, 201, 154, 190, 330, 410]
-            },
-            {
-                name: '直接访问',
-                type: 'line',
-                data: [320, 332, 301, 334, 390, 330, 320]
-            },
-            {
-                name: '搜索引擎',
-                type: 'line',
-                data: [820, 932, 901, 934, 1290, 1330, 1320]
+                type: 'pie',
+                id: 'pie',
+                radius: '30%',
+                center: ['50%', '25%'],
+                label: {
+                    formatter: '{b}: {@@2015} ({d}%)'
+                },
+                encode: {
+                    itemName: 'product',
+                    value: '2015',
+                    tooltip: '2015'
+                }
             }
         ]
     };
-    echartsRecords.setOption(optionRecords);
+
+    echartsMap.setOption(optionMap);
+
 
     // echarts 窗口缩放自适应
     window.onresize = function () {
