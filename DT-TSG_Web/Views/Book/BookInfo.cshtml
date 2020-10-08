@@ -4,6 +4,7 @@
 }
 
 @model DTTSG_Model.BookInfo
+@using DTTSG_Model
 
 <!DOCTYPE html>
 
@@ -15,7 +16,7 @@
 </head>
 <body>
     <div style="margin:30px">
-            <a href="/Book/BookList" style="font-size:16px;"><< 返回首页</a>
+        <a href="/Book/BookList" style="font-size:16px;"><< 返回首页</a>
     </div>
 
     <div class="layui-container">
@@ -33,7 +34,17 @@
                 <h2>出版时间:@Model.BookPubtime.ToLongDateString()</h2><br />
                 <h2>存书地点:@Model.MechanInfo.MechanAddress</h2><br />
                 <h1><strong>$@Model.BookPrice</strong></h1><br />
-                <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
+                @{
+                    if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
+                    {
+                        <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
+                    }
+                    else
+                    {
+                        <a href="javascript:;" id="reward" class="layui-btn layui-btn-normal layui-btn-lg">预约</a>
+                    }
+                }
+
                 <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg layui-btn-disabled">购买</a>
             </div>
         </div>
@@ -45,10 +56,7 @@
             var layer = layui.layer,
                 $ = layui.jquery;
 
-            $("#queding").click(function () {
-                confirms(@Model.BookId);
-            })
-            
+            //电脑端确认借阅
             function confirms(bookId) {
                 $.ajax({
                     url: "/Book/BorrowBook",
@@ -72,9 +80,39 @@
                 }); //ajax结束
             }
 
-        });
-        
+            //手机端确认预约
+            function reward(bookId) {
+                $.ajax({
+                    url: "/Forward/BorrowBook",
+                    data: { "bookId": bookId },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            //alert(data);
+                            layer.msg(data.Msg, {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location = '/Forward/ForwardList';
+                            });
+                        }
+                        else {
+                            layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
+                        }
+                    }
+                }); //ajax结束
+            }
 
+            $("#queding").click(function () {
+                confirms(@Model.BookId);
+            });
+
+            $("#reward").click(function () {
+                reward(@Model.BookId);
+            });
+
+        });
     </script>
 </body>
 </html>
