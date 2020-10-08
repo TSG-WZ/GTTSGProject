@@ -95,7 +95,7 @@
                             layui.each(data.InfoList, function (index, item) {
                                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                                 lis.push('<a href="/Book/BookInfo?BookId=' + item.BookId + '" name="BookId">' +
-                                    '<div class= "layui-col-md3 layui-col-ls5 model-container"><div class="img-container">' +
+                                    '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +
                                     '<img lay-src="' + item.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
                                     '<center><h2><b>' + item.BookName + '</b></h2></center></div></div></a>');
                             });
