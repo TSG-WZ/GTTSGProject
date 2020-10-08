@@ -1,5 +1,5 @@
-﻿using DTTSG_BLL.Book;
-using DTTSG_DAL.Book;
+﻿using DTTSG_BLL;
+using DTTSG_DAL;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
 using System.Web.Mvc;
@@ -10,7 +10,7 @@ namespace DTTSG_Web.Controllers
     {
         BookManager bookManager = new BookManager();
         BookTypeServer bookType = new BookTypeServer();
-
+        BorrowManager borrowManager = new BorrowManager();
        
         public ActionResult BookList(BookInfo bookInfo)
         {
@@ -62,7 +62,7 @@ namespace DTTSG_Web.Controllers
             // 3. 根据状态码，提示借阅结果
             // 参数 ：书的Id， 
             var userinfo = Session["User"] as UserInfo;
-            var result = bookManager.BookBrrow(bookId, userinfo);
+            var result = borrowManager.BookBrrow(bookId, userinfo.UserId);
             if (result == 1)
             {
                 return Json(new AjaxBackInfo(1, "借阅成功"));
@@ -88,8 +88,8 @@ namespace DTTSG_Web.Controllers
         {
 
 
-
-            int result = bookManager.BookReturn(borrowId);
+            var userinfo = Session["User"] as UserInfo;
+            int result = borrowManager.BookReturn(borrowId,userId:userinfo.UserId);
 
             if (result==1)
             {

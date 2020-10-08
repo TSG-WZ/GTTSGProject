@@ -2,7 +2,9 @@
 @{
     Layout = null;
 }
-
+@using DTTSG_Model
+@using DTTSG_Common
+@{Pager<ForwardInfo> forwards = ViewBag.Reservation as Pager<ForwardInfo>; }
 <!DOCTYPE html>
 
 <html>
@@ -11,8 +13,11 @@
     <title>ForwardList</title>
 </head>
 <body>
-    <div> 
-        预约
+    <div>
+        @foreach (var item in forwards.InfoList)
+        {
+            @item.BookInfo.BookName
+        }
     </div>
 </body>
 </html>

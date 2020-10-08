@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DTTSG_BLL.Book;
-using DTTSG_DAL.Book;
+using DTTSG_BLL;
 using DTTSG_Model;
 
 namespace DTTSG_Web.Controllers

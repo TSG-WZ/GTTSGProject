@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace DTTSG_DAL.Book
+namespace DTTSG_DAL
 {
     public class BookServer : BaseServer<BookInfo>
     {
@@ -31,6 +31,8 @@ namespace DTTSG_DAL.Book
                             bi.B_StatuId=bs.B_StatuId join MechanInfo me on
                             bi.MechanId=me.MechanId join ImageInfo im on 
                             bi.ImageId=im.ImageId where bi.B_StatuId<2 ";
+
+            // 判断是不是微信客户端
             if (!isWeiChat)
             {
                 parameters.Add("@MechanName", Config.GetHostName);

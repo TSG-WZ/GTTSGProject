@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTTSG_DAL.User
+namespace DTTSG_DAL
 {
     public class UserInfoServer:BaseServer<UserInfo>
     {

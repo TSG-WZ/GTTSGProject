@@ -1,5 +1,5 @@
 ﻿using DTTSG_Common;
-using DTTSG_DAL.User;
+using DTTSG_DAL;
 using DTTSG_Model;
 using DTTSG_Model.DateModel;
 using DTTSG_Model.POCOModel;
@@ -43,7 +43,6 @@ namespace DTTSG_BLL.User
 
             return userInfoServer.Insert(userInfo);
         }
-
 
     }
 }

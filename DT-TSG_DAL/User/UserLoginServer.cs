@@ -9,7 +9,7 @@ using DTTSG_Model;
 using System.Data;
 using DTTSG_Common;
 
-namespace DTTSG_DAL.User
+namespace DTTSG_DAL
 {
     public class UserLoginServer
     {
