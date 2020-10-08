@@ -11,15 +11,15 @@ namespace DTTSG_Web.Areas.Admin.Filts
     {
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
-            {
-                return;
-            }
-            HttpSessionStateBase session = filterContext.HttpContext.Session;
-            if (session["adminUser"] == null)
-            {
-                filterContext.Result = new RedirectResult("~/Login/Login");
-            }
+            //if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
+            //{
+            //    return;
+            //}
+            //HttpSessionStateBase session = filterContext.HttpContext.Session;
+            //if (session["adminUser"] == null)
+            //{
+            //    filterContext.Result = new RedirectResult("~/Login/Login");
+            //}
             //base.OnAuthorization(filterContext);
         }
     }

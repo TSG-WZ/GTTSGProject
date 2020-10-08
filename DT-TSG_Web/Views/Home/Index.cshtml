@@ -54,7 +54,7 @@
                     </li>
                     <li class="layui-nav-item layuimini-setting">
                         <a href="javascript:;">
-                            <img src="~/Content/images/logo.png" class="layui-nav-img">@{
+                            <img src="~/Content/images/userlogo.png" class="layui-nav-img">@{
                                 if (Session["User"] != null)
                                 {@((Session["User"] as DTTSG_Model.UserInfo).UserName)}
                             }
@@ -85,7 +85,7 @@
             <div class="user-photo userinfo">
                 <a class="img" layuimini-href="/用户信息" target="_self" href="javascript:;">
                     <span>用户信息</span>
-                    <img src="~/Content/images/logo.png" class="userAvatar">
+                    <img src="~/Content/images/userlogo.png" class="userAvatar">
                 </a>
                 <p>
                     <span class="userName">
