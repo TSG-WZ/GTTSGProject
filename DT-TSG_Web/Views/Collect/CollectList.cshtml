@@ -2,17 +2,21 @@
 @{
     Layout = null;
 }
+@using DTTSG_Model;
+@{List<UserCollect> collectList = ViewBag.CollectList as List<UserCollect>; }
+    <!DOCTYPE html>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>CollectList</title>
-</head>
-<body>
-    <div> 
-        收藏列表
-    </div>
-</body>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>CollectList</title>
+    </head>
+    <body>
+        <div>
+            @foreach (var item in collectList)
+            {
+                @item.BookInfo.BookName
+            };
+        </div>
+    </body>
 </html>

@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace DTTSG_DAL.Book
+namespace DTTSG_DAL
 {
     public class BorrowServer : BaseServer<BorrowInfo>
     {
@@ -50,7 +50,6 @@ namespace DTTSG_DAL.Book
 
         }
 
-
         public int GetBorrowListLength(int userId=0)
         {
             
@@ -61,7 +60,7 @@ namespace DTTSG_DAL.Book
                         br.B_MechanId = me.MechanId where
                         me.MechanName = @MechanName ";
            
-            if (userId == 0)
+            if (userId != 0)
             {
                 parma.Add("@userId", userId);
                 sql += " and br.userId = @userId";

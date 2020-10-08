@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTTSG_DAL.Librarian
+namespace DTTSG_DAL
 {
     public class LibrarianLoginServer
     {
