@@ -14,7 +14,7 @@ namespace DTTSG_BLL
 
         public List<ForwardInfo> GetForwardInfoList(int userId = 0)
         {
-            return GetForwardInfoList(userId);
+            return reservationServer.GetReservationList(userId);
         }
 
         public Pager<ForwardInfo> GetReservationPagerList(int pageIndex, int pageSize, int UserId = 0)
@@ -65,7 +65,7 @@ namespace DTTSG_BLL
                     NoticeTime = DateTime.Now,
                     N_TypeId = 3,
                     NoticeTitle = "预约成功提醒",
-                    NoticeContent = "恭喜您成功预约" + book.BookName + "这本书！请在一小时之内取走，否则需要您重新预约",
+                    NoticeContent = "恭喜您成功预约《" + book.BookName + "》这本书！请在一小时之内取走，否则需要您重新预约",
                     UserId = userId,
                     LibId = 1001
 
@@ -98,7 +98,7 @@ namespace DTTSG_BLL
 
         public void ResvervationCheck()
         {
-          var list= GetForwardInfoList();
+          var list = GetForwardInfoList();
             foreach (var item in list)
             {
                 if (DateTime.Compare(item.F_EndTime,DateTime.Now) < 0 )
