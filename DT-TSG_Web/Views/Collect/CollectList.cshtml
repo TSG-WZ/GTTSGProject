@@ -4,25 +4,19 @@
 }
 @using DTTSG_Model;
 @{List<UserCollect> collectList = ViewBag.CollectList as List<UserCollect>; }
-<!DOCTYPE html>
+    <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>CollectList</title>
-</head>
-<body>
-    <div>
-        @if (collectList != null)
-        {
-
-            foreach (var item in collectList)
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>CollectList</title>
+    </head>
+    <body>
+        <div>
+            @foreach (var item in collectList)
             {
                 @item.BookInfo.BookName
             };
-
-       }
-
-    </div>
-</body>
+        </div>
+    </body>
 </html>

@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using System.Net;
 using DTTSG_BLL;
 
@@ -12,8 +16,8 @@ namespace DTTSG_Web.Controllers
         #region 用户首页框架以及首页信息
         public ActionResult Index()
         {
-            
-            reservationManager.ResvervationCheck(0);// UserId 每次有人访问主页 就去数据库做 预约是否过期的校验 
+
+            reservationManager.ResvervationCheck();
             return View();
         }
         public ActionResult Default()
