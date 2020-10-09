@@ -135,7 +135,7 @@
     <Compile Include="Controllers\ForwardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\NoticeController.cs" />
     <Compile Include="Controllers\WeiChatRequestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -336,10 +336,10 @@
     <Content Include="Views\Borrow\BorrowList.cshtml" />
     <Content Include="Views\Collect\CollectList.cshtml" />
     <Content Include="Views\Home\RankList.cshtml" />
-    <Content Include="Views\Message\MessageList.cshtml" />
     <Content Include="Views\Forward\ForwardList.cshtml" />
     <Content Include="Views\Book\BookInfo.cshtml" />
     <Content Include="Views\WeiChatRequest\GetWinXinInfo.cshtml" />
+    <Content Include="Views\Notice\NoticeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
