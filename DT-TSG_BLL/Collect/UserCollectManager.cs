@@ -1,4 +1,5 @@
-﻿using DTTSG_DAL;
+﻿using DTTSG_Common;
+using DTTSG_DAL;
 using DTTSG_Model;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,17 @@ namespace DTTSG_BLL
         /// <returns></returns>
         public List<UserCollect> GetCollectList(int userId)
         {
-            return collectServer.GetCollectList(userId,false);
+            return collectServer.GetCollectList(userId);
+        }
+
+        public Pager<UserCollect> GetCollectPagerList(int userId,int pageIndex,int pageSize)
+        {
+            int dataCount = collectServer.GetCollectList(userId).Count;
+            var InfoList = collectServer.GetCollectList(userId, true, pageIndex: pageIndex, pageSize: pageSize);
+
+            Pager<UserCollect> pager = new Pager<UserCollect>(pageIndex, pageSize, dataCount, InfoList);
+            return pager;
+          
         }
 
         /// <summary>

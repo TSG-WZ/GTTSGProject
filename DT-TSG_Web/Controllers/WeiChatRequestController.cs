@@ -87,6 +87,7 @@ namespace DTTSG_Web.Controllers
                     // 注册用户出错
                     return Content("注册用户出错openid:"+oauthUserGet.OpenId);
                 }
+               
                 
                 
             }

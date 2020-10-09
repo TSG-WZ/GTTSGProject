@@ -1,6 +1,7 @@
 ﻿
 using DTTSG_Common;
 using DTTSG_DAL;
+using DTTSG_Model;
 using DTTSG_Model.DateModel;
 using Newtonsoft.Json;
 
@@ -13,7 +14,7 @@ namespace DTTSG_BLL.Oauth
 
         OauthServer oauthServer = new OauthServer();
         UserInfoServer userInfoServer = new UserInfoServer();
-
+        NoticeServer noticeServer = new NoticeServer();
 
         public OauthUser GetOUserInfo(string code, string state)
         {
@@ -56,6 +57,7 @@ namespace DTTSG_BLL.Oauth
 
         public int Insert(OauthUser oauthUser)
         {
+            
             return oauthServer.Insert(oauthUser);
         }
 

@@ -14,10 +14,15 @@
 </head>
 <body>
     <div>
-        @foreach (var item in forwards.InfoList)
+        @if (forwards.DataCount != 0)
         {
-            @item.BookInfo.BookName
+
+            @foreach (var item in forwards.InfoList)
+            {
+                @item.BookInfo.BookName
+            }
         }
+
     </div>
 </body>
 </html>
