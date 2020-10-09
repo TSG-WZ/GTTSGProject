@@ -2,7 +2,7 @@
 using DTTSG_DAL;
 using DTTSG_Model;
 using System;
-
+using System.Collections.Generic;
 
 namespace DTTSG_BLL
 {
@@ -10,9 +10,14 @@ namespace DTTSG_BLL
     {
         BookReservationServer reservationServer = new BookReservationServer();
         NoticeServer noticeServer = new NoticeServer();
-
         BookServer bookServer = new BookServer();
-        public Pager<ForwardInfo> GetReservationList(int pageIndex, int pageSize, int UserId = 0)
+
+        public List<ForwardInfo> GetForwardInfoList(int userId = 0)
+        {
+            return GetForwardInfoList(userId);
+        }
+
+        public Pager<ForwardInfo> GetReservationPagerList(int pageIndex, int pageSize, int UserId = 0)
         {
 
             int dataCount = reservationServer.GetReservationList(UserId).Count;
@@ -20,7 +25,6 @@ namespace DTTSG_BLL
 
             Pager<ForwardInfo> pager = new Pager<ForwardInfo>(pageIndex, pageSize, dataCount, InfoList);
             return pager;
-
         }
 
         public ForwardInfo GetForwardModel(int Id)
@@ -76,7 +80,33 @@ namespace DTTSG_BLL
             }
         }
 
+        public int CancelResvervationBook(int F_Id)
+        {
+            var fModel = reservationServer.GetForwardInfoModelWithFowardId(F_Id);
+            fModel.BookInfo.B_StatuId = 1;
+            Notice notice = new Notice()
+            {
+                UserId = fModel.UserId,
+                NoticeTitle = "预约过期提醒",
+                NoticeContent = "您预约的书籍：《"+fModel.BookInfo.BookName+"》，由于过期未取，现在系统已经自动取消！",
+                NoticeTime = fModel.F_EndTime,
+                LibId=1001,
+                N_TypeId=3
+            };
+            return bookServer.Update(fModel.BookInfo);
+        }
 
+        public void ResvervationCheck()
+        {
+          var list= GetForwardInfoList();
+            foreach (var item in list)
+            {
+                if (DateTime.Compare(item.F_EndTime,DateTime.Now) < 0 )
+                {
+                    CancelResvervationBook(item.F_Id);
+                }
+            }
+        }
 
     }
 }

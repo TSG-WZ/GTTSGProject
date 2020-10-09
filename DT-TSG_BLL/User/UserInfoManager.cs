@@ -44,5 +44,7 @@ namespace DTTSG_BLL.User
             return userInfoServer.Insert(userInfo);
         }
 
+       
+
     }
 }

@@ -16,9 +16,8 @@ namespace DTTSG_Web.Controllers
             #region 测试预约
             var userInfo = Session["User"] as UserInfo;
             BookReservationManager bookReservation = new BookReservationManager();
-        //    bookReservation.ResvervationBook(userInfo.UserId,9);
 
-            ViewBag.Reservation = bookReservation.GetReservationList(1,8, UserId:userInfo.UserId);
+            ViewBag.Reservation = bookReservation.GetReservationPagerList(1,8, UserId:userInfo.UserId);
 
 
             #endregion
