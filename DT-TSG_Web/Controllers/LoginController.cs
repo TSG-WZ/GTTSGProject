@@ -1,7 +1,9 @@
-﻿using DTTSG_BLL.Librarian;
+﻿using DTTSG_BLL;
+using DTTSG_BLL.Librarian;
 using DTTSG_BLL.User;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
+using System;
 using System.Web.Mvc;
 
 namespace DTTSG_Web.Controllers
@@ -10,6 +12,7 @@ namespace DTTSG_Web.Controllers
     {
         UserLoginManager userLoginManager = new UserLoginManager();
         LibrarianLoginManager libLoginManager = new LibrarianLoginManager();
+        NoticeManager noticeManager = new NoticeManager();
 
         [HttpGet]
         /// <summary>
@@ -97,6 +100,19 @@ namespace DTTSG_Web.Controllers
                     }
                     //成功登录进入主页
                     Session["libUser"] = libinfo;    //设置Session状态
+                    Notice notice = new Notice()
+                    {
+                        UserId = loginmodel.UserId,
+                        LibId = 1001,
+                        NoticeTitle = "地铁站登陆提醒",
+                        NoticeContent = "您刚才通过地铁站点 登陆了我们的系统，祝您阅读愉快!",
+                        NoticeTime = DateTime.Now,
+                        N_TypeId = 5,
+
+                    };
+
+                    noticeManager.AddNotice(notice);
+
                     return Json(new AjaxBackInfo(2, "欢迎您, " + libinfo.LibName + " !"));
                 }
                 //管理员登录
@@ -117,7 +133,20 @@ namespace DTTSG_Web.Controllers
                     return Json(new AjaxBackInfo(5, "您的账号异常,请联系管理员！"));
                 }
                 //成功登录进入主页
-                Session["User"] = loginmodel;    //设置Session状态
+                Session["User"] = loginmodel;    //设置Session
+                Notice notice = new Notice()
+                {
+                    UserId = loginmodel.UserId,
+                    LibId = 1001,
+                    NoticeTitle = "微信客户端登陆提醒",
+                    NoticeContent = "您刚才通过微信客户端 登陆了我们的系统，祝您阅读愉快!",
+                    NoticeTime = DateTime.Now,
+                    N_TypeId = 5,
+
+                };
+
+                noticeManager.AddNotice(notice);
+
                 return Redirect("/Home/Index");
             }
             else

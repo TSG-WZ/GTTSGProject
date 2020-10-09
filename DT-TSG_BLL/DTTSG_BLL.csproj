@@ -46,8 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book\BookManager.cs" />
+    <Compile Include="Book\BookReservationManager.cs" />
     <Compile Include="Book\BorrowManager.cs" />
+    <Compile Include="Collect\UserCollectManager.cs" />
     <Compile Include="Librarian\LibrarianLoginManager.cs" />
+    <Compile Include="Message\MessageManager.cs" />
+    <Compile Include="Notice\NoticeManager.cs" />
     <Compile Include="Oauth\OauthManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\UserInfoManager.cs" />

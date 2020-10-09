@@ -18,7 +18,7 @@ namespace DTTSG_DAL
         /// <param name="sql">sql</param>
         /// <param name="param">参数对象</param>
         /// <returns>返回受影响行数</returns>
-        protected int Execute(string sql, object param = null)
+        protected  int Execute(string sql, object param = null)
         {
             try
             {
