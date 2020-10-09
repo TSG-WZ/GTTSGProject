@@ -51,11 +51,11 @@
         },
         dataset: {
             source: [
-                ['总数', '2015', '2016', '2017', '2018', '2019', '2020'],
-                ['借阅图书总数', 41, 30, 65, 53, 83, 18],
-                ['已归还总数', 41, 30, 65, 53, 82, 7],
-                ['未归还总数', 0, 0, 0, 0, 1, 7],
-                ['延期总数', 6, 7, 3, 11, 12, 2]
+                ['总数', '2018', '2019', '2020'],
+                ['借阅图书总数',78,83, 18],
+                ['已归还总数',78, 82, 9],
+                ['延期总数', 17,0, 2],
+                ['未归还总数',0, 1, 7]
             ]
         },
         xAxis: { type: 'category' },
@@ -65,19 +65,18 @@
             { type: 'line', smooth: true, seriesLayoutBy: 'row' },
             { type: 'line', smooth: true, seriesLayoutBy: 'row' },
             { type: 'line', smooth: true, seriesLayoutBy: 'row' },
-            { type: 'line', smooth: true, seriesLayoutBy: 'row' },
             {
                 type: 'pie',
                 id: 'pie',
                 radius: '30%',
-                center: ['50%', '25%'],
+                center: ['50%', '30%'],
                 label: {
-                    formatter: '{b}: {@@2015} ({d}%)'
+                    formatter: '{b}: {@@2019} ({d}%)'
                 },
                 encode: {
-                    itemName: 'product',
-                    value: '2015',
-                    tooltip: '2015'
+                    itemName: '数量',
+                    value: '2019',
+                    tooltip: '2019'
                 }
             }
         ]
