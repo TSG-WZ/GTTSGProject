@@ -24,6 +24,13 @@ namespace DTTSG_Web.Controllers
             //检测用户退出
             if (Request["userlogout"] != null)
             {
+                UserInfo old = Session["User"] as UserInfo;
+                //手机端
+                if (!string.IsNullOrWhiteSpace(old.OpenId))
+                {
+                    Session["User"] = userLoginManager.GetUserInfo(new UserInfo { OpenId = old.OpenId });
+                    return Redirect("/Home/Index");
+                }
                 Session.Remove("User");  //移除Session
             }
             if (Request["liblogout"] != null)
@@ -81,7 +88,9 @@ namespace DTTSG_Web.Controllers
                     return Json(new AjaxBackInfo(5, "您的账号异常,请联系管理员！"));
                 }
                 //成功登录进入主页
+                loginmodel.OpenId = null;
                 Session["User"] = loginmodel;    //设置Session状态
+                
                 return Json(new AjaxBackInfo(1, "欢迎您, " + loginmodel.UserName + " !"));
             }
             else
@@ -124,7 +133,6 @@ namespace DTTSG_Web.Controllers
 
         public ActionResult OauthLogin(string openId)
         {
-
             UserInfo loginmodel = userLoginManager.GetUserInfo(new UserInfo { OpenId = openId });
             if (loginmodel != null)
             {
@@ -134,6 +142,7 @@ namespace DTTSG_Web.Controllers
                 }
                 //成功登录进入主页
                 Session["User"] = loginmodel;    //设置Session
+
                 Notice notice = new Notice()
                 {
                     UserId = loginmodel.UserId,
