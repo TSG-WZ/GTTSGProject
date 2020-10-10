@@ -34,6 +34,7 @@ namespace DTTSG_BLL
         public int BookBrrow(int bookId, int useId)
         {
             var bookInfo = bookServer.GetBookModel(bookId);
+         
             var borrowInfo = new BorrowInfo()
             {
                 UserId = useId,
@@ -45,10 +46,12 @@ namespace DTTSG_BLL
                 B_ReturnTime = Convert.ToDateTime("1900/1/1 00:00:00"),
 
             };
+  
 
-            bookInfo.B_StatuId = 2;
-            if (bookInfo != null)
+            if (bookInfo != null || bookInfo.B_StatuId == 2)
             {
+               
+                bookInfo.B_StatuId = 2;
 
                 int result = bookServer.Update(bookInfo);
                 int a = borrowServer.Insert(borrowInfo);
@@ -64,8 +67,6 @@ namespace DTTSG_BLL
 
                 noticeServer.Insert(notice);
                 return a == result ? 1 : 0;
-
-
             }
             else
             {
