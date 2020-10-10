@@ -19,5 +19,15 @@ namespace DTTSG_DAL
             return GetModel(@"select * from UserInfo where OpenId = @OpenId", parameters);
 
         }
+
+        public int UpdatePwd(string new_pwd,int userId)
+        {
+            string sql = @"update UserInfo set UserPwd = @UserPwd where UserId = @UserId";
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@UserPwd",new_pwd);
+            parameters.Add("@UserId",userId);
+
+            return Execute(sql,parameters);
+        }
     }
 }
