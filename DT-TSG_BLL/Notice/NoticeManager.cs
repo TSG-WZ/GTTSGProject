@@ -31,9 +31,12 @@ namespace DTTSG_BLL
             return noticeServer.Insert(notice);
         }
 
-        public int ReadNotice(Notice notice)
+        public int ReadNotice(int noticeId)
         {
+            var notice = noticeServer.GetNoticeModel(noticeId);
+
             notice.IsRead = true;
+
             return noticeServer.Update(notice);
         }
       
