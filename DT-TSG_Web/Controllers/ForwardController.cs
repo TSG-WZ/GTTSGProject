@@ -20,8 +20,7 @@ namespace DTTSG_Web.Controllers
             var userInfo = Session["User"] as UserInfo;
 
             ViewBag.Reservation = bookReservation.GetReservationPagerList(1,8, UserId:userInfo.UserId);
-
-
+            
             #endregion
              
             return View();
@@ -37,7 +36,7 @@ namespace DTTSG_Web.Controllers
             }
             else
             {
-                return Redirect("~/404.cshtml");
+                return Redirect("~/404.html");
             }
             
         }
