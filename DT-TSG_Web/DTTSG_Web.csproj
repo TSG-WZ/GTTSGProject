@@ -336,11 +336,8 @@
     <Content Include="Views\Borrow\BorrowList.cshtml" />
     <Content Include="Views\Collect\CollectList.cshtml" />
     <Content Include="Views\Home\RankList.cshtml" />
-
     <Content Include="Views\Forward\ForwardList.cshtml" />
-
     <Content Include="Views\Message\MessageList.cshtml" />
-
     <Content Include="Views\Book\BookInfo.cshtml" />
     <Content Include="Views\WeiChatRequest\GetWinXinInfo.cshtml" />
     <Content Include="Views\Notice\NoticeList.cshtml" />
