@@ -6,9 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DTTSG_Model.ViewModel;
+using DTTSG_Web.Filts;
 
 namespace DTTSG_Web.Controllers
 {
+    [UserAutorizeAttribute]
     public class CollectController : Controller
     {
         UserCollectManager userCollectManager = new UserCollectManager();

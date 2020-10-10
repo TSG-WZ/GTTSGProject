@@ -2,9 +2,11 @@
 using DTTSG_Model;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using DTTSG_Web.Filts;
 
 namespace DTTSG_Web.Controllers
 {
+    [UserAutorizeAttribute]
     public class NoticeController : Controller
     {
         NoticeManager noticeManager = new NoticeManager();

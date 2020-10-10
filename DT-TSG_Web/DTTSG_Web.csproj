@@ -138,6 +138,7 @@
     <Compile Include="Controllers\NoticeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WeiChatRequestController.cs" />
+    <Compile Include="Filts\UserAutorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

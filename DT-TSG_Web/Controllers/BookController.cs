@@ -2,10 +2,12 @@
 using DTTSG_DAL;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
+using DTTSG_Web.Filts;
 using System.Web.Mvc;
 
 namespace DTTSG_Web.Controllers
 {
+    [UserAutorizeAttribute]
     public class BookController : Controller
     {
         BookManager bookManager = new BookManager();
