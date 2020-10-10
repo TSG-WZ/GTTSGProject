@@ -13,5 +13,9 @@ namespace DTTSG_Web.Controllers
         {
             return View();
         }
+        public ActionResult CancelCollect(int bookid)
+        {
+            return Json(true);
+        }
     }
 }

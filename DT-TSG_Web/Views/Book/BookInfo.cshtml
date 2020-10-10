@@ -16,7 +16,7 @@
 </head>
 <body>
     <div style="margin:30px">
-        <a href="/Book/BookList" style="font-size:16px;"><< 返回首页</a>
+        <a href="javascript:;" onclick="window.history.back(); //返回上一页" style="font-size:16px;"><< 返回上一页</a>
     </div>
 
     <div class="layui-container">
@@ -44,8 +44,7 @@
                         <a href="javascript:;" id="reward" class="layui-btn layui-btn-normal layui-btn-lg">预约</a>
                     }
                 }
-
-                <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg layui-btn-disabled">购买</a>
+                <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg" id="collect">收藏</a>
             </div>
         </div>
     </div>
@@ -110,8 +109,30 @@
 
             $("#reward").click(function () {
                 reward(@Model.BookId);
-            });
+            }); 
 
+            $("#collect").click(function () {
+                $.ajax({
+                    url: "/Collect/AddCollect",
+                    data: { "bookId": @Model.BookId },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            //alert(data);
+                            layer.msg(data.Msg, {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location = '/Forward/ForwardList';
+                            });
+                        }
+                        else {
+                            layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
+                        }
+                    }
+                }); //ajax结束
+            });
         });
     </script>
 </body>
