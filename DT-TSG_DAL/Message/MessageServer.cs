@@ -17,7 +17,7 @@ namespace DTTSG_DAL.Message
 
             if (isValid!=-1)
             {
-                parameters.Add("@isValid",isValid==1);
+                parameters.Add("@isValid",isValid);
                 sql += " where isValid = @isValid";
             }
 
@@ -26,7 +26,7 @@ namespace DTTSG_DAL.Message
                 parameters.Add("@pageIndex", pageIndex);
                 parameters.Add("@pageSize", pageSize);
                 //加排序
-                sql += " order by NoticeId asc offset(@pageIndex - 1) * @pageSize " +
+                sql += " order by MessageId asc offset(@pageIndex - 1) * @pageSize " +
                     "rows fetch next @pageSize rows only";
             }
             try
