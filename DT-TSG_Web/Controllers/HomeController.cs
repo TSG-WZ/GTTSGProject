@@ -1,9 +1,11 @@
 ﻿using DTTSG_BLL;
 using System.Net;
 using System.Web.Mvc;
+using DTTSG_Web.Filts;
 
 namespace DTTSG_Web.Controllers
 {
+    [UserAutorizeAttribute]
     public class HomeController : Controller
     {
         BookReservationManager reservationManager = new BookReservationManager();

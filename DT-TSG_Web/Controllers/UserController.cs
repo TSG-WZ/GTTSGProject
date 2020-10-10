@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using DTTSG_BLL.User;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
+using DTTSG_Web.Filts;
 
 namespace DTTSG_Web.Controllers
 {
+    [UserAutorizeAttribute]
     public class UserController : Controller
     {
         UserInfoManager userInfoManager = new UserInfoManager();
@@ -33,9 +35,9 @@ namespace DTTSG_Web.Controllers
                 info = new AjaxBackInfo(1, "旧密码错误");
                 return Json(info);
             }
-            newInfo.UserPwd = new_password;
+           
             //修改数据库信息
-            int result = userInfoManager.Update(newInfo);
+            int result = userInfoManager.UpdatePwd(new_password,newInfo.UserId);
             if (result>0)
             {
                 info = new AjaxBackInfo(1, "修改成功");

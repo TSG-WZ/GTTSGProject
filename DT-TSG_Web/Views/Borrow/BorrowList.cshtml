@@ -42,13 +42,23 @@
                             <td>@item.BorrowType.Bo_TypeName</td>
                             <td>@item.B_StartTime.ToString("yyyy/MM/dd")</td>
                             <td>@item.B_EndTime.ToString("yyyy/MM/dd")</td>
-                                @if (item.Bo_TypeId == 3)
+                            @if (item.Bo_TypeId == 3)
+                            {
+                                <td>@item.B_ReturnTime.ToString("yyyy/MM/dd")</td>
+                            }
+                            else
+                            {
+
+                                if (!string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
                                 {
-                                    <td>@item.B_ReturnTime.ToString("yyyy/MM/dd")</td>
+                                    <td><a href="/Book/ReturnBook?borrowId=@item.BorrowId">现在归还</a></td>
                                 }
-                                else {
-                                    <td><a href="/Book/ReturnBook?borrowId=@item.BorrowId">现在归还</a></td> 
+                                else
+                                {
+                                    <td>请前往 @item.MechanInfo.MechanName 处归还</td>
                                 }
+
+                            }
                         </tr>
                         }
                     </tbody>
@@ -93,10 +103,16 @@
                     if (item.BorrowType.Bo_TypeId == 3) {
                         Ttime = formatDate(item.B_ReturnTime, "yyyy-MM-dd");
                     } else if (item.BorrowType.Bo_TypeId == 1 && item.BorrowType.Bo_TypeId == 2) {
-                        Ttime = "<a href=\"/BookReturn/Book?borrowId=\"+" + item.borrowId + "+ >现在归还</a>";
+                        if (@(!string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))) {
+                            Ttime = "<a href=\"/BookReturn/Book?borrowId=\"+" + item.borrowId + "+ >现在归还</a>";
+                        } else {
+                            Time = "请前往" + item.MechanInfo.MechanName + "处归还";
+                        }
+                        
                     } else {
                         Ttime = "未归还";
                     }
+                    
                     $("tbody").append(
                         "<tr><td>" + item.UserInfo.UserName + "</td><td>"
                         + item.BookInfo.BookName + "</td><td>" + item.MechanInfo.MechanName + "</td><td>"

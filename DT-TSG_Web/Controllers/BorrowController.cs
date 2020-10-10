@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using DTTSG_BLL;
 using DTTSG_Model;
+using DTTSG_Web.Filts;
 
 namespace DTTSG_Web.Controllers
 {
+    [UserAutorizeAttribute]
     public class BorrowController : Controller
     {
         BorrowManager borrowManager = new BorrowManager();

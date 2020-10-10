@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using DTTSG_BLL;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
+using DTTSG_Web.Filts;
 
 namespace DTTSG_Web.Controllers
 {
+    [UserAutorizeAttribute]
     public class ForwardController : Controller
     {
         BookReservationManager bookReservation = new BookReservationManager();
