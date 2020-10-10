@@ -62,7 +62,7 @@ namespace DTTSG_DAL
             return null;
         }
 
-        public Notice GetNotices(DateTime noticeTime)
+        public Notice GetNotice(DateTime noticeTime)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@NoticeTime", noticeTime);
