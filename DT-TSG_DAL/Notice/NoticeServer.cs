@@ -62,12 +62,12 @@ namespace DTTSG_DAL
             return null;
         }
 
-        public List<Notice> GetNotices(DateTime noticeTime)
+        public Notice GetNotices(DateTime noticeTime)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@NoticeTime", noticeTime);
             string sql = "select * from Notice where NoticeTime = @NoticeTime";
-            return GetList(sql,parameters);
+            return GetModel(sql,parameters);
         }
         public Notice GetNoticeModel(int noticeId)
         {
