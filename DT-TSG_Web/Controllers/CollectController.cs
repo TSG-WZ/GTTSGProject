@@ -10,29 +10,15 @@ namespace DTTSG_Web.Controllers
 {
     public class CollectController : Controller
     {
+        UserCollectManager userCollectManager = new UserCollectManager();
         // GET: Collect
         public ActionResult CollectList()
         {
-            #region 测试收藏以及公告
-            //UserCollectManager userCollectManager = new UserCollectManager();
-            //NoticeManager noticeManager = new NoticeManager();
-            //var userInfo = Session["User"] as UserInfo;
-
-            //Notice notice = new Notice()
-            //{
-            //    NoticeTime = DateTime.Now,
-            //    N_TypeId = 2,
-            //    NoticeTitle = "测试通知",
-            //    NoticeContent = "感谢使用本系统！",
-            //    UserId = userInfo.UserId,
-            //    LibId = 1001
-            //};
-
-            //noticeManager.AddNotice(notice);
-            //ViewBag.NoticeList = noticeManager.GetNoticeList(userInfo.UserId);
-            //var result =  userCollectManager.AddCollect(userId:userInfo.UserId,bookId:9);
-            //ViewBag.CollectList =  userCollectManager.GetCollectList(userInfo.UserId);
-            #endregion
+          
+            var userInfo = Session["User"] as UserInfo;
+               
+            // var result =  userCollectManager.AddCollect(userId:userInfo.UserId,bookId:9); 添加收藏
+            ViewBag.CollectList =  userCollectManager.GetCollectList(userInfo.UserId);// 用户收藏列表
             return View();
         }
 
