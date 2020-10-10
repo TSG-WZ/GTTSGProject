@@ -7,7 +7,9 @@ namespace DTTSG_Model
 	{
         [Key]
 		public int CollectId { get; set; }
-		public int BookId { get; set; }
+        public BookInfo BookInfo { get; set; }
+
+        public int BookId { get; set; }
 		public int UserId { get; set; }
 	}
 }
