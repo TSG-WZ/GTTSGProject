@@ -7,7 +7,7 @@ using DTTSG_BLL.User;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
 using DTTSG_Web.Filts;
-
+using DTTSG_Common;
 namespace DTTSG_Web.Controllers
 {
     [UserAutorizeAttribute]
@@ -26,13 +26,13 @@ namespace DTTSG_Web.Controllers
             AjaxBackInfo info = null;
             if (new_password != again_password)     //检查重复
             {
-                info = new AjaxBackInfo(1, "两次输入的密码不一致");
+                info = new AjaxBackInfo(-1, "两次输入的密码不一致");
                 return Json(info);
             }
             UserInfo newInfo = Session["User"] as UserInfo;
-            if (old_password!=newInfo.UserPwd)
+            if (old_password.GetMd5Hash()!=newInfo.UserPwd)
             {
-                info = new AjaxBackInfo(1, "旧密码错误");
+                info = new AjaxBackInfo(-1, "旧密码错误");
                 return Json(info);
             }
            
@@ -44,7 +44,7 @@ namespace DTTSG_Web.Controllers
             }
             else
             {
-                info = new AjaxBackInfo(1, "修改失败");
+                info = new AjaxBackInfo(-1, "修改失败");
             }
             return Json(info);
         }

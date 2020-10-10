@@ -5,7 +5,7 @@ using DTTSG_Model;
 using DTTSG_Model.ViewModel;
 using System;
 using System.Web.Mvc;
-
+using DTTSG_Common;
 namespace DTTSG_Web.Controllers
 {
     public class LoginController : Controller
@@ -21,17 +21,24 @@ namespace DTTSG_Web.Controllers
         /// <returns>带模型的视图</returns>
         public ActionResult Login()
         {
+            UserInfo old = Session["User"] as UserInfo;
+            if (old == null)
+            {
+                return View();
+            }
             //检测用户退出
             if (Request["userlogout"] != null)
             {
-                UserInfo old = Session["User"] as UserInfo;
                 //手机端
-                if (!string.IsNullOrWhiteSpace(old.OpenId))
+                if (!string.IsNullOrWhiteSpace(old.OpenId))     //若openid不为空
                 {
                     Session["User"] = userLoginManager.GetUserInfo(new UserInfo { OpenId = old.OpenId });
                     return Redirect("/Home/Index");
                 }
-                Session.Remove("User");  //移除Session
+                else
+                {
+                    Session.Remove("User");  //移除Session
+                }
             }
             if (Request["liblogout"] != null)
             {
@@ -90,7 +97,7 @@ namespace DTTSG_Web.Controllers
                 //成功登录进入主页
                 loginmodel.OpenId = null;
                 Session["User"] = loginmodel;    //设置Session状态
-                
+
                 return Json(new AjaxBackInfo(1, "欢迎您, " + loginmodel.UserName + " !"));
             }
             else
@@ -163,7 +170,7 @@ namespace DTTSG_Web.Controllers
                 return Json(new AjaxBackInfo(-1, "网络错误！！"));
             }
 
-            
+
         }
     }
 }

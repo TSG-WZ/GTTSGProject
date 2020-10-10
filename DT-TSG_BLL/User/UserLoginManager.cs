@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using DTTSG_Common;
 namespace DTTSG_BLL.User
 {
     public class UserLoginManager
@@ -18,7 +18,8 @@ namespace DTTSG_BLL.User
         /// <param name="userInfo"></param>
         /// <returns></returns>
         public UserInfo GetUserInfo(UserInfo userInfo)
-        {        
+        {
+            userInfo.UserPwd = userInfo.UserPwd.GetMd5Hash();
             return userLoginServer.GetUserInfo(userInfo);
         }
     }

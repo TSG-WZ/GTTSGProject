@@ -22,11 +22,12 @@ namespace DTTSG_BLL.User
 
         public int UpdatePwd(string new_pwd,int userId)
         {
-
+            new_pwd = new_pwd.GetMd5Hash();
             return userInfoServer.UpdatePwd(new_pwd,userId);
         }
         public int UserReg(UserInfo userInfo)
         {
+            userInfo.UserPwd.GetMd5Hash();
             return userInfoServer.Insert(userInfo);
         }
 
@@ -38,7 +39,7 @@ namespace DTTSG_BLL.User
                 UserName = oUserData.nickname,
                 UserSex = oUserData.sex == 1 ? true : false,
                 UserAddress = oUserData.country + oUserData.city,
-                UserPwd ="123456RTDT",
+                UserPwd ="123456".GetMd5Hash(),
                 StatuId = 1,
                 TypeId = 1,
                 ImageId = 1,
