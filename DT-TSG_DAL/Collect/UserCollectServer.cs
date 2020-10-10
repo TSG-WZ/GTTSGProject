@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 using DTTSG_Common;
 using DTTSG_Model;
@@ -57,6 +55,17 @@ namespace DTTSG_DAL
             }
             return null;
 
+        }
+
+        public List<UserCollect> GetCollectModels(int bookId,int userId)
+        {
+            string sql = @"select * from UserCollect where BookId=@BookId and userId = @userId";
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@BookId",bookId);
+            parameters.Add("@userId",userId);
+
+            return GetList(sql,parameters);
         }
     }
 }
