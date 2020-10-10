@@ -29,7 +29,7 @@ namespace DTTSG_DAL
                 sql += " and ui.UserId = @UserId";
             }
             //加分页
-            sql += " order by BorrowId asc offset(@pageIndex - 1) * @pageSize " +
+            sql += " order  by brt.Seo  desc offset(@pageIndex - 1) * @pageSize " +
                 "rows fetch next @pageSize rows only";
             try
             {
