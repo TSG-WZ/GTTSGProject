@@ -99,7 +99,7 @@ namespace DTTSG_BLL
                 LibId=1001,
                 N_TypeId=3
             };
-            if (noticeServer.GetNotices(fModel.F_EndTime).Count == 0)
+            if (noticeServer.GetNotice(fModel.F_EndTime) == null)
             {
                 noticeServer.Insert(notice);
             }
