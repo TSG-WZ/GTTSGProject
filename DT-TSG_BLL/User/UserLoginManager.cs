@@ -19,7 +19,11 @@ namespace DTTSG_BLL.User
         /// <returns></returns>
         public UserInfo GetUserInfo(UserInfo userInfo)
         {
-            userInfo.UserPwd = userInfo.UserPwd.GetMd5Hash();
+            if (!string.IsNullOrWhiteSpace(userInfo.UserPwd))
+            {
+                userInfo.UserPwd = userInfo.UserPwd.GetMd5Hash();
+            }
+            
             return userLoginServer.GetUserInfo(userInfo);
         }
     }
