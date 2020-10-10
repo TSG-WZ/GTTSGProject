@@ -32,12 +32,21 @@ namespace DTTSG_Web.Controllers
         /// <returns></returns>
         public ActionResult AddCollect(int bookId)
         {
-            var userInfo = Session["User"] as UserInfo;
-            int result = userCollectManager.AddCollect(userId: userInfo.UserId, bookId: 9); //添加收藏
             AjaxBackInfo json = null;
+            var userInfo = Session["User"] as UserInfo;
+            if (!userCollectManager.CollectCheck(userInfo.UserId, bookId))
+            {
+                json = new AjaxBackInfo(-1, "已经收藏!");
+                return Json(json);
+            }
+            int result = userCollectManager.AddCollect(userId: userInfo.UserId, bookId: bookId); //添加收藏
             if (result>0)
             {
                 json = new AjaxBackInfo(1, "收藏成功");
+            }
+            else
+            {
+                json = new AjaxBackInfo(-1, "未知错误");
             }
             return Json(json);
         }
@@ -47,9 +56,16 @@ namespace DTTSG_Web.Controllers
         /// </summary>
         /// <param name="bookid"></param>
         /// <returns></returns>
-        public ActionResult CancelCollect(int bookid)
+        public ActionResult CancelCollect(int collectId)
         {
-            return Json(true);
+            var userInfo = Session["User"] as UserInfo;
+            int result = userCollectManager.CancelCollect(collectId); //添加收藏
+            AjaxBackInfo json = null;
+            if (result > 0)
+            {
+                json = new AjaxBackInfo(1, "取消成功");
+            }
+            return Json(json);
         }
     }
 }

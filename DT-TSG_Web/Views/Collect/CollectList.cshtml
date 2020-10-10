@@ -32,14 +32,14 @@
     </div>
 
     <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-    @Scripts.Render("~/ListInfo_Js", "~/BookList_Js")
+    @Scripts.Render("~/ListInfo_Js")
     <script>
-        function CancelCollect(bookid) {
+        function CancelCollect(collectid) {
             //console.log(bookid);
             //ajaxq请求
             $.ajax({
                 url: "/Collect/CancelCollect",
-                data: { "bookid": bookid },
+                data: { "collectId": collectid },
                 method: "Post",
                 type: "Json",
                 success: function (result) {
@@ -62,14 +62,16 @@
                     var pagecount = 0;
 
                     $.get('/Collect/GetCollectPagerData?pageindex=' + page, function (data) {
+                        //console.log(data);
                         layui.each(data.InfoList, function (index, item) {
-                            console.log("1");
+                            var collectid = item.CollectId;
+                            item = item.BookInfo;
                             //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                             lis.push('<a href="/Book/BookInfo?BookId=' + item.BookId + '" name="BookId">' +
                                 '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +
                                 '<img lay-src="' + item.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
                                 '<center><h2><b>' + item.BookName + '</b></h2></center><br />' +
-                                '<a class="layui-btn layui-btn-radius" href="javascript:;" onclick="CancelCollect(' + item.BookId + ')" style="width:200px">取消收藏</a></div></div></a>');
+                                '<a class="layui-btn layui-btn-radius" href="javascript:;" onclick="CancelCollect(' + collectid + ')" style="width:200px">取消收藏</a></div></div></a>');
                         });
                         pagecount = data.PageCount;
 

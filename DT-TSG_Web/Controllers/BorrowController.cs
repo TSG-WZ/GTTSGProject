@@ -21,11 +21,11 @@ namespace DTTSG_Web.Controllers
             return View();
         }
 
-        public ActionResult GetBookPagerData(BookInfo bookInfo, int pageindex = 1)
+        public ActionResult GetBorrowPagerData(BookInfo bookInfo, int pageIndex = 1, int pageSize = 10)
         {
             var userInfo = Session["User"] as UserInfo;
             JsonResult jsonResult = new JsonResult();
-            jsonResult.Data = borrowManager.GetBorrowInfoList(pageindex, 8, userInfo); //固定八条数据
+            jsonResult.Data = borrowManager.GetBorrowInfoList(pageIndex, pageSize, userInfo); //固定八条数据
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return jsonResult;
         }

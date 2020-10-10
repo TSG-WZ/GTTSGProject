@@ -35,7 +35,7 @@
             foreach (var item in unReadNotice)
             {
                 <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">@item.NoticeTitle</h2>
+                    <h2 class="layui-colla-title">@item.NoticeTitle <span style="float:right">@item.NoticeTime</span></h2>
                     <p style="display:none">@item.NoticeId</p>
                     <div class="layui-colla-content">
                         <p>@item.NoticeContent</p>
@@ -54,10 +54,9 @@
 
         @if (readNotice != null)
         {
-            foreach (var item in readNotice)
+            foreach (var item in readNotice.OrderByDescending(b=>b.NoticeId).Take(10))
             {
                 <div class="layui-colla-item">
-
                     <h2 class="layui-colla-title">@item.NoticeTitle</h2>
                     <p style="display:none">@item.NoticeId</p>
                     <div class="layui-colla-content">
