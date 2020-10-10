@@ -20,6 +20,11 @@ namespace DTTSG_BLL.User
             return userInfoServer.Update(userInfo);
         }
 
+        public int UpdatePwd(string new_pwd,int userId)
+        {
+
+            return userInfoServer.UpdatePwd(new_pwd,userId);
+        }
         public int UserReg(UserInfo userInfo)
         {
             return userInfoServer.Insert(userInfo);
