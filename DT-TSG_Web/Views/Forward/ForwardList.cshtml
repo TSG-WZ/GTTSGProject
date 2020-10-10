@@ -38,10 +38,18 @@
     @Scripts.Render("~/ListInfo_Js")
     <script>
         function TakeOut(bookid, status) {
-            if (status == 2) {
-                layer.alert('该本图书已被借阅', function (index) {
+            var tf = @(string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId).ToString().ToLower());
+            if (!tf) {
+                layer.alert('手机暂不支持此功能，请前往该书所在机器取书', function (index) {
                     layer.close(index);
                 });
+                return;
+            }
+               
+            if (status == 2) {
+                layer.alert('该本图书已被借阅', function (index) {
+                        layer.close(index);
+                    });
                 return;
             }
             $.ajax({
@@ -83,7 +91,7 @@
                                 sheets = " layui-btn-disabled";
                             }
                             //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-                            lis.push('<a href="/Book/BookInfo=' + temp.BookId + '" name="BookId">' +
+                            lis.push('<a href="/Book/BookInfo?bookId=' + temp.BookId + '" name="BookId">' +
                                 '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +
                                 '<img lay-src="' + temp.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
                                 '<h4 style="color:gray">' + formatDate(item.F_StartTime, "yyyy-MM-dd HH:mm") + ' 至 ' + formatDate(item.F_EndTime, "yyyy-MM-dd HH:mm") + '</h4><center><h2><b>' + temp.BookName + '</b></h2></center><br />' +

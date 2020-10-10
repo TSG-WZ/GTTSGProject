@@ -38,14 +38,17 @@
                     {
                         if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
                         {
-                            <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
+                              <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
                         }
                         else
                         {
+                            if (Model.B_TypeId != 3)
+                            {
                             <a href="javascript:;" id="reward" class="layui-btn layui-btn-normal layui-btn-lg">预约</a>
-                         }
-                     }
+                            }
+                        }
                     }
+                }
                 <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg" id="collect">收藏</a>
             </div>
         </div>
