@@ -4,8 +4,6 @@
 }
 @using DTTSG_Model
 @using DTTSG_Common
-@*@{Pager<BookInfo> page = ViewBag.BookListPages as Pager<BookInfo>;}*@
-@{List<BookType> types = ViewBag.BookTypeList as List<BookType>;}
 
 <!DOCTYPE html>
 <html>
@@ -63,8 +61,9 @@
                     var lis = [];
                     var pagecount = 0;
 
-                    $.get('/Book/GetBookPagerData?pageindex=' + page , function (data) {
+                    $.get('/Collect/GetCollectPagerData?pageindex=' + page, function (data) {
                         layui.each(data.InfoList, function (index, item) {
+                            console.log("1");
                             //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                             lis.push('<a href="/Book/BookInfo?BookId=' + item.BookId + '" name="BookId">' +
                                 '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +

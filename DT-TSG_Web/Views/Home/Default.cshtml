@@ -2,7 +2,8 @@
 @{
     Layout = null;
 }
-
+@using DTTSG_Model
+@{ List<MessageInfo> infos = ViewBag.MessageList;}
 <!DOCTYPE html>
 <html>
 <head>
@@ -171,28 +172,19 @@
                     <div class="layui-card">
                         <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>系统公告</div>
                         <div class="layui-card-body layui-text">
-                            <div class="layuimini-notice">
-                                <div class="layuimini-notice-title">开放微信公众号注册</div>
-                                <div class="layuimini-notice-extra">2020-10-08 23:06</div>
-                                <div class="layuimini-notice-content layui-hide">
-                                    界面足够简洁清爽。<br>
-                                    扫码关注公众号即可无缝对接操作!
-                                </div>
-                            </div>
-                            <div class="layuimini-notice">
-                                <div class="layuimini-notice-title">新增武汉秀湖地铁站机位</div>
-                                <div class="layuimini-notice-extra">2020-10-07 13:06</div>
-                                <div class="layuimini-notice-content layui-hide">
-                                    欢迎大家使用
-                                </div>
-                            </div>
-                            <div class="layuimini-notice">
-                                <div class="layuimini-notice-title">系统维护通知</div>
-                                <div class="layuimini-notice-extra">2020-10-05 17:06</div>
-                                <div class="layuimini-notice-content layui-hide">
-                                    2020-10-06 晚八点至十点汉口站点检修，请注意归还以及预约情况。
-                                </div>
-                            </div>
+                            @{
+                                if (infos.Count == 0) { <p>暂无公告</p>}
+                                foreach (MessageInfo item in infos)
+                                {
+                                    <div class="layuimini-notice">
+                                        <div class="layuimini-notice-title">@item.MessageTitle</div>
+                                        <div class="layuimini-notice-extra">@item.MessageTime</div>
+                                        <div class="layuimini-notice-content layui-hide">
+                                            @item.MessageContent
+                                        </div>
+                                    </div>
+                                    }
+                                }
                         </div>
                     </div>
                     <!-- 版本信息模块 -->
