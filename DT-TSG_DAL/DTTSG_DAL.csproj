@@ -51,6 +51,7 @@
     <Compile Include="Book\BookTypeServer.cs" />
     <Compile Include="Book\BorrowServer.cs" />
     <Compile Include="Collect\UserCollectServer.cs" />
+    <Compile Include="Image\ImageServer.cs" />
     <Compile Include="Librarian\LibrarianLoginServer.cs" />
     <Compile Include="Message\MessageServer.cs" />
     <Compile Include="Notice\NoticeServer.cs" />

@@ -13,8 +13,8 @@ namespace DTTSG_Web.Controllers
         {
             var userinfo = Session["User"] as UserInfo;
            // List<Notice> noticeList= noticeManager.GetNoticeList(userinfo.UserId);// 没有分页的方法 返回noticeList
-            ViewBag.ReadNoticeList = noticeManager.GetNoticeList(userinfo.UserId, isRead:1); // 未读
-            ViewBag.UnReadNoticeList = noticeManager.GetNoticeList(userinfo.UserId,isRead:0);// 已读
+            ViewBag.ReadNoticeList = noticeManager.GetNoticeList(userinfo.UserId, isRead:1); // 已读
+            ViewBag.UnReadNoticeList = noticeManager.GetNoticeList(userinfo.UserId,isRead:0);// 未读
             //ViewBag.NoticeList = noticeManager.GetNoticePagerList(0,8,userinfo.UserId);// 有分页的方法  返回Pager
             return View();
         }
