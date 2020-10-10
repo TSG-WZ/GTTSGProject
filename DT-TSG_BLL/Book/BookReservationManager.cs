@@ -11,7 +11,7 @@ namespace DTTSG_BLL
         BookReservationServer reservationServer = new BookReservationServer();
         NoticeServer noticeServer = new NoticeServer();
         BookServer bookServer = new BookServer();
-
+        ImageServer imageServer = new ImageServer();
         public List<ForwardInfo> GetForwardInfoList(int userId = 0)
         {
             return reservationServer.GetReservationList(userId);
@@ -22,6 +22,11 @@ namespace DTTSG_BLL
 
             int dataCount = reservationServer.GetReservationList(UserId).Count;
             var InfoList = reservationServer.GetReservationList(UserId, true, pageIndex: pageIndex, pageSize: pageSize);
+
+            foreach (var item in InfoList)
+            {
+               item.BookInfo.ImageInfo = imageServer.GetimageInfo(item.BookInfo.ImageId);
+            }
 
             Pager<ForwardInfo> pager = new Pager<ForwardInfo>(pageIndex, pageSize, dataCount, InfoList);
             return pager;
@@ -34,6 +39,7 @@ namespace DTTSG_BLL
             {
                 model = reservationServer.GetForwardInfoModelWithFowardId(Id);
             }
+            model.BookInfo.ImageInfo = imageServer.GetimageInfo(model.BookInfo.ImageId);
             return model;
 
         }

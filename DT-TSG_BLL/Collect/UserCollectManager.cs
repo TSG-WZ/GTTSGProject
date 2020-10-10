@@ -12,7 +12,7 @@ namespace DTTSG_BLL
     public class UserCollectManager
     {
         UserCollectServer collectServer = new UserCollectServer();
-
+        ImageServer imageServer = new ImageServer();
         /// <summary>
         /// 返回收藏列表
         /// </summary>
@@ -20,13 +20,23 @@ namespace DTTSG_BLL
         /// <returns></returns>
         public List<UserCollect> GetCollectList(int userId)
         {
-            return collectServer.GetCollectList(userId);
+            var InfoList = collectServer.GetCollectList(userId);
+            foreach (var item in InfoList)
+            {
+               item.BookInfo.ImageInfo = imageServer.GetimageInfo(item.BookInfo.ImageId);
+            }
+
+            return InfoList;
         }
 
         public Pager<UserCollect> GetCollectPagerList(int userId,int pageIndex,int pageSize)
         {
             int dataCount = collectServer.GetCollectList(userId).Count;
             var InfoList = collectServer.GetCollectList(userId, true, pageIndex: pageIndex, pageSize: pageSize);
+            foreach (var item in InfoList)
+            {
+                item.BookInfo.ImageInfo = imageServer.GetimageInfo(item.BookInfo.ImageId);
+            }
 
             Pager<UserCollect> pager = new Pager<UserCollect>(pageIndex, pageSize, dataCount, InfoList);
             return pager;
@@ -48,6 +58,17 @@ namespace DTTSG_BLL
             };
 
             return collectServer.Insert(userCollect);
+        }
+
+        /// <summary>
+        /// 收藏校验  去重
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="bookId"></param>
+        /// <returns>true 不能在添加</returns>
+        public bool CollectCheck(int userId,int bookId)
+        {
+            return collectServer.GetCollectModels(bookId:bookId,userId:userId).Count == 0;
         }
 
         /// <summary>
