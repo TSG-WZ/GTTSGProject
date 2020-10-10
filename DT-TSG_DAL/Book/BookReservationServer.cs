@@ -66,7 +66,7 @@ namespace DTTSG_DAL
 
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
-                    return connection.Query<BookInfo, ForwardInfo, ForwardInfo>(sql, (bi, fd) =>
+                    return connection.Query<ForwardInfo, BookInfo, ForwardInfo>(sql, (fd, bi) =>
                     { fd.BookInfo = bi; return fd; }
                         , parameters,
                         splitOn: "BookId").Single();
@@ -90,7 +90,7 @@ namespace DTTSG_DAL
             {
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
-                    return connection.Query<BookInfo, ForwardInfo, ForwardInfo>(sql, (bi, fd) =>
+                    return connection.Query<ForwardInfo, BookInfo, ForwardInfo>(sql, (fd, bi) =>
                     { fd.BookInfo = bi; return fd; }
                         , parameters,
                         splitOn: "BookId").Single();
