@@ -19,6 +19,10 @@
                 var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
                 var seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
                 return datetime + ' ' + hour + ':' + minute + ':' + seconds;
+            } else if (formatType == 'yyyy-MM-dd HH:mm') {
+                var hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+                var minute = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+                return datetime + ' ' + hour + ':' + minute;
             }
             return datetime;
         }

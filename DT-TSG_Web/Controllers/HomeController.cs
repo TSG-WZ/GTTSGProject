@@ -17,7 +17,7 @@ namespace DTTSG_Web.Controllers
         }
         public ActionResult Default()
         {
-            ViewBag.MessageList = messageManager.GetMessageList(isValid:0);// 有效的系统公告 isValid 是否有效 1 有效   0 无效
+            ViewBag.MessageList = messageManager.GetMessageList(isValid:1);// 有效的系统公告 isValid 是否有效 1 有效   0 无效
 
             return View();
         }

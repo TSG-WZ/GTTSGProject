@@ -100,8 +100,7 @@ namespace DTTSG_DAL
                                     bi.B_TypeId=bt.B_TypeId join BookStatu bs on
                                     bi.B_StatuId=bs.B_StatuId join MechanInfo me on
                                     bi.MechanId=me.MechanId join ImageInfo im on 
-                                    bi.ImageId=im.ImageId where bi.B_StatuId<2 
-                                    and me.MechanName=@MechanName and bi.BookId=@BookId";
+                                    bi.ImageId=im.ImageId where me.MechanName=@MechanName and bi.BookId=@BookId";
 
                     return connection.Query<BookInfo, BookType, BookStatu, MechanInfo, ImageInfo, BookInfo>
                         (sql, (bi, bt, bs, me, im) =>

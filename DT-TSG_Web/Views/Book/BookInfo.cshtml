@@ -34,16 +34,18 @@
                 <h2>出版时间:@Model.BookPubtime.ToLongDateString()</h2><br />
                 <h2>存书地点:@Model.MechanInfo.MechanAddress</h2><br />
                 <h1><strong>$@Model.BookPrice</strong></h1><br />
-                @{
-                    if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
+                @{if (Model.B_StatuId == 1)
                     {
-                        <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
+                        if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
+                        {
+                            <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
+                        }
+                        else
+                        {
+                            <a href="javascript:;" id="reward" class="layui-btn layui-btn-normal layui-btn-lg">预约</a>
+                         }
+                     }
                     }
-                    else
-                    {
-                        <a href="javascript:;" id="reward" class="layui-btn layui-btn-normal layui-btn-lg">预约</a>
-                    }
-                }
                 <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg" id="collect">收藏</a>
             </div>
         </div>
@@ -69,7 +71,7 @@
                                 icon: 1,
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function () {
-                                window.location = '/Borrow/BorrowList';
+                                window.location = '/Book/BookList';
                             });
                         }
                         else {
@@ -93,7 +95,7 @@
                                 icon: 1,
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function () {
-                                window.location = '/Forward/ForwardList';
+                                window.location = '/Book/BookList';
                             });
                         }
                         else {
@@ -124,7 +126,12 @@
                                 icon: 1,
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function () {
-                                window.location = '/Forward/ForwardList';
+                                window.location = '/Book/BookList';
+                                });
+                        } else if (data.Status == -1) {
+                            layer.msg(data.Msg, {
+                                icon: 2,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             });
                         }
                         else {

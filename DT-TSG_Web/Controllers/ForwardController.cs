@@ -16,17 +16,28 @@ namespace DTTSG_Web.Controllers
         // GET: Forward
         public ActionResult ForwardList()
         {
-            #region 测试预约
-            var userInfo = Session["User"] as UserInfo;
-
-            ViewBag.Reservation = bookReservation.GetReservationPagerList(1,8, UserId:userInfo.UserId);
-
-
-            #endregion
-             
             return View();
         }
 
+        /// <summary>
+        /// ajax分页获取预约信息
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        public ActionResult GetForwardListData(int pageIndex)
+        {
+            UserInfo userInfo = Session["User"] as UserInfo;
+            JsonResult json = new JsonResult();
+            json.Data = bookReservation.GetReservationPagerList(pageIndex, 8, UserId: userInfo.UserId);// 用户收藏列表
+            json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return json;
+        }
+
+        /// <summary>
+        /// 预约图书
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
         public ActionResult ForwardBook(int bookId)
         {
             var userInfo = Session["User"] as UserInfo;
@@ -37,7 +48,7 @@ namespace DTTSG_Web.Controllers
             }
             else
             {
-                return Redirect("~/404.cshtml");
+                return Redirect("~/404.html");
             }
             
         }
