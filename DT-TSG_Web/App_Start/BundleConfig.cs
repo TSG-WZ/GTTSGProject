@@ -51,7 +51,8 @@ namespace DTTSG_Web
             //列表
             bundles.Add(new ScriptBundle("~/ListInfo_Js").Include(
                         "~/lib/jquery-3.4.1/jquery-3.4.1.min.js",
-                        "~/lib/layui-v2.5.5/layui.js"));
+                        "~/lib/layui-v2.5.5/layui.js",
+                        "~/Content/Own/js/date_format.js"));
             //图书列表页js
             bundles.Add(new ScriptBundle("~/BookList_Js").Include(
                        "~/Content/Own/js/booklist.js"));

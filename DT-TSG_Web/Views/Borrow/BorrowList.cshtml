@@ -40,11 +40,11 @@
                             <td>@item.BookInfo.BookName</td>
                             <td>@item.MechanInfo.MechanName</td>
                             <td>@item.BorrowType.Bo_TypeName</td>
-                            <td>@item.B_StartTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
-                            <td>@item.B_EndTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                            <td>@item.B_StartTime.ToString("yyyy/MM/dd")</td>
+                            <td>@item.B_EndTime.ToString("yyyy/MM/dd")</td>
                                 @if (item.Bo_TypeId == 3)
                                 {
-                                    <td>@item.B_ReturnTime.ToString("yyyy/MM/dd hh:mm:ss")</td>
+                                    <td>@item.B_ReturnTime.ToString("yyyy/MM/dd")</td>
                                 }
                                 else {
                                     <td><a href="/Book/ReturnBook?borrowId=@item.BorrowId">现在归还</a></td> 
@@ -89,80 +89,77 @@
                 $('tbody').html("");
                 //迭代循环  data是page对象,要取里面的infolist
                 $.each(data.InfoList, function (i, item) {   //返回了i第几行,item数据
-                    //console.log(i, item);
-                    var Ttime = "未归还";
-                    if (item.BorrowType.Bo_TypeName != 3) {
+                    var Ttime = "";
+                    if (item.BorrowType.Bo_TypeId == 3) {
+                        Ttime = formatDate(item.B_ReturnTime, "yyyy-MM-dd");
+                    } else if (item.BorrowType.Bo_TypeId == 1 && item.BorrowType.Bo_TypeId == 2) {
                         Ttime = "<a href=\"/BookReturn/Book?borrowId=\"+" + item.borrowId + "+ >现在归还</a>";
                     } else {
-                         Ttime = formatDate(item.Ttime, "yyyy-MM-dd");
+                        Ttime = "未归还";
                     }
                     $("tbody").append(
                         "<tr><td>" + item.UserInfo.UserName + "</td><td>"
                         + item.BookInfo.BookName + "</td><td>" + item.MechanInfo.MechanName + "</td><td>"
                         + item.BorrowType.Bo_TypeName + "</td><td>" + formatDate(item.B_StartTime, "yyyy-MM-dd") +
-                        "</td><td>" + formatDate(item.B_EndTime, "yyyy-MM-dd") + "</td><td>"
-                        + Ttime + "</td></tr>"
+                        "</td><td>" + formatDate(item.B_EndTime, "yyyy-MM-dd") + "</td><td>" + Ttime + "</td></tr>"
                     );
                 });
             }
 
             //拼接json字符串
-            function MakeUpJson(limit,curr,bid,sid,bookid) {
+            function MakeUpJson(limit,curr) {
                 return {
                     "pagesize": limit,
-                    "pageindex": curr,
-                    "Bid": bid,
-                    "Sid": sid,
-                    "BookId": bookid
+                    "pageindex": curr
                 }
             }
 
             //刷新跳转链接
-            //function RenovateJumpLink(curr, count, limit, bid, sid, bookid) {
-            //    //分页功能
-            //    laypage.render({
-            //        elem: 'div_pager',
-            //        limits: [5, 10, 15, 20, 25, 50],
-            //        curr:  curr,   //当前页
-            //        count: count,  //数据总数，从服务端得到
-            //        limit: limit,    //每页条数
-            //        limits: [5, 10, 15, 20, 25],
-            //        layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
-            //        prev: '<<',
-            //        next: '>>',
-            //        groups: 5,   //连续出现个数
-            //        jump: function (obj, first) {
-            //            //obj包含了当前分页的所有参数,curr,limit等
-            //            //首次不执行,不加会死循环
-            //            if (!first) {
-            //                //带刷新的方法
-            //                //location.href = "/Student/GetBookPagerData/" + obj.limit + "/" + obj.curr;
-            //                //ajax无刷新方法
-            //                $.ajax({
-            //                    url: UpLoadURL,
-            //                    data: MakeUpJson(obj.limit, obj.curr, bid, sid, bookid),
-            //                    dataType: "json",
-            //                    type: "post",
-            //                    success: function (data) {
-            //                        //刷新表格数据
-            //                        RenovateTableData(data);
-            //                        //重新渲染表格
-            //                        RenovateTable(obj.limit);
-            //                    },
-            //                    error: function () {
-            //                        layer.alert('未知错误', { icon: 2 });
-            //                    }
-            //                }); //ajax结束
-            //            } //first执行结束
-            //        } //跳转结束
-            //    });
-            //}
+            function RenovateJumpLink(curr, count, limit, bid, sid, bookid) {
+                //分页功能
+                laypage.render({
+                    elem: 'div_pager',
+                    limits: [5, 10, 15, 20, 25, 50],
+                    curr:  curr,   //当前页
+                    count: count,  //数据总数，从服务端得到
+                    limit: limit,    //每页条数
+                    limits: [5, 10, 15, 20, 25],
+                    layout: ['prev', 'page', 'next', 'skip', 'count', 'limit'],
+                    prev: '<<',
+                    next: '>>',
+                    groups: 5,   //连续出现个数
+                    jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数,curr,limit等
+                        //首次不执行,不加会死循环
+                        if (!first) {
+                            //带刷新的方法
+                            //location.href = "/Student/GetBookPagerData/" + obj.limit + "/" + obj.curr;
+                            //ajax无刷新方法
+                            $.ajax({
+                                url: UpLoadURL,
+                                data: MakeUpJson(obj.limit, obj.curr),
+                                dataType: "json",
+                                type: "post",
+                                success: function (data) {
+                                    //刷新表格数据
+                                    RenovateTableData(data);
+                                    //重新渲染表格
+                                    RenovateTable(obj.limit);
+                                },
+                                error: function () {
+                                    layer.alert('未知错误', { icon: 2 });
+                                }
+                            }); //ajax结束
+                        } //first执行结束
+                    } //跳转结束
+                });
+            }
 
             //加载页面时重新渲染表格
             RenovateTable(200);
 
             //加载页面时刷新跳转标签页
-           // RenovateJumpLink(@(page.PageIndex), @(page.DataCount), @(page.PageSize), null, null, null);
+           RenovateJumpLink(@(page.PageIndex), @(page.DataCount), @(page.PageSize));
             
         });
     </script>

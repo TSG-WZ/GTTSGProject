@@ -77,12 +77,13 @@ namespace DTTSG_BLL
         /// <param name="userId"></param>
         /// <param name="bookId"></param>
         /// <returns></returns>
-        public int CancelCollect(int userId,int bookId)
+        public int CancelCollect(int collectId)
         {
             UserCollect userCollect = new UserCollect()
             {
-                BookId = bookId,
-                UserId = userId,
+                CollectId = collectId,
+                //BookId = bookId,
+                //UserId = userId,
             };
 
             return collectServer.Delete(userCollect);
