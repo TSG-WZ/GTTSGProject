@@ -22,7 +22,7 @@ namespace DTTSG_Web.Controllers
         }
 
         /// <summary>
-        /// ajax分页获取预约信息
+        /// ajax分页获取预约信息,GetPassForwardListData,GetDoneForwardListData
         /// </summary>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
