@@ -75,11 +75,19 @@
 
     @Scripts.Render("~/List_Js")
 <script type="text/javascript">
-        layui.use(['form', 'table'], function () {
+        layui.use(['table'], function () {
             var $ = layui.jquery,
-            form = layui.form,
             table = layui.table,
             laypage = layui.laypage;
+
+            function is_weixn() {
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
 
             var UpLoadURL = '@Url.Action("GetBorrowPagerData", "Borrow" )';
 
@@ -103,12 +111,10 @@
                     if (item.BorrowType.Bo_TypeId == 3) {
                         Ttime = formatDate(item.B_ReturnTime, "yyyy-MM-dd");
                     } else if (item.BorrowType.Bo_TypeId == 1 && item.BorrowType.Bo_TypeId == 2) {
-                        if (@(!string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))) {
-                            Ttime = "<a href=\"/BookReturn/Book?borrowId=\"+" + item.borrowId + "+ >现在归还</a>";
-                        } else {
+                        if (is_weixn())
+                            Ttime = '<a href="/BookReturn/Book?borrowId=' + item.borrowId + '">现在归还</a>';
+                        else
                             Time = "请前往" + item.MechanInfo.MechanName + "处归还";
-                        }
-                        
                     } else {
                         Ttime = "未归还";
                     }

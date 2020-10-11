@@ -1,4 +1,4 @@
-﻿using DTTSG_Common;
+using DTTSG_Common;
 using DTTSG_DAL;
 using DTTSG_Model;
 using System;
@@ -65,10 +65,9 @@ namespace DTTSG_BLL
         public int ResvervationBook(int userId, int bookId)
         {
             BookInfo book = bookServer.GetBookModel(bookId);
-            if (book.B_StatuId == 3)
-            {
-                return -1;
-            }
+
+            if (book.B_StatuId == 3) return -1;     //已被预约
+
             book.B_StatuId = 3;
 
             ForwardInfo model = new ForwardInfo()

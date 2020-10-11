@@ -58,11 +58,11 @@
             var layer = layui.layer,
                 $ = layui.jquery;
 
-            //电脑端确认借阅
-            function confirms(bookId) {
+            //电脑端借阅图书
+            $("#queding").click(function () {
                 $.ajax({
                     url: "/Book/BorrowBook",
-                    data: { "bookId": bookId },
+                    data: { "bookId": @Model.BookId },
                     dataType: "json",
                     type: "post",
                     success: function (data) {
@@ -80,40 +80,42 @@
                         }
                     }
                 }); //ajax结束
-            }
-
-            //手机端确认预约
-            function reward(bookId) {
-                $.ajax({
-                    url: "/Forward/ForwardBook",
-                    data: { "bookId": bookId },
-                    dataType: "json",
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == 1) {
-                            //alert(data);
-                            layer.msg(data.Msg, {
-                                icon: 1,
-                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                            }, function () {
-                                window.location = '/Book/BookList';
-                            });
-                        }
-                        else {
-                            layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
-                        }
-                    }
-                }); //ajax结束
-            }
-
-            $("#queding").click(function () {
-                confirms(@Model.BookId);
             });
 
+            //手机端确认预约
             $("#reward").click(function () {
-                reward(@Model.BookId);
+                $.ajax({
+                    url: "/Forward/ForwardBook",
+                    data: { "bookId": @Model.BookId },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            layer.msg(data.Msg, {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location = '/Book/BookList';
+                            });
+                        } else if (data.Status == -1) {
+                            layer.msg(data.Msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        } else if (data.Status == 0) {
+                            layer.msg(data.Msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        }
+                        else {
+                            layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
+                        }
+                    }
+                }); //ajax结束
             }); 
 
+            //添加收藏(双端)
             $("#collect").click(function () {
                 $.ajax({
                     url: "/Collect/AddCollect",
@@ -141,6 +143,7 @@
                     }
                 }); //ajax结束
             });
+
         });
     </script>
 </body>

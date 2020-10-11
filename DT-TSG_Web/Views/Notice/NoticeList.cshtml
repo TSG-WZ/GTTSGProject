@@ -4,7 +4,6 @@
 }
 
 <!DOCTYPE html>
-@using DTTSG_BLL
 @using DTTSG_Model
 @{ var readNotice = ViewBag.ReadNoticeList as List<Notice>;}
 @{ var unReadNotice = ViewBag.UnReadNoticeList as List<Notice>;}
@@ -35,7 +34,11 @@
             foreach (var item in unReadNotice)
             {
                 <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">@item.NoticeTitle <span style="float:right">@item.NoticeTime</span></h2>
+                    <h2 class="layui-colla-title">
+                        <span>@item.NoticeTitle</span>
+                        <span class="layui-badge-dot" style="margin-left:3px"></span>
+                        <span style="float:right">@item.NoticeTime</span>
+                    </h2>
                     <p style="display:none">@item.NoticeId</p>
                     <div class="layui-colla-content">
                         <p>@item.NoticeContent</p>
@@ -43,15 +46,12 @@
                 </div>
             }
         }
-
-
     </div>
 
     <div class="layui-collapse" style="padding:20px">
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>已读列表</legend>
         </fieldset>
-
         @if (readNotice != null)
         {
             foreach (var item in readNotice.OrderByDescending(b=>b.NoticeId).Take(10))
@@ -63,10 +63,8 @@
                         <p>@item.NoticeContent</p>
                     </div>
                 </div>
-
             }
         }
-
     </div>
 
     @Scripts.Render("~/ListInfo_Js")
@@ -76,8 +74,11 @@
             var layer = layui.layer;
 
             $("#notread .layui-colla-title").click(function () {
-                var readinfo = $(this).next();
-                var readId = readinfo.text();
+                var readinfo = $(this).next();      //获取点击的h2
+                var readId = readinfo.text();   //获取点击的通知ID
+                //console.log(this);
+                $(this).find("span").removeClass("layui-badge-dot");     //去掉小红点
+
                 if (readId == 0) return;
                 //ajaxq请求
                 $.ajax({

@@ -34,6 +34,19 @@ namespace DTTSG_Web.Controllers
             json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return json;
         }
+        /// <summary>
+        /// 获取已结束列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        public ActionResult GetEndForwardListData(int pageIndex)
+        {
+            UserInfo userInfo = Session["User"] as UserInfo;
+            JsonResult json = new JsonResult();
+            json.Data = bookReservation.GetReservationPagerList(pageIndex, 8, UserId: userInfo.UserId);// 用户收藏列表
+            json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return json;
+        }
 
         public ActionResult GetEndForwardListData(int pageIndex)
         {
@@ -54,17 +67,15 @@ namespace DTTSG_Web.Controllers
         public ActionResult ForwardBook(int bookId)
         {
             var userInfo = Session["User"] as UserInfo;
-            var result = bookReservation.ResvervationBook(userInfo.UserId,bookId);
-            if (result ==1)
-            {
+            var result = bookReservation.ResvervationBook(userInfo.UserId, bookId);
+            if (result == 1)
                 return Json(new AjaxBackInfo(1, "预约成功"));
-            }
+            else if (result == -1)
+                return Json(new AjaxBackInfo(-1, "该书已经被其他用户预约"));
             else
-            {
-                return Redirect("~/404.html");
-            }
-            
+                return Json(new AjaxBackInfo(0, "网络错误,请稍后重试"));
         }
+
 
     }
 }
