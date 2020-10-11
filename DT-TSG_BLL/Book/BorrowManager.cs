@@ -48,7 +48,7 @@ namespace DTTSG_BLL
             };
   
 
-            if (bookInfo != null || bookInfo.B_StatuId == 2)
+            if (bookInfo != null && bookInfo.B_StatuId != 2)
             {
                
                 bookInfo.B_StatuId = 2;

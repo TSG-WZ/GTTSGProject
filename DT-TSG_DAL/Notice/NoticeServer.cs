@@ -39,7 +39,7 @@ namespace DTTSG_DAL
                 parameters.Add("@pageIndex", pageIndex);
                 parameters.Add("@pageSize", pageSize);
                 //加排序
-                sql += " order by NoticeId asc offset(@pageIndex - 1) * @pageSize " +
+                sql += " order by NoticeTime desc offset(@pageIndex - 1) * @pageSize " +
                     "rows fetch next @pageSize rows only";
             }
 

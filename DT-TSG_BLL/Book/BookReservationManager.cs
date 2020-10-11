@@ -3,6 +3,7 @@ using DTTSG_DAL;
 using DTTSG_Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DTTSG_BLL
 {
@@ -17,20 +18,31 @@ namespace DTTSG_BLL
             return reservationServer.GetReservationList(userId);
         }
 
-        public Pager<ForwardInfo> GetReservationPagerList(int pageIndex, int pageSize, int UserId = 0)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="UserId"></param>
+        /// <param name="forwardStatu">预约状态，默认0 预约中 1 已结束,其他数就是获取所有的预约表</param>
+        /// <returns></returns>
+        public Pager<ForwardInfo> GetReservationPagerList(int pageIndex, int pageSize, int UserId = 0, int forwardStatu = 0)
         {
 
-            int dataCount = reservationServer.GetReservationList(UserId).Count;
-            var InfoList = reservationServer.GetReservationList(UserId, true, pageIndex: pageIndex, pageSize: pageSize);
+            int dataCount = reservationServer.GetReservationList(UserId,fStatu:forwardStatu).Count;
 
+            List<ForwardInfo> InfoList = reservationServer.GetReservationList(UserId, true, pageIndex: pageIndex, pageSize: pageSize,fStatu:forwardStatu);
+           
             foreach (var item in InfoList)
             {
-               item.BookInfo.ImageInfo = imageServer.GetimageInfo(item.BookInfo.ImageId);
+                item.BookInfo.ImageInfo = imageServer.GetimageInfo(item.BookInfo.ImageId);
             }
 
             Pager<ForwardInfo> pager = new Pager<ForwardInfo>(pageIndex, pageSize, dataCount, InfoList);
             return pager;
         }
+
+
 
         public ForwardInfo GetForwardModel(int Id)
         {
@@ -53,6 +65,10 @@ namespace DTTSG_BLL
         public int ResvervationBook(int userId, int bookId)
         {
             BookInfo book = bookServer.GetBookModel(bookId);
+            if (book.B_StatuId == 3)
+            {
+                return -1;
+            }
             book.B_StatuId = 3;
 
             ForwardInfo model = new ForwardInfo()
@@ -94,25 +110,25 @@ namespace DTTSG_BLL
             {
                 UserId = fModel.UserId,
                 NoticeTitle = "预约过期提醒",
-                NoticeContent = "您预约的书籍：《"+fModel.BookInfo.BookName+"》，由于过期未取，现在系统已经自动取消！",
+                NoticeContent = "您预约的书籍：《" + fModel.BookInfo.BookName + "》，由于过期未取，现在系统已经自动取消！",
                 NoticeTime = fModel.F_EndTime,
-                LibId=1001,
-                N_TypeId=3
+                LibId = 1001,
+                N_TypeId = 3
             };
             if (noticeServer.GetNotice(fModel.F_EndTime) == null)
             {
                 noticeServer.Insert(notice);
             }
-            
+
             return bookServer.Update(fModel.BookInfo);
         }
 
         public void ResvervationCheck()
         {
-          var list = GetForwardInfoList();
+            var list = GetForwardInfoList();
             foreach (var item in list)
             {
-                if (DateTime.Compare(item.F_EndTime,DateTime.Now) < 0 )
+                if (DateTime.Compare(item.F_EndTime, DateTime.Now) < 0 && item.BookInfo.B_StatuId != 2)
                 {
                     CancelResvervationBook(item.F_Id);
                 }
