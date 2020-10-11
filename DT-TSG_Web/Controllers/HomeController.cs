@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using DTTSG_Web.Filts;
 using DTTSG_Model;
 
+
 namespace DTTSG_Web.Controllers
 {
     [UserAutorizeAttribute]
@@ -11,9 +12,14 @@ namespace DTTSG_Web.Controllers
         BookReservationManager reservationManager = new BookReservationManager();
         MessageManager messageManager = new MessageManager();
         RankManager rankManager = new RankManager();
+        NoticeManager noticeManager = new NoticeManager();
         #region 用户首页框架以及首页信息
         public ActionResult Index()
         {
+            UserInfo userInfo = Session["User"] as UserInfo;
+
+             ViewBag.isHasUnReadList = noticeManager.GetNoticeList(userInfo.UserId,isRead:0).Count != 0; // 未读消息
+            
             reservationManager.ResvervationCheck();// 检查是否有预约过期
             return View();
         }
