@@ -14,7 +14,7 @@ namespace DTTSG_BLL
         public Pager<BorrowInfo> GetBorrowInfoList(int pageIndex, int pageSize, UserInfo userInfo)
         {
             int dataCount = borrowServer.GetBorrowListLength(userInfo.UserId);
-            List<BorrowInfo> InfoList = borrowServer.GetBorrowList(pageIndex, pageSize, userInfo);
+            List<BorrowInfo> InfoList = borrowServer.GetBorrowList(userInfo.UserId,true ,pageIndex, pageSize );
 
             Pager<BorrowInfo> pager = new Pager<BorrowInfo>(pageIndex, pageSize, dataCount, InfoList);
             return pager;
@@ -31,13 +31,15 @@ namespace DTTSG_BLL
             return borrowServer.GetBorrowInfoModel(borrowId);
         }
 
-        public int BookBrrow(int bookId, int useId)
+        //借书
+        public int BookBrrow(int bookId, int userId)
         {
+            CheckDeferBook(userId);
             var bookInfo = bookServer.GetBookModel(bookId);
          
             var borrowInfo = new BorrowInfo()
             {
-                UserId = useId,
+                UserId = userId,
                 BookId = bookId,
                 Bo_TypeId = 1,
                 B_MechanId = bookInfo.MechanId,
@@ -61,7 +63,7 @@ namespace DTTSG_BLL
                     N_TypeId = 2,
                     NoticeTitle = "借阅成功提醒",
                     NoticeContent = "恭喜您成功借阅《" + bookInfo.BookName + "》，请在一个月之内归还！",
-                    UserId = useId,
+                    UserId = userId,
                     LibId = 1001
                 };
 
@@ -75,6 +77,13 @@ namespace DTTSG_BLL
 
         }
 
+        /// <summary>
+        /// 返回0 已延期
+        /// </summary>
+        /// <param name="borrowId"></param>
+        /// <param name="bookId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public int BookReturn(int borrowId, int bookId = 0, int userId = 0)
         {
             BorrowInfo borrowInfo;
@@ -87,7 +96,7 @@ namespace DTTSG_BLL
                 borrowInfo = borrowServer.GetBorrowInfoModel(0, bookId);
             }
 
-            if (borrowInfo != null)
+            if (borrowInfo != null && borrowInfo.Bo_TypeId ==3)// 借阅状态 等于借阅中才可以还书
             {
                 borrowInfo.Bo_TypeId = 3;
                 borrowInfo.B_ReturnTime = DateTime.Now;
@@ -112,6 +121,38 @@ namespace DTTSG_BLL
             return 0;
         }
 
-        
+        public int DeferOperation(int Bo_Id)
+        {
+            var BoModel = borrowServer.GetBorrowInfoModel(Bo_Id);
+            
+            Notice notice = new Notice()
+            {
+                UserId = BoModel.UserId,
+                NoticeTitle = "书籍借阅到期提醒",
+                NoticeContent = "您借阅的书籍：《" + BoModel.BookInfo.BookName + "》，由于过期未归还，请联系管理员归还图书！",
+                NoticeTime = BoModel.B_EndTime,
+                LibId = 1001,
+                N_TypeId = 1
+            };
+            if (noticeServer.GetNotice(BoModel.B_EndTime) == null)
+            {
+                noticeServer.Insert(notice);
+            }
+
+            BoModel.Bo_TypeId = 2;
+            return  borrowServer.Update(BoModel);
+        }
+
+        public void CheckDeferBook(int userId)
+        {
+            var list = borrowServer.GetBorrowList(userId:userId);
+            foreach (var item in list)
+            {
+                if (DateTime.Compare(item.B_EndTime, DateTime.Now) < 0 && item.Bo_TypeId == 1)
+                {
+                    DeferOperation(item.BorrowId);
+                }
+            }
+        }
     }
 }

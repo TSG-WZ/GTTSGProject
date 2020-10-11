@@ -11,7 +11,7 @@ namespace DTTSG_DAL
 {
     public class BorrowServer : BaseServer<BorrowInfo>
     {
-        public List<BorrowInfo> GetBorrowList(int pageIndex, int pageSize, UserInfo userInfo)
+        public List<BorrowInfo> GetBorrowList(int userId=0,bool isPager=false ,int pageIndex=0, int pageSize=0 )
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@pageIndex", pageIndex);
@@ -23,14 +23,18 @@ namespace DTTSG_DAL
                     join MechanInfo me on bi.MechanId = me.MechanId 
                     join UserInfo ui on	ui.UserId = br.UserId where 
                     me.MechanName = @MechanName";
-            if (userInfo.UserId.ToString().StartsWith("2") )
+            if (userId!=0 )
             {
-                parameters.Add("@UserId", userInfo.UserId);
+                parameters.Add("@UserId",userId);
                 sql += " and ui.UserId = @UserId";
             }
             //加分页
-            sql += " order  by brt.Seo  desc offset(@pageIndex - 1) * @pageSize " +
+            if (isPager)
+            {
+                sql += " order  by brt.Seo  desc offset(@pageIndex - 1) * @pageSize " +
                 "rows fetch next @pageSize rows only";
+            }
+            
             try
             {
 

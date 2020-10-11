@@ -43,7 +43,6 @@ namespace DTTSG_BLL
         }
 
 
-
         public ForwardInfo GetForwardModel(int Id)
         {
             var model = reservationServer.GetForwardInfoModelWithBookId(Id);
@@ -100,7 +99,7 @@ namespace DTTSG_BLL
                 return 0;
             }
         }
-
+        // 取消预约
         public int CancelResvervationBook(int F_Id)
         {
             var fModel = reservationServer.GetForwardInfoModelWithFowardId(F_Id);
@@ -122,6 +121,7 @@ namespace DTTSG_BLL
             return bookServer.Update(fModel.BookInfo);
         }
 
+        // 预约过期操作
         public void ResvervationCheck()
         {
             var list = GetForwardInfoList();

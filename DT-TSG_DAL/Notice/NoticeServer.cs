@@ -42,7 +42,7 @@ namespace DTTSG_DAL
                 sql += " order by NoticeTime desc offset(@pageIndex - 1) * @pageSize " +
                     "rows fetch next @pageSize rows only";
             }
-
+            sql += " order by NoticeTime desc";
             try
             {
 
