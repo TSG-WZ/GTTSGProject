@@ -91,12 +91,21 @@
                     type: "post",
                     success: function (data) {
                         if (data.Status == 1) {
-                            //alert(data);
                             layer.msg(data.Msg, {
                                 icon: 1,
                                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
                             }, function () {
                                 window.location = '/Book/BookList';
+                            });
+                        } else if (data.Status == -1) {
+                            layer.msg(data.Msg, {
+                                icon: 2,
+                                time: 2000
+                            });
+                        } else if (data.Status == 0) {
+                            layer.msg(data.Msg, {
+                                icon: 2,
+                                time: 2000
                             });
                         }
                         else {

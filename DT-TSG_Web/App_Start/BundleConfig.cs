@@ -44,10 +44,6 @@ namespace DTTSG_Web
                         "~/lib/jq-module/jquery.particleground.min.js",
                         "~/Scripts/jquery.unobtrusive-ajax.min.js",
                         "~/Content/Own/js/login.js"));
-
-            //默认页js
-            bundles.Add(new ScriptBundle("~/Default_Js").Include(
-                       "~/Content/Own/js/default.js"));
             //列表
             bundles.Add(new ScriptBundle("~/ListInfo_Js").Include(
                         "~/lib/jquery-3.4.1/jquery-3.4.1.min.js",

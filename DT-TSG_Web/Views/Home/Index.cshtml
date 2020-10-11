@@ -107,10 +107,10 @@
                     <a href="javascript:;"> <i class="fa fa-snowflake-o"></i> <span class="layui-left-nav">其它</span><span class="layui-nav-more"></span></a>
                     <dl class="layui-nav-child ">
                         <dd class="menu-dd  ">
-                            <a href="javascript:;" layuimini-href="~/404.html" target="_self"> <i class="fa fa-bar-chart-o"></i> <span class="layui-left-nav"> 排行榜</span></a>
+                            <a href="javascript:;" layuimini-href="@Url.Action("RankList","Rank")" target="_self"> <i class="fa fa-bar-chart-o"></i> <span class="layui-left-nav"> 排行榜</span></a>
                         </dd>
                         <dd class="menu-dd  ">
-                            <a href="javascript:;" layuimini-href="@Url.Action("NoticeList","Notice")" target="_self"> <i class="fa fa-bell-o"></i> <span class="layui-left-nav"> 系统消息</span></a>
+                            <a href="javascript:;" layuimini-href="@Url.Action("NoticeList","Notice")" target="_self"> <i class="fa fa-bell-o"></i> <span class="layui-left-nav"> 系统消息<span class="layui-badge-dot" style="margin-left:5px"></span></span></a>
                         </dd>
                         <dd class="menu-dd  ">
                             <a href="javascript:;" layuimini-href="@Url.Action("ForwardList","Forward")" target="_self"> <i class="fa fa-rss"></i> <span class="layui-left-nav"> 我的预约</span></a>
