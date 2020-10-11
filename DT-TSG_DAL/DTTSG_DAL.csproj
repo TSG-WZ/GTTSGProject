@@ -57,6 +57,7 @@
     <Compile Include="Notice\NoticeServer.cs" />
     <Compile Include="Oauth\OauthServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RankList\RankList.cs" />
     <Compile Include="User\UserInfoServer.cs" />
     <Compile Include="User\UserLoginServer.cs" />
   </ItemGroup>

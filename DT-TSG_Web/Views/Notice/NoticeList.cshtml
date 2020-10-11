@@ -54,7 +54,7 @@
         </fieldset>
         @if (readNotice != null)
         {
-            foreach (var item in readNotice.OrderByDescending(b=>b.NoticeId).Take(10))
+            foreach (var item in readNotice.Take(10))
             {
                 <div class="layui-colla-item">
                     <h2 class="layui-colla-title">@item.NoticeTitle</h2>

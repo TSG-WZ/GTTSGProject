@@ -46,7 +46,7 @@
                             {
                                 <td>@item.B_ReturnTime.ToString("yyyy/MM/dd")</td>
                             }
-                            else
+                            else if (item.Bo_TypeId == 1)
                             {
 
                                 if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
@@ -58,6 +58,10 @@
                                     <td>请前往 @item.MechanInfo.MechanName 处归还</td>
                                 }
 
+                            }
+                            else if (item.Bo_TypeId == 2)
+                            {
+                                <td>到期未还 请联系管理员 </td>
                             }
                         </tr>
                         }

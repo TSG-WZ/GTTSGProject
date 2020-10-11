@@ -54,6 +54,7 @@
     <Compile Include="Notice\NoticeManager.cs" />
     <Compile Include="Oauth\OauthManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RankList\RankManager.cs" />
     <Compile Include="User\UserInfoManager.cs" />
     <Compile Include="User\UserLoginManager.cs" />
   </ItemGroup>
