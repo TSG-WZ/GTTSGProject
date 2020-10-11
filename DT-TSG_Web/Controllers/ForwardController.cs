@@ -30,7 +30,7 @@ namespace DTTSG_Web.Controllers
         {
             UserInfo userInfo = Session["User"] as UserInfo;
             JsonResult json = new JsonResult();
-            json.Data = bookReservation.GetReservationPagerList(pageIndex, 8, UserId: userInfo.UserId);// 用户收藏列表
+            json.Data = bookReservation.GetReservationPagerList(pageIndex, 8, UserId: userInfo.UserId);//预约中
             json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return json;
         }
@@ -47,6 +47,17 @@ namespace DTTSG_Web.Controllers
             json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return json;
         }
+
+        public ActionResult GetEndForwardListData(int pageIndex)
+        {
+            UserInfo userInfo = Session["User"] as UserInfo;
+            JsonResult json = new JsonResult();
+            json.Data = bookReservation.GetReservationPagerList(pageIndex, 8, UserId: userInfo.UserId,forwardStatu:1);//预约过期
+            json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return json;
+        }
+
+     
 
         /// <summary>
         /// 预约图书

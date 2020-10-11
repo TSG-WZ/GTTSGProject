@@ -13,24 +13,36 @@ namespace DTTSG_DAL
 {
     public class BookReservationServer:BaseServer<ForwardInfo>
     {
-        public List<ForwardInfo> GetReservationList(int UserId,bool isPager =false,int pageIndex=0,int pageSize=0)
+        public List<ForwardInfo> GetReservationList(int UserId,bool isPager =false,int pageIndex=0,int pageSize=0,int fStatu=3)
         {
 
             string sql = @"select * from ForwardInfo fd join BookInfo bi on
-                            fd.BookId=bi.BookId ";
+                            fd.BookId=bi.BookId where 1=1 ";
             DynamicParameters parameters = new DynamicParameters();
          
             if (UserId != 0)
             {
                 parameters.Add("@UserId", UserId);
-                sql += "where UserId = @UserId";
+                sql += " and UserId = @UserId";
+            }
+
+            if (fStatu == 0)
+            {
+                // 预约中 
+                sql += " and F_EndTime > GETDATE() and bi.B_StatuId = 3";// 预约中
+            }
+            
+            if (fStatu == 1)
+            {
+                // 预约过期
+                sql += " and F_EndTime < GETDATE() ";// 
             }
             if (isPager)
             {
                 parameters.Add("@pageIndex", pageIndex);
                 parameters.Add("@pageSize", pageSize);
                 //加排序
-                sql += " order by F_Id asc offset(@pageIndex - 1) * @pageSize " +
+                sql += " order by F_EndTime desc offset(@pageIndex - 1) * @pageSize " +
                     "rows fetch next @pageSize rows only";
             }
 
