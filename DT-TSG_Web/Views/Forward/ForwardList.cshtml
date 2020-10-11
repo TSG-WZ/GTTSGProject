@@ -23,8 +23,7 @@
     <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="padding:20px;">
         <ul class="layui-tab-title">
             <li class="layui-this">预约中</li>
-            <li>已过期</li>
-            <li>已取出</li>
+            <li>已结束</li>
         </ul>
         <div class="layui-tab-content" style="height: 100px;">
             <div class="layui-tab-item layui-show" title="预约中">
@@ -34,17 +33,10 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-tab-item" title="已过期">
+            <div class="layui-tab-item" title="已结束">
                 <div class="layui-row">
                     <div class="" style="padding:25px" id="headdiv">
                         <ul id="LAY_demo2"></ul>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-tab-item" title="已取出">
-                <div class="layui-row">
-                    <div class="" style="padding:25px" id="headdiv">
-                        <ul id="LAY_demo3"></ul>
                     </div>
                 </div>
             </div>
@@ -129,7 +121,7 @@
                     });
                 }
             });
-            //已过期
+            //已结束
             flow.load({
                 elem: '#LAY_demo2' //流加载容器
                 //, scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
@@ -137,7 +129,7 @@
                 , done: function (page, next) { //执行下一页的回调
                     var lis = [];
                     var pagecount = 0;
-                    $.get('/Forward/GetPassForwardListData?pageindex=' + page, function (data) {
+                    $.get('/Forward/GetEndForwardListData?pageindex=' + page, function (data) {
                         layui.each(data.InfoList, function (index, item) {
                             var temp = item.BookInfo;
                             //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
@@ -146,31 +138,6 @@
                                 '<img lay-src="' + temp.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
                                 '<h4 style="color:gray">' + formatDate(item.F_StartTime, "yyyy-MM-dd HH:mm") + ' 至 ' + formatDate(item.F_EndTime, "yyyy-MM-dd HH:mm") + '</h4><center><h2><b>' + temp.BookName + '</b></h2></center><br />' +
                                 '<a class="layui-btn layui-btn-radius layui-btn-disabled" href="javascript:;" style="width:200px">已过期!</a></div></div></a>');
-                        });
-                        pagecount = data.PageCount;
-                        //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-                        //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                        next(lis.join(''), page < pagecount);
-                    });
-                }
-            });
-            //已取出
-            flow.load({
-                elem: '#LAY_demo3' //流加载容器
-                //, scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
-                , isLazyimg: true //图片懒加载
-                , done: function (page, next) { //执行下一页的回调
-                    var lis = [];
-                    var pagecount = 0;
-                    $.get('/Forward/GetDoneForwardListData?pageindex=' + page, function (data) {
-                        layui.each(data.InfoList, function (index, item) {
-                            var temp = item.BookInfo;
-                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-                            lis.push('<a href="/Book/BookInfo?bookId=' + temp.BookId + '" name="BookId">' +
-                                '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +
-                                '<img lay-src="' + temp.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
-                                '<h4 style="color:gray">' + formatDate(item.F_StartTime, "yyyy-MM-dd HH:mm") + ' 至 ' + formatDate(item.F_EndTime, "yyyy-MM-dd HH:mm") + '</h4><center><h2><b>' + temp.BookName + '</b></h2></center><br />' +
-                                '<a class="layui-btn layui-btn-radius layui-btn-disabled" href="javascript:;" style="width:200px">已取出</a></div></div></a>');
                         });
                         pagecount = data.PageCount;
                         //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
