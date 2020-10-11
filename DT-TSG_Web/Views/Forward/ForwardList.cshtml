@@ -2,12 +2,6 @@
     Layout = null;
 }
 @using DTTSG_Model
-@using DTTSG_Common
-
-@*@{Pager<BookInfo> page = ViewBag.BookListPages as Pager<BookInfo>;}*@
-@{List<BookType> types = ViewBag.BookTypeList as List<BookType>;}
-
-
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +11,6 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <!--<link rel="stylesheet" href="~/lib/layui-v2.5.5/css/layui.css" media="all">-->
     @Styles.Render("~/BookList_Css")
 </head>
 
@@ -27,55 +20,91 @@
         <legend>预约列表</legend>
     </fieldset>
 
-    <div class="layui-row">
-        <div class="" style="padding:25px" id="headdiv">
-            <ul id="LAY_demo1"></ul>
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="padding:20px;">
+        <ul class="layui-tab-title">
+            <li class="layui-this">预约中</li>
+            <li>已过期</li>
+            <li>已取出</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;">
+            <div class="layui-tab-item layui-show" title="预约中">
+                <div class="layui-row">
+                    <div class="" style="padding:25px" id="headdiv">
+                        <ul id="LAY_demo1"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item" title="已过期">
+                <div class="layui-row">
+                    <div class="" style="padding:25px" id="headdiv">
+                        <ul id="LAY_demo2"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item" title="已取出">
+                <div class="layui-row">
+                    <div class="" style="padding:25px" id="headdiv">
+                        <ul id="LAY_demo3"></ul>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
+
+    
 
     <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
     @Scripts.Render("~/ListInfo_Js")
     <script>
-        function TakeOut(bookid, status) {
-            var tf = @(string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId).ToString().ToLower());
-            if (!tf) {
-                layer.alert('手机暂不支持此功能，请前往该书所在机器取书', function (index) {
-                    layer.close(index);
-                });
-                return;
+        //检测是否微信客户端
+        function is_weixn() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return true;
+            } else {
+                return false;
             }
-               
-            if (status == 2) {
-                layer.alert('该本图书已被借阅', function (index) {
-                        layer.close(index);
-                    });
-                return;
-            }
-            $.ajax({
-                    url: "/Book/BorrowBook",
-                    data: { "bookId": bookid },
-                    dataType: "json",
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == 1) {
-                            //alert(data);
-                            layer.msg(data.Msg, {
-                                icon: 1,
-                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                            }, function () {
-                                window.location = '/Forward/ForwardList';
-                            });
-                        }
-                        else {
-                            layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
-                        }
-                    }
-                }); //ajax结束
         }
 
-        layui.use(['flow', 'table'], function () {
-            var flow = layui.flow;
+        //取书(带判断)
+        function TakeOut(bookid, status) {
+            if (is_weixn()) {
+                layer.alert('手机暂不支持此功能，请前往该书所在机器取书', function (index) {
+                    layer.close(index);
+                }); return;
+            }if (status == 2) {
+                layer.alert('该本图书已被借阅', function (index) {
+                    layer.close(index);
+                }); return;
+            }
+            $.ajax({
+                url: "/Book/BorrowBook",
+                data: { "bookId": bookid },
+                dataType: "json",
+                type: "post",
+                success: function (data) {
+                    if (data.Status == 1) {
+                        //alert(data);
+                        layer.msg(data.Msg, {
+                            icon: 1,
+                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function () {
+                            window.location = '/Forward/ForwardList';
+                        });
+                    }
+                    else {
+                        layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
+                    }
+                }
+            }); //ajax结束
+        }
+
+        layui.use(['flow', 'element'], function () {
+            var flow = layui.flow
+                , element = layui.element;
+
+            //流加载方法
+            //正常预约
             flow.load({
                 elem: '#LAY_demo1' //流加载容器
                 //, scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
@@ -83,19 +112,15 @@
                 , done: function (page, next) { //执行下一页的回调
                     var lis = [];
                     var pagecount = 0;
-                    $.get('/Forward/GetForwardListData?pageindex=' + page , function (data) {
+                    $.get('/Forward/GetForwardListData?pageindex=' + page, function (data) {
                         layui.each(data.InfoList, function (index, item) {
                             var temp = item.BookInfo;
-                            var sheets = "";
-                            if (temp.B_StatuId == 2) {
-                                sheets = " layui-btn-disabled";
-                            }
                             //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                             lis.push('<a href="/Book/BookInfo?bookId=' + temp.BookId + '" name="BookId">' +
                                 '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +
                                 '<img lay-src="' + temp.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
                                 '<h4 style="color:gray">' + formatDate(item.F_StartTime, "yyyy-MM-dd HH:mm") + ' 至 ' + formatDate(item.F_EndTime, "yyyy-MM-dd HH:mm") + '</h4><center><h2><b>' + temp.BookName + '</b></h2></center><br />' +
-                                '<a class="layui-btn layui-btn-radius ' + sheets + '" href="javascript:;" onclick="TakeOut(' + temp.BookId + ',' + temp.B_StatuId + ')" style="width:200px">取书</a></div></div></a>');
+                                '<a class="layui-btn layui-btn-radius " href="javascript:;" onclick="TakeOut(' + temp.BookId + ',' + temp.B_StatuId + ')" style="width:200px">取书</a></div></div></a>');
                         });
                         pagecount = data.PageCount;
                         //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
@@ -104,6 +129,63 @@
                     });
                 }
             });
+            //已过期
+            flow.load({
+                elem: '#LAY_demo2' //流加载容器
+                //, scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
+                , isLazyimg: true //图片懒加载
+                , done: function (page, next) { //执行下一页的回调
+                    var lis = [];
+                    var pagecount = 0;
+                    $.get('/Forward/GetPassForwardListData?pageindex=' + page, function (data) {
+                        layui.each(data.InfoList, function (index, item) {
+                            var temp = item.BookInfo;
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            lis.push('<a href="/Book/BookInfo?bookId=' + temp.BookId + '" name="BookId">' +
+                                '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +
+                                '<img lay-src="' + temp.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
+                                '<h4 style="color:gray">' + formatDate(item.F_StartTime, "yyyy-MM-dd HH:mm") + ' 至 ' + formatDate(item.F_EndTime, "yyyy-MM-dd HH:mm") + '</h4><center><h2><b>' + temp.BookName + '</b></h2></center><br />' +
+                                '<a class="layui-btn layui-btn-radius layui-btn-disabled" href="javascript:;" style="width:200px">已过期!</a></div></div></a>');
+                        });
+                        pagecount = data.PageCount;
+                        //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                        //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                        next(lis.join(''), page < pagecount);
+                    });
+                }
+            });
+            //已取出
+            flow.load({
+                elem: '#LAY_demo3' //流加载容器
+                //, scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
+                , isLazyimg: true //图片懒加载
+                , done: function (page, next) { //执行下一页的回调
+                    var lis = [];
+                    var pagecount = 0;
+                    $.get('/Forward/GetDoneForwardListData?pageindex=' + page, function (data) {
+                        layui.each(data.InfoList, function (index, item) {
+                            var temp = item.BookInfo;
+                            //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                            lis.push('<a href="/Book/BookInfo?bookId=' + temp.BookId + '" name="BookId">' +
+                                '<div class= "layui-col-md3 layui-col-xs12 layui-col-sm6 model-container"><div class="img-container">' +
+                                '<img lay-src="' + temp.ImageInfo.ImageLink + '" /></div><div class="text-container">' +
+                                '<h4 style="color:gray">' + formatDate(item.F_StartTime, "yyyy-MM-dd HH:mm") + ' 至 ' + formatDate(item.F_EndTime, "yyyy-MM-dd HH:mm") + '</h4><center><h2><b>' + temp.BookName + '</b></h2></center><br />' +
+                                '<a class="layui-btn layui-btn-radius layui-btn-disabled" href="javascript:;" style="width:200px">已取出</a></div></div></a>');
+                        });
+                        pagecount = data.PageCount;
+                        //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+                        //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+                        next(lis.join(''), page < pagecount);
+                    });
+                }
+            });
+
+            //页面tab
+            $('.site-demo-active').on('click', function () {
+                var othis = $(this), type = othis.data('type');
+                active[type] ? active[type].call(this, othis) : '';
+            });
+            
         });
     </script>
 
