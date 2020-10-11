@@ -49,7 +49,7 @@
                             else
                             {
 
-                                if (!string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
+                                if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
                                 {
                                     <td><a href="/Book/ReturnBook?borrowId=@item.BorrowId">现在归还</a></td>
                                 }
