@@ -4,6 +4,7 @@
 }
 @using DTTSG_Model
 @{ List<MessageInfo> infos = ViewBag.MessageList;}
+@{ int[] info = ViewBag.Statistics;}
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,8 +42,8 @@
                                                             <h5>借阅总数</h5>
                                                         </div>
                                                         <div class="panel-content">
-                                                            <h1 class="no-margins">18</h1>
-                                                            <small>当前借阅图书总数</small>
+                                                            <h1 class="no-margins">@info[0]</h1>
+                                                            <small>当前项 图书总数</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -55,8 +56,8 @@
                                                             <h5>正常借阅</h5>
                                                         </div>
                                                         <div class="panel-content">
-                                                            <h1 class="no-margins">9</h1>
-                                                            <small>当前借阅中图书数</small>
+                                                            <h1 class="no-margins">@info[1]</h1>
+                                                            <small>当前项 图书总数</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -66,11 +67,11 @@
                                                     <div class="panel-body">
                                                         <div class="panel-title">
                                                             <span class="label pull-right layui-bg-orange">实时</span>
-                                                            <h5>延期总数</h5>
+                                                            <h5>超期总数</h5>
                                                         </div>
                                                         <div class="panel-content">
-                                                            <h1 class="no-margins">2</h1>
-                                                            <small>当前延期中图书数</small>
+                                                            <h1 class="no-margins">@info[2]</h1>
+                                                            <small>当前项 图书总数</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,11 +81,11 @@
                                                     <div class="panel-body">
                                                         <div class="panel-title">
                                                             <span class="label pull-right layui-bg-red">实时</span>
-                                                            <h5>未还数量</h5>
+                                                            <h5>折损毁坏</h5>
                                                         </div>
                                                         <div class="panel-content">
-                                                            <h1 class="no-margins">7</h1>
-                                                            <small>当前未还图书总数</small>
+                                                            <h1 class="no-margins">@info[3]</h1>
+                                                            <small>当前项 图书总数</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -175,7 +176,8 @@
                         <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>系统公告</div>
                         <div class="layui-card-body layui-text">
                             @{
-                                if (infos.Count == 0) { <p>暂无公告</p>}
+                                if (infos.Count == 0)
+                                { <p>暂无公告</p>}
                                 foreach (MessageInfo item in infos)
                                 {
                                     <div class="layuimini-notice">
@@ -185,8 +187,8 @@
                                             @item.MessageContent
                                         </div>
                                     </div>
-                                    }
                                 }
+                            }
                         </div>
                     </div>
                     <!-- 版本信息模块 -->
@@ -214,14 +216,14 @@
                                         <td>零门槛 / 响应式 / 清爽 / 极简</td>
                                     </tr>
                                     @*<tr>
-                                        <td>Github</td>
-                                        <td style="padding-bottom: 0;">
-                                            <div class="layui-btn-container">
-                                                <iframe src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=layuimini&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
-                                                <iframe src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=layuimini&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
-                                            </div>
-                                        </td>
-                                    </tr>*@
+                                            <td>Github</td>
+                                            <td style="padding-bottom: 0;">
+                                                <div class="layui-btn-container">
+                                                    <iframe src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=layuimini&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+                                                    <iframe src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=layuimini&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+                                                </div>
+                                            </td>
+                                        </tr>*@
                                 </tbody>
                             </table>
                         </div>
@@ -230,9 +232,11 @@
                     <div class="layui-card">
                         <div class="layui-card-header"><i class="fa fa-paper-plane-o icon"></i>作者心语</div>
                         <div class="layui-card-body layui-text layadmin-text">
-                            <p>习近平总书记对大家说</p>
-                            <p>人民群众多读书，我们的民族精神，就会厚重起来、深邃起来。</p>
-                            <p>要提倡多读书，建设书香社会。</p>
+                            <p>习近平总书记对大家说：</p>
+                            <p class="layadmin-text-p">人民群众多读书。</p>
+                            <p class="layadmin-text-p">我们的民族精神，</p>
+                            <p class="layadmin-text-p">就会厚重起来、深邃起来。</p>
+                            <p class="layadmin-text-p">要提倡多读书，建设书香社会。</p>
                         </div>
                     </div>
 
@@ -289,15 +293,15 @@
                 legend: {},
                 tooltip: {
                     trigger: 'axis',
-                    showContent: false
+                    showContent: true
                 },
                 dataset: {
                     source: [
-                        ['总数', '2018', '2019', '2020'],
-                        ['借阅图书总数', 78, 83, 18],
-                        ['已归还总数', 78, 82, 9],
-                        ['延期总数', 17, 0, 2],
-                        ['未归还总数', 0, 1, 7]
+                        ['Count', '8月', '9月', '10月'],
+                        ['借阅总数', 17, 22, @info[0]],
+                        ['借阅中总数', 17, 21, @info[1]],
+                        ['超期总数', 0, 0, @info[2]],
+                        ['折损毁坏', 0, 1, @info[3]]
                     ]
                 },
                 xAxis: { type: 'category' },
@@ -307,23 +311,23 @@
                     { type: 'line', smooth: true, seriesLayoutBy: 'row' },
                     { type: 'line', smooth: true, seriesLayoutBy: 'row' },
                     { type: 'line', smooth: true, seriesLayoutBy: 'row' },
+                    { type: 'line', smooth: true, seriesLayoutBy: 'row' },
                     {
                         type: 'pie',
                         id: 'pie',
                         radius: '30%',
                         center: ['50%', '30%'],
                         label: {
-                            formatter: '{b}: {@@2019} ({d}%)'
+                            formatter: '{b}: {@@10月} ({d}%)'
                         },
                         encode: {
-                            itemName: '数量',
-                            value: '2019',
-                            tooltip: '2019'
+                            itemName: 'Count',
+                            value: '10月',
+                            tooltip: '10月'
                         }
                     }
                 ]
             };
-
             echartsMap.setOption(optionMap);
 
             // echarts 窗口缩放自适应

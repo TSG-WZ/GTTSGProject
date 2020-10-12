@@ -31,6 +31,12 @@ namespace DTTSG_BLL
             return borrowServer.GetBorrowList(userId).Where(b => b.Bo_TypeId == 2).Count();
         }
 
+        // 已归还
+        public int BrrowBookRt(int userId)
+        {
+            return borrowServer.GetBorrowList(userId).Where(b => b.Bo_TypeId == 3).Count();
+        }
+
         public List<BookInfo> GetMaxBorrowBook(int count)
         {
             if (count == 0)
