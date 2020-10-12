@@ -342,6 +342,7 @@
     <Content Include="Views\WeiChatRequest\GetWinXinInfo.cshtml" />
     <Content Include="Views\Notice\NoticeList.cshtml" />
     <Content Include="Views\User\ModifyPassword.cshtml" />
+    <Content Include="Views\Rank\RankList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -349,7 +350,6 @@
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Librarian\Models\" />
     <Folder Include="Areas\Librarian\Views\Shared\" />
-    <Folder Include="Views\Rank\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

@@ -13,27 +13,69 @@
     <meta name="viewport" content="width=device-width" />
     <title>图书详情</title>
     <link rel="stylesheet" href="~/lib/layui-v2.5.5/css/layui.css" media="all">
+    <style>
+        #Contents {
+            margin-bottom:100px;
+        }#Contents span{
+             display:block;
+         }#Contents a{
+              width:140px;
+          }
+        #BookName{
+            font-size:45px
+        }
+        #B_StatuName{
+            color:darkgray;
+            font-size:20px;
+            font-family:YouYuan;
+        }
+        #B_TypeName {
+            font-weight: 600;
+            font-size: 20px;
+            font-family: YouYuan;
+            padding-top:5px;
+        }
+        .pub {
+            font-weight: 600;
+            font-size: 20px;
+            font-family: YouYuan;
+            padding-top: 30px;
+        }
+        .pub2 {
+            font-size: 20px;
+            font-family: YouYuan;
+            padding-top: 5px;
+        }
+        #Money {
+            font-size: 40px;
+            font-family: YouYuan;
+            padding: 40px 0px;
+        }#Money label{
+             color:darkgray;
+             font-size:25px;
+         }
+    </style>
 </head>
 <body>
     <div style="margin:30px">
-        <a href="javascript:;" onclick="window.history.back(); //返回上一页" style="font-size:16px;"><< 返回上一页</a>
+        <a href="javascript:;" onclick="window.history.back(); //返回上一页" style="font-size:16px;">《&nbsp;&nbsp;&nbsp;返回上一页</a>
     </div>
 
     <div class="layui-container">
         <div class="layui-row">
             <div class="layui-col-md6">
-                <img src="@Model.ImageInfo.ImageLink" />
+                <img src="@Model.ImageInfo.ImageLink" width="450" height="500"/>
             </div>
-            <div class="layui-col-md6" style="margin-bottom:100px">
+            <div class="layui-col-md6" id="Contents">
                 <br />
-                <h1>图书名称：@Model.BookName</h1><br />
-                <h2>状态:@Model.BookStatu.B_StatuName</h2>
-                <h2>图书类型:@Model.BookType.B_TypeName</h2><br />
-                <h2>出版社:@Model.BookPublic</h2><br />
-                <h2>作者:@Model.BookAuthor</h2><br />
-                <h2>出版时间:@Model.BookPubtime.ToLongDateString()</h2><br />
-                <h2>存书地点:@Model.MechanInfo.MechanAddress</h2><br />
-                <h1><strong>$@Model.BookPrice</strong></h1><br />
+                <span id="BookName">@Model.BookName</span><br />
+                <span id="B_StatuName">状态:@Model.BookStatu.B_StatuName</span>
+                <span id="B_TypeName">图书类型:@Model.BookType.B_TypeName</span>
+                <span class="pub">出版社:@Model.BookPublic</span>
+                <span class="pub2">作者:@Model.BookAuthor</span>
+                <span class="pub2">出版时间:@Model.BookPubtime.ToLongDateString()</span>
+                <span class="pub">存书地点:@Model.MechanInfo.MechanAddress</span>
+                <span id="Money"><strong>￥ @Model.BookPrice <label>RMB</label></strong></span>
                 @{if (Model.B_StatuId == 1)
                     {
                         if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
