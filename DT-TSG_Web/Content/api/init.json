@@ -4,7 +4,7 @@
     "href": "/Home/Default"
   },
   "logoInfo": {
-    "title": "<img src='/Content/images/logotext.png' >",
+    "title": "<img src='/Content/images/logotext.png' style='margin-left: -20px;'>",
     "image": "/Content/images/logo.png",
     "href": ""
   }

@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+}
+@using DTTSG_Model
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>排行榜</title>
+    <link rel="stylesheet" href="~/lib/layui-v2.5.5/css/layui.css" media="all">
+    <style>
+        .layui-row div {
+            padding: 20px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="layui-row" style="padding:30px">
+        <div class="layui-col-md6 layui-col-xs12">
+            <h1 style="color:gray">图书被借次数榜</h1><br />
+            <table  class="layui-table" lay-even="" lay-skin="row">
+                <colgroup>
+                    <col width="200">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>图书名</th>
+                        <th>出版社</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (BookInfo item in ViewBag.bookList)
+                        {
+                            <tr>
+                                <td>@item.BookName</td>
+                                <td>@item.BookAuthor</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-col-md6 layui-col-xs12">
+            <h1 style="color:gray">图书借阅数量榜</h1><br />
+            <table class="layui-table" lay-even="" lay-skin="row">
+                <colgroup>
+                    <col width="200">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>借阅人</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{foreach (UserInfo item in ViewBag.userList)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

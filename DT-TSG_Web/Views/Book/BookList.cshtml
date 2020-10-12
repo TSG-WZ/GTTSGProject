@@ -3,8 +3,6 @@
     Layout = null;
 }
 @using DTTSG_Model
-@using DTTSG_Common
-@*@{Pager<BookInfo> page = ViewBag.BookListPages as Pager<BookInfo>;}*@
 @{List<BookType> types = ViewBag.BookTypeList as List<BookType>;}
 
 <!DOCTYPE html>
@@ -15,7 +13,6 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <!--<link rel="stylesheet" href="~/lib/layui-v2.5.5/css/layui.css" media="all">-->
     @Styles.Render("~/BookList_Css")
 </head>
 
@@ -25,36 +22,78 @@
     </fieldset>
 
     <div class="layui-row">
-        <div class="left-container layui-col-md2 layui-hide-xs" id="head">
-            <ul class="layui-nav layui-nav-tree layui-left-nav-tree layui-this layui-bg-cyan" id="multi_module_0">
-                <li class="layui-nav-item menu-li layui-nav-itemed" style="padding-top:15px">
-                    <a href="javascript:;"> <i class="fa fa-snowflake-o"></i> <span class="layui-left-nav">图书类型</span><span class="layui-nav-more"></span></a>
-                    <dl class="layui-nav-child " id="types">
-                        @{
-                            foreach (BookType item in types)
-                            {
-                                <dd class="menu-dd  ">
-                                    <a href="javascript:;" onclick="ChangeTypeid(@item.B_TypeId)" name="B_TypeId" target="_self"> <i class="fa fa-bar-chart-o"></i> <span class="layui-left-nav"> @item.B_TypeName</span></a>
-                                </dd>
+        <div style="float: left;" class="left-container layui-col-md2 layui-hide-xs" id="head">
+            <div id="div1">
+                <ul class="layui-nav layui-nav-tree layui-left-nav-tree layui-this layui-bg-cyan" id="multi_module_0">
+                    <li class="layui-nav-item menu-li layui-nav-itemed" style="padding-top:15px">
+                        <a href="javascript:;"> <i class="fa fa-snowflake-o"></i> <span class="layui-left-nav">图书类型</span><span class="layui-nav-more"></span></a>
+                        <dl class="layui-nav-child " id="types">
+                            @{
+                                foreach (BookType item in types)
+                                {
+                                    <dd class="menu-dd  ">
+                                        <a href="javascript:;" onclick="ChangeTypeid(@item.B_TypeId)" name="B_TypeId" target="_self"> <i class="fa fa-bar-chart-o"></i> <span class="layui-left-nav"> @item.B_TypeName</span></a>
+                                    </dd>
+                                }
                             }
-                        }
-                    </dl>
-                </li>
-                <span class="layui-nav-bar"></span>
-            </ul>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="layui-col-md10 content-container" id="headdiv">
+        <div class="layui-col-md10" id="headdiv" style="padding:1px">
             <div class="layui-row">
                 <ul id="LAY_demo1"></ul>
             </div>
         </div>
     </div>
 
-    @*<script src="~/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>*@
-    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
     @Scripts.Render("~/ListInfo_Js", "~/BookList_Js")
+    <script type="text/javascript">
+        function htmlScroll() {
+            var top = document.body.scrollTop || document.documentElement.scrollTop;
+            if (elFix.data_top < top) {
+                elFix.style.position = 'fixed';
+                elFix.style.top = 0;
+                elFix.style.left = elFix.data_left;
+            }
+            else {
+                elFix.style.position = 'static';
+            }
+        }
+
+        function htmlPosition(obj) {
+            var o = obj;
+            var t = o.offsetTop;
+            var l = o.offsetLeft;
+            while (o = o.offsetParent) {
+                t += o.offsetTop;
+                l += o.offsetLeft;
+            }
+            obj.data_top = t;
+            obj.data_left = l;
+        }
+
+        var oldHtmlWidth = document.documentElement.offsetWidth;
+        window.onresize = function () {
+            var newHtmlWidth = document.documentElement.offsetWidth;
+            if (oldHtmlWidth == newHtmlWidth) {
+                return;
+            }
+            oldHtmlWidth = newHtmlWidth;
+            elFix.style.position = 'static';
+            htmlPosition(elFix);
+            htmlScroll();
+        }
+        window.onscroll = htmlScroll;
+
+        var elFix = document.getElementById('div1');
+        htmlPosition(elFix);
+
+    </script>
     <script>
+        //带类型查询
         var typeid = 0;
         function ChangeTypeid(ctypeid) {
             typeid = ctypeid;
@@ -66,7 +105,7 @@
 
             window.CData = function ChangeData() {
                 $("#LAY_demo1").html("");
-                console.log("a");
+                //console.log("a");
                 flow.load({
                     elem: '#LAY_demo1' //流加载容器
                     //, scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
