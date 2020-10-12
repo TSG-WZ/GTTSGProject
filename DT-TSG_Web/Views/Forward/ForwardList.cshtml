@@ -58,13 +58,14 @@
             }
         }
         
-        layui.use(['flow', 'layer'], function () {
+        layui.use(['flow', 'layer','element'], function () {
             var flow = layui.flow,
+                element = layui.element,
                 layer = layui.layer;
 
             //取书(带判断)
             window.TakeOut = function TakeOut(bookid, status) {
-                if (!is_weixn()) {
+                if (is_weixn()) {
                     layer.alert('手机暂不支持此功能，请前往该书所在机器取书', function (index) {
                         layer.close(index);
                     }); return;
