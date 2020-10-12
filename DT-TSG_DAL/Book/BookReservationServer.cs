@@ -13,11 +13,11 @@ namespace DTTSG_DAL
 {
     public class BookReservationServer:BaseServer<ForwardInfo>
     {
-        public List<ForwardInfo> GetReservationList(int UserId,bool isPager =false,int pageIndex=0,int pageSize=0,int fStatu=3)
+        public List<ForwardInfo> GetReservationList(int UserId,int FoTypeId=0 ,bool isPager =false,int pageIndex=0,int pageSize=0)
         {
 
             string sql = @"select * from ForwardInfo fd join BookInfo bi on
-                            fd.BookId=bi.BookId where 1=1 ";
+                            fd.BookId=bi.BookId join FowardType ft on fd.Fo_TypeId = ft.Fo_TypeId where 1=1 ";
             DynamicParameters parameters = new DynamicParameters();
          
             if (UserId != 0)
@@ -25,18 +25,12 @@ namespace DTTSG_DAL
                 parameters.Add("@UserId", UserId);
                 sql += " and UserId = @UserId";
             }
-
-            if (fStatu == 0)
+            if (FoTypeId != 0)
             {
-                // 预约中 
-                sql += " and F_EndTime > GETDATE() and bi.B_StatuId = 3";// 预约中
+                parameters.Add("@Fo_TypeId",FoTypeId);
+                sql += " and fd.Fo_TypeId = @Fo_TypeId";
             }
-            
-            if (fStatu == 1)
-            {
-                // 预约过期
-                sql += " and F_EndTime < GETDATE() ";// 
-            }
+          
             if (isPager)
             {
                 parameters.Add("@pageIndex", pageIndex);
@@ -52,10 +46,10 @@ namespace DTTSG_DAL
 
                 using (IDbConnection connection = new SqlConnection(Config.connStr))
                 {
-                    return connection.Query<ForwardInfo, BookInfo, ForwardInfo>(sql, (fd, bi) =>
-                    { fd.BookInfo = bi; return fd; }
+                    return connection.Query<ForwardInfo, BookInfo ,FowardType,ForwardInfo >(sql, (fd, bi,ft) =>
+                    { fd.BookInfo = bi; fd.FowardType = ft; return fd; }
                         , parameters,
-                        splitOn: "BookId").ToList();
+                        splitOn: "BookId,Fo_TypeId").ToList();
 
                 }
             }
