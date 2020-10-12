@@ -44,7 +44,7 @@ namespace DTTSG_Web.Controllers
 
             string timestamp = model.Timestamp;
             string nonce = model.Nonce;
-            string token = "RTTSG";
+            string token = Config.Token;
             string[] array = { token, timestamp, nonce };
             Array.Sort(array);
             string tempStr = string.Join("", array);
@@ -59,16 +59,12 @@ namespace DTTSG_Web.Controllers
         }
    
     
-        /// <summary>
-        /// 获取AccessToken
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="state"></param>
+
         public ActionResult GetWinXinInfo(string code, string state)
         {         
             // 拿到第三方授权的用户信息；
             OauthUser oauthUserGet =  oauthManager.GetOUserInfo(code, state);
-            if (string.IsNullOrWhiteSpace(oauthUserGet.OpenId))
+            if (oauthUserGet ==null || string.IsNullOrWhiteSpace(oauthUserGet.OpenId))
             {
                 return Content("用户信息获取失败");
             }
@@ -88,10 +84,8 @@ namespace DTTSG_Web.Controllers
                     return Content("注册用户出错openid:"+oauthUserGet.OpenId);
                 }
                
-                
-                
             }
-
+            //return Content("oauthUserGet.opid " + oauthUserGet.OpenId + " oauthUserFind.openid " + oauthUserFind.OpenId);
             // 登录 用openId 找到该用户信息登录
             return RedirectToAction("OauthLogin", "Login", new { openId = oauthUserGet.OpenId });
             //return Content(string.Format("userinfo.openid:{0}userinfo.name:{1}",userInfo.OpenId,userInfo.UserName));
