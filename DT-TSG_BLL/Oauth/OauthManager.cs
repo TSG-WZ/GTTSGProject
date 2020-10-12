@@ -9,8 +9,8 @@ namespace DTTSG_BLL.Oauth
 {
     public class OauthManager
     {
-        private string appSecret = "d8cea04f509e7861f587ca9dd7aa3d80";
-        private string appId = "wx7e4591ebba9f5248";
+        private string appSecret =Config.AppSecret;
+        private string appId =Config.AppId;
 
         OauthServer oauthServer = new OauthServer();
         UserInfoServer userInfoServer = new UserInfoServer();

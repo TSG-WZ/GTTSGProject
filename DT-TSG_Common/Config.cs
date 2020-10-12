@@ -15,6 +15,10 @@ namespace DTTSG_Common
         //public static string GetHostName = Dns.GetHostName();
         public static string GetHostName = "IISserver";
 
+        public static string AppSecret = ConfigurationManager.AppSettings["AppSecret"].ToString();
+        public static string AppId =  ConfigurationManager.AppSettings["AppId"].ToString();
+        public static string Token = ConfigurationManager.AppSettings["Token"].ToString();
+
         public enum BookStatusList
         {
             正常=1,
