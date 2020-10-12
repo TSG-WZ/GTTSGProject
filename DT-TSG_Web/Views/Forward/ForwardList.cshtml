@@ -57,43 +57,43 @@
                 return false;
             }
         }
+        
+        layui.use(['flow', 'layer'], function () {
+            var flow = layui.flow,
+                layer = layui.layer;
 
-        //取书(带判断)
-        function TakeOut(bookid, status) {
-            if (is_weixn()) {
-                layer.alert('手机暂不支持此功能，请前往该书所在机器取书', function (index) {
-                    layer.close(index);
-                }); return;
-            }if (status == 2) {
-                layer.alert('该本图书已被借阅', function (index) {
-                    layer.close(index);
-                }); return;
-            }
-            $.ajax({
-                url: "/Book/BorrowBook",
-                data: { "bookId": bookid },
-                dataType: "json",
-                type: "post",
-                success: function (data) {
-                    if (data.Status == 1) {
-                        //alert(data);
-                        layer.msg(data.Msg, {
-                            icon: 1,
-                            time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        }, function () {
-                            window.location = '/Forward/ForwardList';
-                        });
-                    }
-                    else {
-                        layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
-                    }
+            //取书(带判断)
+            window.TakeOut = function TakeOut(bookid, status) {
+                if (!is_weixn()) {
+                    layer.alert('手机暂不支持此功能，请前往该书所在机器取书', function (index) {
+                        layer.close(index);
+                    }); return;
+                } if (status == 2) {
+                    layer.alert('该本图书已被借阅', function (index) {
+                        layer.close(index);
+                    }); return;
                 }
-            }); //ajax结束
-        }
-
-        layui.use(['flow', 'element'], function () {
-            var flow = layui.flow
-                , element = layui.element;
+                $.ajax({
+                    url: "/Book/BorrowBook",
+                    data: { "bookId": bookid },
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == 1) {
+                            //alert(data);
+                            layer.msg(data.Msg, {
+                                icon: 1,
+                                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function () {
+                                window.location = '/Forward/ForwardList';
+                            });
+                        }
+                        else {
+                            layer.msg("未知问题,请联系管理员!", { icon: 3, time: 2000 });   //其他问题
+                        }
+                    }
+                }); //ajax结束
+            }
 
             //流加载方法
             //正常预约
