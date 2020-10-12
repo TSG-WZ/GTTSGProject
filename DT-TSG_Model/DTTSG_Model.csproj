@@ -52,6 +52,7 @@
     <Compile Include="DateModel\BorrowType.cs" />
     <Compile Include="DateModel\CompensateInfo.cs" />
     <Compile Include="DateModel\ForwardInfo.cs" />
+    <Compile Include="DateModel\FowardType.cs" />
     <Compile Include="DateModel\FreeType.cs" />
     <Compile Include="DateModel\ImageInfo.cs" />
     <Compile Include="DateModel\LibrarianInfo.cs" />

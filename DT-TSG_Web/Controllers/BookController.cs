@@ -88,8 +88,6 @@ namespace DTTSG_Web.Controllers
         /// <returns></returns>
         public ActionResult ReturnBook(int borrowId)
         {
-
-
             var userinfo = Session["User"] as UserInfo;
             int result = borrowManager.BookReturn(borrowId,userId:userinfo.UserId);
 
