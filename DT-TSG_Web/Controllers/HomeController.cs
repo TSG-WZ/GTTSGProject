@@ -27,12 +27,13 @@ namespace DTTSG_Web.Controllers
         {
             UserInfo userInfo = Session["User"] as UserInfo;
             ViewBag.MessageList = messageManager.GetMessageList(isValid: 1);// 有效的系统公告 isValid 是否有效 1 有效   0 无效
+            int Rt = rankManager.BrrowBookRt(userInfo.UserId); // 已归还
+
             int br = rankManager.BrrowBookCount(userInfo.UserId); // 借阅总数
             int bEd = rankManager.BrrowBookEd(userInfo.UserId); // 延期中
             int bIng = rankManager.BrrowBookIng(userInfo.UserId);// 借阅中
-            int NR = br - bEd - bIng; // 未归还
-
-            ViewBag.Statistics = new int[br,bEd,bIng,NR]; 
+            int De = br - bEd - bIng - Rt;  //毁坏或丢失
+            ViewBag.Statistics = new int[] { br, bIng, bEd, De };
             
             return View();
         }

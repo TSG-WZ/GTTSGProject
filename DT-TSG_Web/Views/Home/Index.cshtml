@@ -110,7 +110,7 @@
                             <a href="javascript:;" layuimini-href="@Url.Action("RankList","Rank")" target="_self"> <i class="fa fa-bar-chart-o"></i> <span class="layui-left-nav"> 排行榜</span></a>
                         </dd>
                         <dd class="menu-dd  ">
-                            <a href="javascript:;" layuimini-href="@Url.Action("NoticeList","Notice")" target="_self"> <i class="fa fa-bell-o"></i> <span class="layui-left-nav"> 系统消息<span class="layui-badge-dot" style="margin-left:5px"></span></span></a>
+                            <a href="javascript:;" id="Notices" layuimini-href="@Url.Action("NoticeList","Notice")" target="_self"> <i class="fa fa-bell-o"></i> <span class="layui-left-nav"> 系统消息<span class=" " id="dots" style="margin-left:5px"></span></span></a>
                         </dd>
                         <dd class="menu-dd  ">
                             <a href="javascript:;" layuimini-href="@Url.Action("ForwardList","Forward")" target="_self"> <i class="fa fa-rss"></i> <span class="layui-left-nav"> 我的预约</span></a>
@@ -195,6 +195,14 @@
                     window.location = '/Login/Login/?userlogout=-1';
                 });
             });
-        });</script>
+            if (@((ViewBag.isHasUnReadList).ToString().ToLower()))
+            {
+                $("#dots").addClass("layui-badge-dot");
+            }
+            $("#Notices").click(function () {
+                $("#dots").removeClass("layui-badge-dot");     //去掉小红点
+            });
+        });
+    </script>
 </body>
 </html>
