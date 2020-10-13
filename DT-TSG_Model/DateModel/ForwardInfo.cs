@@ -9,6 +9,9 @@ namespace DTTSG_Model
 		public int F_Id { get; set; }
         public BookInfo BookInfo { get; set; }
 
+        public int Fo_TypeId { get; set; }
+        public FowardType FowardType { get; set; }
+
         public int BookId { get; set; }
 		public int UserId { get; set; }
 		public DateTime F_StartTime { get; set; }

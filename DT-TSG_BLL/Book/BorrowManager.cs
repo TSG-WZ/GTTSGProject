@@ -78,7 +78,7 @@ namespace DTTSG_BLL
         }
 
         /// <summary>
-        /// 返回0 已延期
+        /// 返回-1 已超期
         /// </summary>
         /// <param name="borrowId"></param>
         /// <param name="bookId"></param>
@@ -96,7 +96,7 @@ namespace DTTSG_BLL
                 borrowInfo = borrowServer.GetBorrowInfoModel(0, bookId);
             }
 
-            if (borrowInfo != null && DateTime.Compare(borrowInfo.B_EndTime, DateTime.Now) > 0)// 借阅状态 借阅时间内允许还书
+            if (borrowInfo != null && DateTime.Compare(borrowInfo.B_EndTime, DateTime.Now) > 0)// 归还时间之前 才可以还书
             {
                 borrowInfo.Bo_TypeId = 3;
                 borrowInfo.B_ReturnTime = DateTime.Now;
@@ -117,9 +117,15 @@ namespace DTTSG_BLL
                 noticeServer.Insert(notice);
                 return a == b ? 1 : 0;
             }
+            else
+            {
+                DeferOperation(borrowId);
+            }
 
             return 0;
         }
+
+
 
         public int DeferOperation(int Bo_Id)
         {
@@ -128,7 +134,7 @@ namespace DTTSG_BLL
             Notice notice = new Notice()
             {
                 UserId = BoModel.UserId,
-                NoticeTitle = "书籍借阅到期提醒",
+                NoticeTitle = "书籍借阅过期提醒",
                 NoticeContent = "您借阅的书籍：《" + BoModel.BookInfo.BookName + "》，由于过期未归还，请联系管理员归还图书！",
                 NoticeTime = BoModel.B_EndTime,
                 LibId = 1001,
