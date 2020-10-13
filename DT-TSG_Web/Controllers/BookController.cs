@@ -38,7 +38,7 @@ namespace DTTSG_Web.Controllers
         {
             JsonResult jsonResult = new JsonResult();
             var loginUserInfo = Session["User"] as UserInfo;
-            jsonResult.Data = bookManager.GetBookList(bookInfo.B_TypeId, pageindex, 8, string.IsNullOrWhiteSpace(loginUserInfo.OpenId)); //固定八条数据
+            jsonResult.Data = bookManager.GetBookList(bookInfo.B_TypeId, pageindex, 8, !string.IsNullOrWhiteSpace(loginUserInfo.OpenId)); //固定八条数据
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return jsonResult;
         }
