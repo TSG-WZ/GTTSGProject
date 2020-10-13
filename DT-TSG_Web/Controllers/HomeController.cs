@@ -17,8 +17,7 @@ namespace DTTSG_Web.Controllers
         public ActionResult Index()
         {
             UserInfo userInfo = Session["User"] as UserInfo;
-
-             ViewBag.isHasUnReadList = noticeManager.GetNoticeList(userInfo.UserId,isRead:0).Count != 0; // 未读消息
+            ViewBag.isHasUnReadList = noticeManager.GetNoticeList(userInfo.UserId,isRead:0).Count != 0; // 未读消息
             
             reservationManager.ResvervationCheck();// 检查是否有预约过期
             return View();
@@ -34,6 +33,8 @@ namespace DTTSG_Web.Controllers
             int bIng = rankManager.BrrowBookIng(userInfo.UserId);// 借阅中
             int De = br - bEd - bIng - Rt;  //毁坏或丢失
             ViewBag.Statistics = new int[] { br, bIng, bEd, De };
+
+            ViewBag.isHasUnReadList = noticeManager.GetNoticeList(userInfo.UserId, isRead: 0).Count != 0; // 未读消息
             
             return View();
         }

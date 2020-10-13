@@ -96,7 +96,7 @@ namespace DTTSG_BLL
                 borrowInfo = borrowServer.GetBorrowInfoModel(0, bookId);
             }
 
-            if (borrowInfo != null && borrowInfo.Bo_TypeId ==3)// 借阅状态 等于借阅中才可以还书
+            if (borrowInfo != null && DateTime.Compare(borrowInfo.B_EndTime, DateTime.Now) > 0)// 借阅状态 借阅时间内允许还书
             {
                 borrowInfo.Bo_TypeId = 3;
                 borrowInfo.B_ReturnTime = DateTime.Now;
