@@ -12,8 +12,8 @@ namespace DTTSG_Common
         /// <summary>
         /// 机器码
         /// </summary>
-        //public static string GetHostName = Dns.GetHostName();
-        public static string GetHostName = "IISserver";
+        public static string GetHostName = Dns.GetHostName();
+        //public static string GetHostName = "IISserver";
 
         public static string AppSecret = ConfigurationManager.AppSettings["AppSecret"].ToString();
         public static string AppId =  ConfigurationManager.AppSettings["AppId"].ToString();

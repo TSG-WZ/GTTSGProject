@@ -22,7 +22,7 @@ namespace DTTSG_DAL
                     join BorrowType brt on br.Bo_TypeId = brt.Bo_TypeId 
                     join MechanInfo me on bi.MechanId = me.MechanId 
                     join UserInfo ui on	ui.UserId = br.UserId where 
-                    me.MechanName = @MechanName";
+                    1=1";
             if (userId!=0 )
             {
                 parameters.Add("@UserId",userId);

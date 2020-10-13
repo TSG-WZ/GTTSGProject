@@ -1,4 +1,5 @@
 ﻿using DTTSG_BLL;
+using DTTSG_Common;
 using DTTSG_Model;
 using DTTSG_Model.ViewModel;
 using DTTSG_Web.Filts;
@@ -12,6 +13,7 @@ namespace DTTSG_Web.Controllers
     {
         BookReservationManager bookReservation = new BookReservationManager();
         BorrowManager borrowManager = new BorrowManager();
+        BookManager bookManager = new BookManager();
         // GET: Forward
         public ActionResult ForwardList()
         {
@@ -27,7 +29,7 @@ namespace DTTSG_Web.Controllers
         {
             UserInfo userInfo = Session["User"] as UserInfo;
             JsonResult json = new JsonResult();
-            json.Data = bookReservation.GetReservationPagerList(pageIndex, 8, UserId: userInfo.UserId,FoTypeId:1);//预约中
+            json.Data = bookReservation.GetReservationPagerList(pageIndex, 8, UserId: userInfo.UserId, FoTypeId: 1);//预约中
             json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return json;
         }
@@ -76,6 +78,11 @@ namespace DTTSG_Web.Controllers
             }
             else
             {
+                var bookinfo = bookManager.GetBookModel(model.BookId);
+                if (bookinfo.MechanInfo.MechanName != Config.GetHostName)
+                {
+                    return Json(new AjaxBackInfo(-1, "请前往本书所在机器取书"));
+                }
                 model.Fo_TypeId = 2;// 已取走
                 bookReservation.UpdateResvervation(model);
             }
@@ -94,6 +101,9 @@ namespace DTTSG_Web.Controllers
             {
                 return Json(new AjaxBackInfo(-1, "此书已借出！"));
             }
+
+
+
 
 
         }

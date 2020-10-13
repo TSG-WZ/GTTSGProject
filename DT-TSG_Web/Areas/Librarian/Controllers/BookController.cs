@@ -27,12 +27,14 @@ namespace DTTSG_Web.Areas.Librarian.Controllers
         public ActionResult BookList(int pagesize = 10, int pageindex = 1)
         {
             //查询图书列表
+            UserInfo userInfo = Session["User"] as UserInfo;
             ViewBag.BookList = bookManager.GetBookList(0, pageindex, pagesize);
             return View();
         }
 
         public ActionResult GetBookPagerData(int pagesize = 10, int pageindex = 1)
         {
+            UserInfo userInfo = Session["User"] as UserInfo;
             JsonResult jsonResult = new JsonResult();
             jsonResult.Data = bookManager.GetBookList(0, pageindex, pagesize); //固定八条数据
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
@@ -112,8 +114,6 @@ namespace DTTSG_Web.Areas.Librarian.Controllers
             //}
             return Json(new AjaxBackInfo(2, "删除失败,请联系管理员!"));
         }
-
-
 
     }
 }
