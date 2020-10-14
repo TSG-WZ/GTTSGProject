@@ -116,18 +116,18 @@ namespace DTTSG_Web.Controllers
                     }
                     //成功登录进入主页
                     Session["libUser"] = libinfo;    //设置Session状态
-                    Notice notice = new Notice()
-                    {
-                        UserId = loginmodel.UserId,
-                        LibId = 1001,
-                        NoticeTitle = "地铁站登陆提醒",
-                        NoticeContent = "您刚才通过地铁站点 登陆了我们的系统，祝您阅读愉快!",
-                        NoticeTime = DateTime.Now,
-                        N_TypeId = 5,
+                    //Notice notice = new Notice()
+                    //{
+                    //    UserId = loginmodel.UserId,
+                    //    LibId = 1001,
+                    //    NoticeTitle = "地铁站登陆提醒",
+                    //    NoticeContent = "您刚才通过地铁站点 登陆了我们的系统，祝您阅读愉快!",
+                    //    NoticeTime = DateTime.Now,
+                    //    N_TypeId = 5,
 
-                    };
+                    //};
 
-                    noticeManager.AddNotice(notice);
+                    //noticeManager.AddNotice(notice);
 
                     return Json(new AjaxBackInfo(2, "欢迎您, " + libinfo.LibName + " !"));
                 }
