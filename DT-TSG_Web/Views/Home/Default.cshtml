@@ -128,7 +128,7 @@
                                                 </a>
                                             </div>
                                             <div class="layui-col-xs3 layuimini-qiuck-module">
-                                                <a href="javascript:;" layuimini-content-href="@Url.Action("NoticeList","Notice")" data-title="消息列表" data-icon="fa fa-bell-o">
+                                                <a href="javascript:;" id="Notices" layuimini-content-href="@Url.Action("NoticeList","Notice")" data-title="消息列表" data-icon="fa fa-bell-o">
                                                     <i class="fa fa-bell-o"></i>
                                                     <cite>
                                                         消息列表  <span class=" " id="dots"></span>
@@ -341,6 +341,9 @@
             {
                 $("#dots").addClass("layui-badge-dot");
             }
+            $("#Notices").click(function () {
+                $("#dots").removeClass("layui-badge-dot");     //去掉小红点
+            });
         });
     </script>
 </body>
