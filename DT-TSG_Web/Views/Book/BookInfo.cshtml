@@ -14,46 +14,18 @@
     <title>图书详情</title>
     <link rel="stylesheet" href="~/lib/layui-v2.5.5/css/layui.css" media="all">
     <style>
-        #Contents {
-            margin-bottom:100px;
-        }#Contents span{
-             display:block;
-         }#Contents a{
-              width:140px;
-          }
-        #BookName{
-            font-size:45px
+        td {
+            font-size: 20px !important;
+            padding: 15px !important;
+            text-align: left !important;
         }
-        #B_StatuName{
-            color:darkgray;
-            font-size:20px;
-            font-family:YouYuan;
+        .btns {
+            width:110px;
         }
-        #B_TypeName {
-            font-weight: 600;
-            font-size: 20px;
-            font-family: YouYuan;
-            padding-top:5px;
+        #Img {
+            min-width: 100%;
+            min-height: 100%;
         }
-        .pub {
-            font-weight: 600;
-            font-size: 20px;
-            font-family: YouYuan;
-            padding-top: 30px;
-        }
-        .pub2 {
-            font-size: 20px;
-            font-family: YouYuan;
-            padding-top: 5px;
-        }
-        #Money {
-            font-size: 40px;
-            font-family: YouYuan;
-            padding: 40px 0px;
-        }#Money label{
-             color:darkgray;
-             font-size:25px;
-         }
     </style>
 </head>
 <body>
@@ -61,42 +33,75 @@
         <a href="javascript:;" onclick="window.history.back(); //返回上一页" style="font-size:16px;">《&nbsp;&nbsp;&nbsp;返回上一页</a>
     </div>
 
-    <div class="layui-container">
-        <div class="layui-row">
-            <div class="layui-col-md5 layui-col-xs12">
-                <img src="@Model.ImageInfo.ImageLink" width="100%" height="100%"/>
+    <div class="layui-container" style="margin-top:80px">
+        <div class="layui-row" style="text-align:center">
+            <div class="layui-col-md5" style="margin-bottom:30px">
+                <img src="@Model.ImageInfo.ImageLink" id="Img" />
             </div>
-            <div class="layui-col-md6 layui-col-xs12" style="text-align:center" id="Contents">
-                <br />
-                <span id="BookName">@Model.BookName</span><br />
-                <span id="B_StatuName">状态:@Model.BookStatu.B_StatuName</span>
-                <span id="B_TypeName">图书类型:@Model.BookType.B_TypeName</span>
-                <span class="pub">出版社:@Model.BookPublic</span>
-                <span class="pub2">作者:@Model.BookAuthor</span>
-                <span class="pub2">出版时间:@Model.BookPubtime.ToLongDateString()</span>
-                <span class="pub">存书地点:@Model.MechanInfo.MechanAddress</span>
-                <span id="Money"><strong>￥ @Model.BookPrice <label>RMB</label></strong></span>
-                @{if (Model.B_StatuId == 1)
-                    {
-                        if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
-                        {
-                              <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg">借阅</a>
-                        }
-                        else
-                        {
-                          
-                            <a href="javascript:;" id="reward" class="layui-btn layui-btn-normal layui-btn-lg">预约</a>
-                        }
-                    }
-                }
-                <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg" id="collect">收藏</a>
+            <div class="layui-col-md7 layui-inline">
+                <table style="margin: 0 auto;">
+                    <tbody>
+                        <tr>
+                            <td>图书名称:</td>
+                            <td>@Model.BookName</td>
+                        </tr>
+                        <tr>
+                            <td>图书状态:</td>
+                            <td>@Model.BookStatu.B_StatuName</td>
+                        </tr>
+                        <tr>
+                            <td>图书类型:</td>
+                            <td>@Model.BookType.B_TypeName</td>
+                        </tr>
+                        <tr>
+                            <td>出版书社:</td>
+                            <td>@Model.BookPublic</td>
+                        </tr>
+                        <tr>
+                            <td>图书作者:</td>
+                            <td>@Model.BookAuthor</td>
+                        </tr>
+                        <tr>
+                            <td>出版时间:</td>
+                            <td>@Model.BookPubtime.ToLongDateString()</td>
+                        </tr>
+                        <tr>
+                            <td>存书地点:</td>
+                            <td>@Model.MechanInfo.MechanAddress</td>
+                        </tr>
+                        <tr>
+                            <td>图书价格:</td>
+                            <td>
+                                <strong>￥ @Model.BookPrice <label>RMB</label></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                @{if (Model.B_StatuId == 1)
+                                    {
+                                        if (string.IsNullOrWhiteSpace((Session["User"] as UserInfo).OpenId))
+                                        {
+                                            <a href="javascript:;" id="queding" class="layui-btn layui-btn-normal layui-btn-lg btns">借阅</a>
+                                        }
+                                        else
+                                        {
+
+                                            <a href="javascript:;" id="reward" class="layui-btn layui-btn-normal layui-btn-lg btns">预约</a>
+                                        }
+                                    }
+                                }
+                                <a href="javascript:;" class="layui-btn layui-btn-normal layui-btn-lg btns" id="collect">收藏</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <script src="~/lib/layui-v2.5.5/layui.js"></script>
 
+    <script src="~/lib/layui-v2.5.5/layui.js"></script>
     <script>
-        layui.use(['layer'], function () {
+        layui.use(['layer','table'], function () {
             var layer = layui.layer,
                 $ = layui.jquery;
 
