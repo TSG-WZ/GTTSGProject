@@ -29,7 +29,7 @@
             background-position: center;
         }
         .maxsize-sm {
-            background-size: 30% 100% !important;
+            background-size: 28% 100% !important;
             background-repeat: no-repeat !important;
             background-position: center;
         }
@@ -154,9 +154,8 @@
                                             </div>
                                             <div class="layui-col-xs3 layuimini-qiuck-module">
                                                 <a href="javascript:;" id="Notices" layuimini-content-href="@Url.Action("NoticeList","Notice")" data-title="系统消息" data-icon="fa fa-bell-o">
-                                                    <i style="background-image:url(../../Content/icon/notice.png);" class="maxsize-md"></i>
+                                                    <i style="background-image:url(../../Content/icon/notice.png);" class="maxsize-md" id="dots"></i>
                                                     <cite>系统消息</cite>
-                                                    <cite><span class=" " id="dots"></span></cite>
                                                 </a>
                                             </div>
                                             <div class="layui-col-xs3 layuimini-qiuck-module">
@@ -298,6 +297,12 @@
                 }
             }
         });
+        if (@((ViewBag.isHasUnReadList).ToString().ToLower())) {
+            $("#dots").css('background-image', 'url(../../Content/icon/notice-red.png)');
+        }
+        $("#Notices").click(function () {
+            $("#dots").css('background-image', 'url(../../Content/icon/notice.png)');     //去掉小红点
+        });
     </script>
     <script>
         layui.use(['layer', 'miniTab', 'echarts'], function () {
@@ -387,14 +392,6 @@
             window.onresize = function () {
                 echartsMap.resize();
             }
-
-            if (@((ViewBag.isHasUnReadList).ToString().ToLower()))
-            {
-                $("#dots").addClass("layui-badge-dot");
-            }
-            $("#Notices").click(function () {
-                $("#dots").removeClass("layui-badge-dot");     //去掉小红点
-            });
         });
     </script>
 </body>

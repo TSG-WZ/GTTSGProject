@@ -152,6 +152,7 @@
     <Content Include="Content\icon\collect.png" />
     <Content Include="Content\icon\forward.png" />
     <Content Include="Content\icon\modify.png" />
+    <Content Include="Content\icon\notice-red.png" />
     <Content Include="Content\icon\notice.png" />
     <Content Include="Content\icon\rank.png" />
     <Content Include="Content\images\bg.jpg" />
