@@ -147,6 +147,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="Content\icon\baidu.png" />
+    <Content Include="Content\icon\borrow.png" />
+    <Content Include="Content\icon\collect.png" />
+    <Content Include="Content\icon\forward.png" />
+    <Content Include="Content\icon\modify.png" />
+    <Content Include="Content\icon\notice.png" />
+    <Content Include="Content\icon\rank.png" />
     <Content Include="Content\images\bg.jpg" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\hide.png" />
@@ -155,6 +162,7 @@
     <Content Include="Content\images\shopicon.png" />
     <Content Include="Content\images\show.png" />
     <Content Include="Content\images\userlogo.png" />
+    <Content Include="Content\icon\booklist.png" />
     <Content Include="Content\Own\css\booklist.css" />
     <Content Include="Content\Own\css\default.css" />
     <Content Include="Content\Own\css\index.css" />
